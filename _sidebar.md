@@ -4,7 +4,6 @@
   * [ConnectorX Animate](/devices/connectorx-animate)
 * [Lumyn Studio](/lumyn-studio/)
   * [Getting Started](/lumyn-studio/getting-started)
-  * [Connecting to a Device](/lumyn-studio/connecting-to-a-device)
   * [Modules Page](/lumyn-studio/modules-page)
   * [Animation Sequences](/lumyn-studio/animation-sequences)
   * [Image Sequences](/lumyn-studio/image-sequences)

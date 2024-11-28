@@ -32,4 +32,4 @@ ConnectorX Animate is all about LEDs! With a total of four channels and a built-
 - Screen connector
 
 # Getting Started
-To get started check out our pages on [Lumyn Studio](/lumyn-studio), controlling the device via [WPILib](/wpilib-vendordep), or writing your own [Custom Firmware](/custom-firmware).
+To get started check out our pages on [Lumyn Studio](/lumyn-studio/), controlling the device via [WPILib](/wpilib-vendordep/), or writing your own [Custom Firmware](/custom-firmware/).

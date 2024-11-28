@@ -97,8 +97,8 @@ body {
 }
 
 img {
-	max-width: 100%;
-	max-height: 300px;
+	/* max-width: 100%; */
+	/* max-height: 300px; */
 }
 
 a[disabled] {
