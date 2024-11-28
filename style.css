@@ -97,9 +97,12 @@ body {
 }
 
 img {
-	/* max-width: 100%; */
-	/* max-height: 300px; */
-}
+	max-height: 700px;
+	width: auto;
+	max-width: 100%;
+	height: auto;
+	object-fit: contain;
+  }
 
 a[disabled] {
 	cursor: not-allowed;
