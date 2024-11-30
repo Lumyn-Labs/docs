@@ -24,4 +24,4 @@ Lumyn Studio is a web-based tool that allows you to configure and control Lumyn 
 
 ## Getting Started
 
-To get started with lumyn studio, visit the [Getting Started](/lumyn-studio/getting-started/) page.
+To get started with lumyn studio, visit the [Getting Started](/lumyn-studio/getting-started/#) page.
