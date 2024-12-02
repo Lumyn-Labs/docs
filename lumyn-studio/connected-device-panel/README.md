@@ -1,6 +1,8 @@
 # Connected Device Panel
 
-The **Connected Device Panel** provides a quick overview of the connected device as well as tools for interacting with the device. This page will introduce you to the panel and its features.
+The **Connected Device Panel** provides a quick overview of the connected device as well as tools for interacting with the device. This page will introduce you to the panel and its features. To access the panel, click the **Connect** button in the title bar and connect to a device. If you're already connected to a device, the panel will automatically appear.
+
+<img src="/lumyn-studio/connected-device-panel/connected-device-panel.png" alt="The Connected Device Panel" height="400px"/>
 
 ## New Device Configuration
 

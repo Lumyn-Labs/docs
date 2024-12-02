@@ -108,4 +108,4 @@ The Animation Sequences page allows you to manage and edit animation sequences t
 
 <img src="/lumyn-studio/getting-started/animation-sequences-devices-tab.png" alt="Animation Sequences Page" height="600px"/>
 
-Let's start by creating a new animation sequence. Click the "Add Animation Sequence" button and you'll be redirected to the [animation sequence editor](/lumyn-studio/animation-sequences/).
+Let's start by creating a new animation sequence. Click the "Add Animation Sequence" button and you'll be redirected to the [animation sequence editor](/lumyn-studio/animation-sequences/#).

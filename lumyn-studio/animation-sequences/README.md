@@ -23,14 +23,14 @@ The available animations are:
 
 You can also hover over the animations to see a preview of what they look like.
 
-<img src="/lumyn-studio/getting-started/new-animation-sequence.png" alt="Creating a new animation sequence" height="400px"/>
+<img src="/lumyn-studio/animation-sequences/new-animation-sequence.png" alt="Creating a new animation sequence" height="400px"/>
 
 ## Editing an Animation Sequence
 
 The animation sequence editor allows you to add, remove, and reorder animations in an animation sequence. It may look a bit intimidating at first, but it's quite simple to use.
 Let's break down the editor:
 
-<img src="/lumyn-studio/getting-started/animation-sequence-editor.png" alt="Animation Sequence Editor" height="400px"/>
+<img src="/lumyn-studio/animation-sequences/animation-sequence-editor.png" alt="Animation Sequence Editor" height="400px"/>
 
 - **Preview**: This area shows a preview of what the animation sequence will look like. It's a panable and zoomable canvas that shows the leds and their colors.
 - **Play Bar**: Below the preview is the play bar. This allows you to play, pause, and stop the animation sequence. By default it will only have two states since the sequence is empty.
@@ -66,4 +66,4 @@ Before deploying your sequence to a device, thoroughly test it within the Lumyn 
 
 # Next Steps
 
-Once you've completed your **Animation Sequence**, you may want to start creating [Image Sequences]() or adding [Modules]().
+Once you've completed your **Animation Sequence**, you may want to start creating [Image Sequences](/lumyn-studio/image-sequences/#) or adding [Modules](/lumyn-studio/modules-page/#).

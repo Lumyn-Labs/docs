@@ -9,7 +9,7 @@ Lumyn Labs was founded to help makers push the boundaries of what they can achie
 
 Engineered with the First Robotics Competition (FRC) in-mind, ConnectorX brings together advanced LED control, flexible sensor integration, and robust power management in a single, easy-to-use breakout board.
 
-![ConnectorX](/assets/connectorx.png)
+<img src="/assets/connectorx.png" alt="ConnectorX" height="300px"/>
 
 - 2x Grove-compatible I2C connectors
 - 2x Digital in/out headers
@@ -24,7 +24,7 @@ Engineered with the First Robotics Competition (FRC) in-mind, ConnectorX brings 
 
 ConnectorX Animate is all about LEDs! With a total of four channels and a built-in power conversion circuit, it can handle hundreds of LEDs- whether it's strips or matrices.
 
-![ConnectorX Animate](/assets/connectorx-animate.png)
+<img src="/assets/connectorx-animate.png" alt="ConnectorX Animate" height="300px"/>
 
 - Four LED channels
 - 12V input to 5V @6A output
@@ -32,4 +32,4 @@ ConnectorX Animate is all about LEDs! With a total of four channels and a built-
 - Screen connector
 
 # Getting Started
-To get started check out our pages on [Lumyn Studio](/lumyn-studio/#), controlling the device via [WPILib](/wpilib-vendordep/), or writing your own [Custom Firmware](/custom-firmware/).
+To get started check out our pages on [Lumyn Studio](/lumyn-studio/#), controlling the device via [WPILib](/wpilib-vendordep), or writing your own [Custom Firmware](/custom-firmware).
