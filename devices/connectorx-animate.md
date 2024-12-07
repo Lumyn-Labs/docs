@@ -23,3 +23,11 @@ ConnectorX Animate is a more advanced version of the ConnectorX breakout board. 
 10. OLED screen connector
 
 <img src="/assets/connectorx-animate.png" alt="ConnectorX Animate" height="400px"/>
+
+## Power Management
+
+ConnectorX Animate features more powerful onboard power management compared to ConnectorX. The board can convert 12V input to 5V @6A output, which is shared between the board, and all four LED channels. The board also features large 5V pads for easily soldering additional devices such as a Raspberry Pi or Jetson Nano.
+
+## LED Channels
+
+ConnectorX Animate features four LED channels, each capable of controlling up to 320 LEDs. Each channel can be configured within Lumyn Studio to control multiple zones and groups of LEDs, LED matrices, and more. ConnectorX Animate will automatically adjust the brightness of the LEDs based on the number of LEDs to ensure they are not overdriven.

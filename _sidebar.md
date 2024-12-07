@@ -11,4 +11,4 @@
   * [Exporting Device Configurations](/lumyn-studio/exporting-device-configurations/)
   * [Settings Page](/lumyn-studio/settings-page/)
 * [WPILib Vendordep](/wpilib-vendordep)
-* [Custom Firmware](/custom-firmware)
+<!-- * [Custom Firmware](/custom-firmware) -->
