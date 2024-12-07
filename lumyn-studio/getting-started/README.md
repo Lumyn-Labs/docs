@@ -11,15 +11,15 @@ To access Lumyn Studio, visit [studio.lumynlabs.com](https://studio.lumynlabs.co
 The studio interface is divided into tabs, each with a specific purpose. Here's a quick overview of each tab:
 
 - **Home**: This is where you find yourself right now. It provides quick access to documentation, support, and commonly used pages in the app.
-![Home Tab](/assets/lumyn-studio/home-tab.png)
+<!-- ![Home Tab](/assets/lumyn-studio/home-tab.png) -->
 - **Devices**: This tab lists all devices that have been connected to the studio. You can select a device to view and edit its configuration as well as export the configuration.
-![Devices Tab](/assets/lumyn-studio/devices-tab.png)
+<!-- ![Devices Tab](/assets/lumyn-studio/devices-tab.png) -->
 - **Modules**: This tab lists all modules that are available for use with a device. You can browse official modules, create custom modules, and view more detailed information such as the module's API.
-![Modules Tab](/assets/lumyn-studio/modules-tab.png)
+<!-- ![Modules Tab](/assets/lumyn-studio/modules-tab.png) -->
 - **Animation Sequences**: This tab is where you create and manage animation sequences intended for an led strip. An animation sequence is a series of individual animations (Blink, Chase, etc.) that are played in order.
-![Animation Sequences Tab](/assets/lumyn-studio/animation-sequences-tab.png)
+<!-- ![Animation Sequences Tab](/assets/lumyn-studio/animation-sequences-tab.png) -->
 - **Image Sequences**: This tab is where you create and manage image sequences intended for an led matrix. An image sequence is a series of images that are displayed in order and may be created from a starting image, importing a gif, or drawing directly on the canvas.
-![Image Sequences Tab](/assets/lumyn-studio/image-sequences-tab.png)
+<!-- ![Image Sequences Tab](/assets/lumyn-studio/image-sequences-tab.png) -->
 - **Settings**: This tab is where you can configure settings for the studio such as the FRC team number.
 
 Additionally, the title bar at the top of the screen provides quick access to the home page, connecting to a device, and settings.
@@ -36,7 +36,7 @@ Now that you're familiar with the interface, let's connect to a device. To do th
 
 Next, click the connect button in the title bar and select the device you'd like to connect to. If the device is not listed, try refreshing the page. Once you've selected a device, click connect and the **Connected Device Panel** will appear.
 
-![Connecting to a Device](/assets/lumyn-studio/connecting-to-a-device.gif)
+<!-- ![Connecting to a Device](/assets/lumyn-studio/connecting-to-a-device.gif) -->
 
 ## The Connected Device Panel
 

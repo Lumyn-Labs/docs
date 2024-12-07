@@ -28,5 +28,29 @@ To edit an image sequence, click on the sequence in the Image Sequences page. Th
 
 <img src="/lumyn-studio/image-sequences/editor-page.png" alt="Image Sequence Editor" height="600"/>
 
----
-TODO: Detail adding images, shapes, text, previewing, and adding to a device configuration.
+To add objects to the canvas, select a tool from the toolbar. Selecting a tool will display additional options in the toolbar for customizing the object. Let's go over the available tools:
+
+- **Text**: Add text to the canvas. You can customize the font, size, color, alignment and more.
+- **Rectangle**: Add a rectangle to the canvas.
+- **Circle**: Add a circle to the canvas.
+- **Triangle**: Add a triangle to the canvas.
+- **Line**: Add a line to the canvas.
+
+Clicking any of these tools will immediately add the object to the canvas. You can then move, resize, and customize the object using the toolbar. To remove an object, select it on the canvas and click the delete button in the toolbar. If you are unsure what a tool does, hover over it to see a tooltip with a description.
+
+To add a new frame click the plus icon above the frame list. This will add a new frame to the end of the sequence. You can then edit the frame by adding objects to the canvas. To remove a frame, click the ... icon in the top right of the frame list and select "Delete Frame".
+
+Once you are done editing your image sequence, click on the hamburger menu at the top right of the editor and select "Save and Generate". This will save your changes and compile the image sequence. To preview the sequence, hover "Preview" from the hamburger menu. This menu also allows you to delete the sequence or change the aspect ratio of the canvas.
+
+## Adding to a Device Configuration
+
+Once you have created an image sequence, you can add it to a device configuration. To do this, navigate to the image sequence in the Image Sequences page and click the "Add to Device" button. This will open a dialog where you can choose the device configuration to add the image sequence to.
+
+![Add to Device Dialog](add-to-device.png)
+
+Select a device from the dropdown, and choose a matrix zone to display the image sequence on. The matrix zone you choose will determine the exported resolution of the image sequence. Finally, click "Save" to add the image sequence to the device configuration.
+
+## Next Steps
+
+- Create an [Animation Sequence](/lumyn-studio/animation-sequences/)
+- Learn how to [Export Device Configurations](/lumyn-studio/exporting-device-configurations/)

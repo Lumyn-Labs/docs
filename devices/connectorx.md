@@ -15,8 +15,6 @@ ConnectorX brings together years of FRC experience into a single, easy-to-use br
 > [!NOTE]
 > This is a preliminary layout and the board may (will) change before release. This is intended to give you an idea of what the board will feature.
 
-<img src="/assets/connectorx-annotated.png" alt="ConnectorX" height="400px"/>
-
 1. 12V input
 2. USB-C
 3. Bootsel, Rst buttons
@@ -29,6 +27,7 @@ ConnectorX brings together years of FRC experience into a single, easy-to-use br
 10. Analog I/O headers
 11. SPI header
 
+<img src="/assets/connectorx-annotated.png" alt="ConnectorX" height="400px"/>
 
 ## Power Management
 

@@ -9,7 +9,6 @@
   * [Image Sequences](/lumyn-studio/image-sequences/)
   * [Modules Page](/lumyn-studio/modules-page/)
   * [Exporting Device Configurations](/lumyn-studio/exporting-device-configurations/)
-  * [Settings Page](/lumyn-studio/settings-page)
+  * [Settings Page](/lumyn-studio/settings-page/)
 * [WPILib Vendordep](/wpilib-vendordep)
 * [Custom Firmware](/custom-firmware)
-* [Custom Configuration](/custom-configuration/)

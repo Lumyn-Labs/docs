@@ -1,1 +1,19 @@
 # Exporting Device Configurations
+
+Once you have created a device configuration, you need to export it from studio to use it with your physical device. This section provides documentation on how to export device configurations in Lumyn Studio.
+
+## Exporting the Configuration
+
+To export a device configuration as a JSON file, navigate to the **Devices** page in Lumyn Studio. Click on the device configuration you want to export. This will open up the device configuration page. By default, this page will display a preview of the device configuration, to learn more about this page, visit the [Getting Started](/lumyn-studio/getting-started/#the-devices-tab) page.
+
+To export the device configuration, click the **Export Configuration** button in the top right of the page. This will open a dialog that displays the device's configuration as JSON, as well as some additional options for exporting the configuration.
+
+![Configuration Preview](exported-configuration.png)
+
+If you have a device connected to the studio, you can choose to export the configuration directly to the device. This will send the configuration to the device over the Web Serial API. To do this, click the **Send to Device** button. If you don't have a device connected, you can download the configuration as a JSON file by clicking the **Download** button.
+
+If you have added any image sequences to the device, you can choose to export them along with the configuration. To do this, check the **Include Image Assets in Export** checkbox. This will download a zip file containing the configuration json at the root level and a folder for each image sequence containing the images in the sequence.
+
+## Sending a JSON Configuration to a Device.
+
+If you chose to download the configuration as JSON, you can still send it to a device by copying it to the device's micro sd card. It is important to keep the file structure intact, as the device expects the configuration to be in a specific format. The configuration file should be placed in the root directory of the micro sd card. If you have image sequences, the images should be placed in a folder named after the image sequence in the root directory of the micro sd card. If you checked the **Include Image Assets in Export** checkbox, the zip file will be structured correctly already.

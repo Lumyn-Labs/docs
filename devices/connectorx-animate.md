@@ -11,8 +11,6 @@ ConnectorX Animate is a more advanced version of the ConnectorX breakout board. 
 
 ## Board Layout
 
-<img src="/assets/connectorx-animate.png" alt="ConnectorX Animate" height="400px"/>
-
 1. 12V input
 2. USB-C
 3. Bootsel, Rst buttons
@@ -23,3 +21,5 @@ ConnectorX Animate is a more advanced version of the ConnectorX breakout board. 
 8. LED channel 4
 9. 5V output
 10. OLED screen connector
+
+<img src="/assets/connectorx-animate.png" alt="ConnectorX Animate" height="400px"/>
