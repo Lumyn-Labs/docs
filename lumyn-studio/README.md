@@ -14,6 +14,8 @@ This section provides documentation for Lumyn Studio, the software tool used to 
 
 Lumyn Studio is a web-based tool that allows you to configure and control Lumyn Labs devices. It is designed to be easy to use and provides features such as:
 
+![Lumyn Studio](studio-demo.jpeg)
+
 - Device configuration
 - Exporting device configurations
 - Animation and image sequence creation
