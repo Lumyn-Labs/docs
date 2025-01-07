@@ -1,3 +1,6 @@
 # Custom Firmware
 
-Documentation for creating custom firmware for the ConnectorX family of device is coming soon! In the meantime, consider checking out the [Studio](/lumyn-studio/) documentation.
+To get started with custom firmware, visit the repository for the device you are working with:
+
+- [ConnectorX](https://github.com/Lumyn-Labs/ConnectorX-Fimware-Starter)
+- [ConnectorX Animate](https://github.com/Lumyn-Labs/ConnectorX-Animate-Fimware-Starter)
