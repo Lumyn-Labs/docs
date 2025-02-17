@@ -8,7 +8,11 @@ The Lumyn Labs Vendor Library allows you to control Lumyn Labs devices with WPIL
 
 ## Obtaining the Vendor Library
 
-To add the vendor library to your project, use WPILib's 3rd party library tool. To begin, click the wpi icon in the top right corner of VSCode, type `Manage Vendor Libraries` and click on the option that appears. Choose `Install new libraries (online)` and a text field should appear. 
+To add the vendor library to your project, use WPILib's 3rd party library tool. To begin, find the WPILib icon in the sidebar of VSCode and click on it. This will bring up the new WPILib Vendor Dependencies tool. Under `Available Dependencies`, locate the Lumyn Labs vendor library and click `Install`. To update the library once it has been installed, open this menu again and click `To Latest`.
+
+Alternatively, you can install the library manually by using the url for the Lumyn Labs vendor library.
+
+To begin, click the wpi icon in the top right corner of VSCode, type `Manage Vendor Libraries` and click on the option that appears. Choose `Install new libraries (online)` and a text field should appear. 
 
 In the text field paste the following url:
 
@@ -175,9 +179,48 @@ cXAnimate.AddEventHandler((e) -> {
 ```
 
 #### C++
-In C++ the method for adding a callback is `SetEventCallback`.
+In C++ the event handling is not done via callbacks, but rather by polling the device for events. To poll for events, you can call either `GetLatestEvent` or `GetEvents` on the device instance. `GetLatestEvent` returns an `std::optional` containing the latest event, while `GetEvents` returns a vector of all events that have occurred since the last call.
 
 ```cpp
-m_animate.SetEventCallback([](const lumyn::internal::Eventing::Event &evt)
-                             { std::cout << "Got new event " << std::to_string((uint32_t)evt.type) << std::endl; });
+std::optional<lumyn::internal::Eventing::Event> evt = m_cx.GetLatestEvent();
+if (evt)
+{
+      std::cout << "Got new event " << std::to_string((uint32_t)evt->type) << std::endl;
+}
+```
+
+```cpp
+std::vector<lumyn::internal::Eventing::Event> events = m_cx.GetEvents();
+for (auto &evt : events)
+{
+      std::cout << "Got new event " << std::to_string((uint32_t)evt.type) << std::endl;
+}
+```
+
+## Modules
+
+Modules are a powerful feature of Lumyn Labs devices that allow you to extend the functionality of the device. Modules can connect over a variety of protocols, such as I2C, SPI, and UART, and can be used to interface with sensors, co-processors, and other devices. Additionally, with custom firmware, you can create your own modules to interface with custom hardware. Due to the wide variety of modules available, this section will not cover all possible use-cases, but will provide a general overview of how to interact with modules using the built-in modules.
+
+### Register a Module
+
+```java
+cX.modules.RegisterModule("test-dio", (data) -> {
+      DigitalInputPayload payload = new DigitalInputPayload();
+
+      try {
+            ModuleHandler.ExtractData(payload, data);
+            System.out.printf("State: " + payload.state);
+      } catch (Exception e) {
+            System.out.print("Error when parsing data ");
+            System.out.println(e);
+      }
+});
+```
+
+```cpp
+m_cx.RegisterModule("test-dio", [this](const lumyn::internal::ModuleData::NewDataInfo &data) {
+      lumyn::internal::ModuleData::NewDataInfo dat = data;
+      auto converted = m_cx.ExtractFromPayload<DigitalInputPayload>(&dat);
+      std::cout << "Got new data" << converted.state << std::endl; 
+});
 ```
