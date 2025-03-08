@@ -38,7 +38,29 @@ If you are unable to connect your device using Lumyn Studio, try the following s
 
 If you are unable to control the LEDs on your device, follow these troubleshooting steps:
 
-### 1. Verify the Configuration File
+### 1. Verify the microSD Card
+
+If your device is not recognizing the microSD card or configurations are not being applied correctly, ensure the following:
+
+- **Format Requirement:** The microSD card must be formatted as **FAT32**. Other formats like exFAT or NTFS are not supported.
+
+- **How to Format:**  
+  - **Windows:**
+    1. Open **File Explorer** and right-click on the microSD card.
+    2. Select **Format** and choose **FAT32** as the file system.
+    3. Click **Start** to format the card.
+  - **Mac:**
+    1. Open **Disk Utility** from Applications > Utilities.
+    2. Select the microSD card and click **Erase**.
+    3. Choose MS-DOS (FAT) as the format and click **Erase**.
+  - **Linux:**
+    1. Open a terminal and run:
+    ```sh
+    sudo mkfs.vfat -F 32 /dev/sdX
+    ```
+    where `/dev/sdX` is the path to your microSD card.
+
+### 2. Verify the Configuration File
 
 - **For Lumyn Studio Users:**  
   - Ensure the device configuration file is correct and has been transferred properly to the microSD card.
@@ -53,7 +75,7 @@ If you are unable to control the LEDs on your device, follow these troubleshooti
   - When exporting, you can choose the **Include image assets in export** option to download a zip file containing the images.
   - Unzip the file and copy the folder structure to the root of the microSD card.
 
-### 2. Confirm the Device is Receiving 12V Power
+### 3. Confirm the Device is Receiving 12V Power
 
 Lumyn Labs devices require a 12V power supply to display animations on the LED strip or matrix and regulate the voltage to 5V for the LEDs.
   
@@ -65,7 +87,7 @@ Lumyn Labs devices require a 12V power supply to display animations on the LED s
   Do not power the LED strip or matrix separately. The device’s built-in power supply delivers the correct voltage and current.  
   - **For FRC customers:** Connect the device directly to the PDP or PDH rather than to the VRM or other power management sources. These sources may not provide the necessary current.
 
-### 3. Ensure Proper LED Connection
+### 4. Ensure Proper LED Connection
 
 - **Connection Details:**  
   - The 5V and GND wires must be connected to the `+5V` and `GND` pins, respectively.
@@ -74,9 +96,9 @@ Lumyn Labs devices require a 12V power supply to display animations on the LED s
 - **Double-check:**  
 Incorrect wiring or swapped connections can prevent the LEDs from functioning properly.
 
-### 4. Test with a Different LED Strip or Matrix
+### 5. Test with a Different LED Strip or Matrix
 
-ConnectorX and ConnectorX Animate support only WS2812B LED strips and matrices.
+ConnectorX and ConnectorX Animate support WS2812B LED strips and matrices only.
   
 - **Action:**  
 If none of the previous steps resolve the issue, try using a different, known-compatible LED strip or matrix to determine if the problem lies with the hardware.
@@ -91,11 +113,11 @@ If you continue to experience issues, try flashing the official firmware by foll
 
 - **Locate the Firmware:**  
   Find the official firmware in your device's custom firmware repository:
-  - [ConnectorX](https://github.com/Lumyn-Labs/ConnectorX-Fimware-Starter/releases/latest)
-  - [ConnectorX Animate](https://github.com/Lumyn-Labs/ConnectorX-Animate-Fimware-Starter/releases)
+  - [ConnectorX](https://github.com/Lumyn-Labs/ConnectorX-Firmware-Starter/releases/latest)
+  - [ConnectorX Animate](https://github.com/Lumyn-Labs/ConnectorX-Animate-Firmware-Starter/releases)
 
 - **Download:**  
-  Download the latest release of the `firmware.uf2` file.
+  Download the latest release of the `firmware.uf2` file from the Releases section.
 
 ### 2. Enter Bootloader Mode
 

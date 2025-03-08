@@ -2,7 +2,7 @@
 Welcome to the documentation website for Lumyn Labs products!
 
 # Who We Are
-Lumyn Labs was founded to help makers push the boundaries of what they can achieve. We're still small, (just two FRC alumni) but we're focused on creating products that raise the floor allowing you to do more for less.
+Lumyn Labs was founded to help makers push the boundaries of what they can achieve. We're still small (just two FRC alumni), but we're focused on creating products that raise the floor, allowing you to do more for less.
 
 # Our Products
 ## [ConnectorX](/devices/connectorx)
@@ -22,7 +22,7 @@ Engineered with the First Robotics Competition (FRC) in-mind, ConnectorX brings 
 
 ## [ConnectorX Animate](/devices/connectorx-animate)
 
-ConnectorX Animate is all about LEDs! With a total of four channels and a built-in power conversion circuit, it can handle hundreds of LEDs- whether it's strips or matrices.
+ConnectorX Animate is all about LEDs! With a total of four channels and a built-in power conversion circuit, it can handle hundreds of LEDs; whether it's strips or matrices.
 
 <img src="/assets/connectorx-animate.png" alt="ConnectorX Animate" height="300px"/>
 

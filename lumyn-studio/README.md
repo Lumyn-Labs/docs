@@ -1,6 +1,6 @@
 # Lumyn Studio
 
-This section provides documentation for Lumyn Studio, the software tool used to configure and control Lumyn Labs devices.
+This section provides documentation for **Lumyn Studio**, the software tool used to configure and control Lumyn Labs devices.
 
 - [Getting Started](/lumyn-studio/getting-started/)
 - [Connected Device Panel](/lumyn-studio/connected-device-panel/)
@@ -12,7 +12,7 @@ This section provides documentation for Lumyn Studio, the software tool used to 
 
 ## Overview
 
-Lumyn Studio is a web-based tool that allows you to configure and control Lumyn Labs devices. It is designed to be easy to use and provides features such as:
+Lumyn Studio is a web-based tool that allows you to easily configure and control Lumyn Labs devices. With an intuitive interface, it provides a variety of features, including:
 
 ![Lumyn Studio](studio-demo.jpeg)
 

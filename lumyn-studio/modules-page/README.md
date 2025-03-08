@@ -1,14 +1,14 @@
 # Modules
 
-This section provides documentation for the Modules page in Lumyn Studio. The Modules page allows you to browse official modules, create custom modules, and view more detailed information such as the module's API.
+This section provides documentation for the **Modules** page in Lumyn Studio. The Modules page allows you to browse official modules, create custom modules, and view more detailed information such as the module's API.
 
 ## Overview
 
 ![Modules Page](modules-page.png)
 
-The Modules page is where you can browse official modules, create custom modules, and view more detailed information such as the module's API. Modules are used to extend the functionality of a device and can be created by anyone. Official modules are created by Lumyn Labs or other contributors and are available for use in the studio.
+The **Modules** page is where you can browse official modules, create custom modules, and view more detailed information such as the module's API. Modules are used to extend the functionality of a device and can be created by anyone. Official modules are created by Lumyn Labs or other contributors and are available for use in the studio.
 
-When you first visit the Modules page, you'll see a list of official modules that are available for use. You can click on a module to view more detailed information. If you're looking for a specific module, you can use the search bar at the top of the page to filter the list, or use the category filters to narrow down the results.
+When you first visit the **Modules** page, you’ll see a list of official modules that are available for use. You can click on a module to view more detailed information. If you're looking for a specific module, you can use the search bar at the top of the page to filter the list or use the category filters to narrow down the results.
 
 ## Viewing a Module
 
@@ -16,7 +16,7 @@ To view more detailed information about a module, click on the module in the lis
 
 ![Module Preview](module-preview.png)
 
-The module preview provides pictures of the module, a description, the options that can be configured when adding the module to a device, snippets of code related to the module, and the source code for the module. You can also navigate directly to the store page for the module or the module's datasheet.
+The module preview provides images of the module, a description, the options that can be configured when adding the module to a device, snippets of code related to the module, and the source code for the module. You can also navigate directly to the store page for the module or the module's datasheet.
 
 ## Adding a Module to a Device
 
@@ -24,7 +24,7 @@ To add a module to a device, click the **Add to Device** button on the module pr
 
 ![Add a Module](add-module.png)
 
-Give the module an id (this will be used to reference the module in code) and choose a device from the dropdown. The polling rate determines how often the module's data is requested by the device and available in code, a good default is 100ms. Choose from the available connection types, and configure any additional options that are specific to the module under the **Custom Configuration** section. Finally, click **Save** to add the module to the device configuration.
+Give the module an ID (this will be used to reference the module in code) and choose a device from the dropdown. The polling rate determines how often the module's data is requested by the device and made available in code. A good default is **100ms**. Choose from the available connection types, and configure any additional options specific to the module under the **Custom Configuration** section. Finally, click **Save** to add the module to the device configuration.
 
 ## Creating a Custom Module
 
@@ -58,7 +58,7 @@ The **Basic Information** page is where you provide information about the module
 
 ### Payload
 
-The **Payload** page is where you define the data structure that the module will return when polled. This is the data that will be available in code when interacting with the module. To add a new field, choose **Add Entry**, provide a name, and choose a type. The maximum length of the payload is 16 bytes.
+The **Payload** page is where you define the data structure that the module will return when polled. This is the data that will be available in code when interacting with the module. To add a new field, click **Add Entry**, provide a name, and choose a type. The maximum length of the payload is 16 bytes.
 
 ![Payload Page](create-custom-module-page2.png)
 

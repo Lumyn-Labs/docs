@@ -20,11 +20,11 @@ In the text field paste the following url:
 https://packages.lumynlabs.com/LumynLabs.json
 ```
 
-Once you have pasted the url and clicked <kbd>Enter</kbd>, it is reccomended to perform a build to ensure that intelisense picks up the new dependency.
+Once you have pasted the URL and clicked <kbd>Enter</kbd>, it is recommended to perform a build to ensure that IntelliSense picks up the new dependency.
 
 ## API Overview
 
-The lumyn labs vendor library resides in the `com.lumynlabs` package in Java and the `lumyn` namespace in C++. In Java, the api is further split into the `device` and `domain` packages. The `device` package provides classes for interacting with lumyn labs devices, while the `domain` package provides classes related to data that is sent to and from the device.
+The Lumyn Labs Vendor Library resides in the com.lumynlabs package in Java and the lumyn namespace in C++. In Java, the api is further split into the `device` and `domain` packages. The `device` package provides classes for interacting with lumyn labs devices, while the `domain` package provides classes related to data that is sent to and from the device.
 
 ## Connect to a Device
 
@@ -199,7 +199,7 @@ for (auto &evt : events)
 
 ## Modules
 
-Modules are a powerful feature of Lumyn Labs devices that allow you to extend the functionality of the device. Modules can connect over a variety of protocols, such as I2C, SPI, and UART, and can be used to interface with sensors, co-processors, and other devices. Additionally, with custom firmware, you can create your own modules to interface with custom hardware. Due to the wide variety of modules available, this section will not cover all possible use-cases, but will provide a general overview of how to interact with modules using the built-in modules.
+Modules are a powerful feature of Lumyn Labs devices that allow you to extend the functionality of the device. Modules can connect over a variety of protocols, such as I2C, SPI, and UART, and can be used to interface with sensors, co-processors, and other devices. Additionally, with custom firmware, you can create your own modules to interface with custom hardware. Due to the wide variety of modules available, this section will not cover all possible use cases, but will provide a general overview of how to interact with them using the built-in module system.
 
 ### Register a Module
 
