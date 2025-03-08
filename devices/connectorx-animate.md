@@ -1,6 +1,6 @@
 # ConnectorX Animate
 
-ConnectorX Animate is a more advanced version of the ConnectorX breakout board. It's designed specifically for controlling LEDs and features a much more powerful volage regulator to handle more LEDs. Animate also features three additional LED channels allowing for easier wiring across multiple areas of your robot.
+ConnectorX Animate is an advanced version of the ConnectorX breakout board, specifically designed for controlling LEDs. It features a much more powerful voltage regulator to handle a higher number of LEDs and includes three additional LED channels, allowing for easier wiring and control of multiple LED strips or matrices.
 
 ## Features
 
@@ -26,8 +26,8 @@ ConnectorX Animate is a more advanced version of the ConnectorX breakout board. 
 
 ## Power Management
 
-ConnectorX Animate features more powerful onboard power management compared to ConnectorX. The board can convert 12V input to 5V @6A output, which is shared between the board, and all four LED channels. The board also features large 5V pads for easily soldering additional devices such as a Raspberry Pi or Jetson Nano.
+ConnectorX Animate features **more powerful** onboard power management compared to ConnectorX. The board can convert **12V input to a 5V @ 6A output**, which is shared between the board and all four LED channels. This higher current capacity allows it to handle more LEDs, providing ample power for your projects. The board also features large 5V pads for soldering **additional devices easily**, such as a Raspberry Pi or Jetson Nano.
 
 ## LED Channels
 
-ConnectorX Animate features four LED channels, each capable of controlling up to 320 LEDs. Each channel can be configured within Lumyn Studio to control multiple zones and groups of LEDs, LED matrices, and more. ConnectorX Animate will automatically adjust the brightness of the LEDs based on the number of LEDs to ensure they are not overdriven.
+ConnectorX Animate features four LED channels, each capable of controlling up to 320 LEDs. Each channel can be configured within Lumyn Studio to control multiple zones, groups of LEDs, LED matrices, and more. ConnectorX Animate will automatically adjust the brightness of the LEDs based on the number of LEDs to prevent overdriving them.
