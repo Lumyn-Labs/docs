@@ -11,12 +11,14 @@ Engineered with the First Robotics Competition (FRC) in-mind, ConnectorX brings 
 
 <img src="/assets/connectorx.png" alt="ConnectorX" height="300px"/>
 
-- 2x Grove-compatible I2C connectors
+- 2x QWIIC/STEMMA QT (JST-SH 1mm pitch) I2C headers
+- 1x I2C 0.1" header
+- 1x UART 0.1" header
+- 1x SPI 0.1" header
 - 2x Digital in/out headers
 - 2x Analog in/out headers
-- 1x SPI header
 - 1 LED channel
-- 12V input to 5V @3A output
+- 6-20V input to 5V @3A output
 - SD card slot
 - Screen connector
 
