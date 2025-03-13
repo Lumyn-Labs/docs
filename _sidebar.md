@@ -10,6 +10,7 @@
   * [Modules Page](/lumyn-studio/modules-page/)
   * [Exporting Device Configurations](/lumyn-studio/exporting-device-configurations/)
   * [Settings Page](/lumyn-studio/settings-page/)
+* [Roadmap](/roadmap)
 * [Troubleshooting](/troubleshooting)
 * [WPILib Vendordep](/wpilib-vendordep/)
 * [Custom Firmware](/custom-firmware)

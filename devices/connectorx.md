@@ -4,16 +4,18 @@ Engineered with the First Robotics Competition (FRC) in-mind, ConnectorX brings 
 
 ## Features
 
-- 2x Grove-compatible I2C connectors
+- 2x QWIIC/STEMMA QT (JST-SH 1mm pitch) I2C headers
+- 1x I2C 0.1" header
+- 1x UART 0.1" header
+- 1x SPI 0.1" header
 - 2x Digital in/out headers
 - 2x Analog in/out headers
-- 1x SPI header
 - 1 LED channel
+- 6-20V input to 5V @3A output
+- SD card slot
+- Screen connector
 
 ## Board Layout
-
-> [!NOTE]
-> This is a preliminary layout and the board may (will) change before release. This is intended to give you an idea of what the board will feature.
 
 1. 12V input
 2. USB-C
@@ -22,7 +24,7 @@ Engineered with the First Robotics Competition (FRC) in-mind, ConnectorX brings 
 5. LED channel
 6. 5V output
 7. OLED screen connector
-8. Grove-compatible I2C connectors for [Modules](/lumyn-studio/modules-page)
+8. QWIIC/STEMMA QT I2C connectors for [Modules](/lumyn-studio/modules-page)
 9. Digital I/O headers
 10. Analog I/O headers
 11. SPI header
