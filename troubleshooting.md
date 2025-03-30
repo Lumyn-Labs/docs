@@ -10,7 +10,7 @@ If you are unable to connect your device using Lumyn Studio, try the following s
 
 ### 1. Verify the Device Has Fully Booted
 
-- **Check the RGB LED:** Once booted, the device’s RGB LED should display a breathing blue light.  
+- **Check the RGB LED:** Once booted, the device's RGB LED should display a breathing blue light.  
 - **If the LED is not breathing blue:**  
   - The device may still be booting or could have encountered an error.
   - Unplug the device, wait a few seconds, and then plug it back in to restart the boot process.
@@ -31,6 +31,21 @@ If you are unable to connect your device using Lumyn Studio, try the following s
 
 - **Next Step:**  
   If the device is not listed, try using a different USB cable.
+
+### 3. Update Lumyn Studio
+
+- **Force Refresh the Application:**
+  - Press **CTRL+F5** to ensure you're using the newest version of Lumyn Studio.
+  - Outdated versions may have compatibility issues with newer firmware versions.
+
+### 4. Install Correct USB Drivers
+
+- **If your device doesn't appear in Device Manager:**
+  - Download and install [Zadig](https://zadig.akeo.ie/)
+  - Run Zadig and select **Options > List All Devices**
+  - Find **TinyUSB Serial Interface 0** in the dropdown list
+  - Install the **USB CDC** driver for this device
+  - Reconnect your device and try again
 
 ---
 
@@ -66,7 +81,24 @@ If your device is not recognizing the microSD card or configurations are not bei
   - Ensure the device configuration file is correct and has been transferred properly to the microSD card.
   - Insert the microSD card into your computer and open the `config.json` file in a text editor.
   - Verify that the configuration matches what you set in Lumyn Studio.
+
+- **Default Configuration File:**
+  - For newly formatted SD cards, copy the default `config.json` file below to the root directory before inserting it into your device:
   
+```json
+{
+    "team": null,
+    "network": {
+      "mode": "USB"
+    },
+    "channels": {},
+    "sequences": [],
+    "bitmaps": [],
+    "sensors": [],
+    "groups": []
+}
+```
+
 - **Accessing the Configuration JSON in Studio:**  
   Navigate to the **Devices** tab, select your device, and click the **Export Configuration** button.
 
