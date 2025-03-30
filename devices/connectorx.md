@@ -24,7 +24,7 @@ Engineered with the First Robotics Competition (FRC) in-mind, ConnectorX brings 
 5. LED channel
 6. 5V output
 7. OLED screen connector
-8. QWIIC/STEMMA QT I2C connectors for [Modules](/lumyn-studio/modules-page)
+8. QWIIC/STEMMA QT I2C connectors for [Modules](/lumyn-studio/modules-page/)
 9. Digital I/O headers
 10. Analog I/O headers
 11. SPI header
