@@ -30,7 +30,7 @@ The Lumyn Labs Vendor Library resides in the com.lumynlabs package in Java and t
 
 To connect to a device, you must first create an instance of the device class. There are two device classes, `ConnectorX` and `ConnectorXAnimate`, which share some common methods but also have unique methods related to their specific hardware features.
 
-### Java
+#### Java
 ```java
 import com.lumynlabs.devices.ConnectorXAnimate;
 import com.lumynlabs.devices.ConnectorX;
@@ -42,7 +42,7 @@ private ConnectorX cX = new ConnectorX();
 cXAnimate.Connect(Port.kUSB1);
 ```
 
-### C++ (header)
+#### C++ (header)
 ```cpp
 #include <lumyn/device/ConnectorX.h>
 #include <lumyn/device/ConnectorXAnimate.h>
@@ -51,7 +51,7 @@ lumyn::device::ConnectorX m_cx;
 lumyn::device::ConnectorXAnimate m_animate;
 ```
 
-### C++ (source)
+#### C++ (source)
 ```cpp
 #include <hal/SerialPort.h>
 
