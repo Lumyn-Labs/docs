@@ -1,0 +1,49 @@
+/* Load Inter (body) and Chakra Petch (headings) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Chakra+Petch:wght@500;600;700&display=swap');
+
+/* Apply dark defaults always */
+body {
+  /* Fonts */
+  --font-stack: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  --font-stack--headings: "Chakra Petch", "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+  /* Brand color */
+  --color-brand-primary: #FF3DEC;
+  --color-brand-content: #FF3DEC;
+  --color-brand-visited: #FF3DEC;
+
+  /* Content foreground/background */
+  --color-foreground-primary: #cfd0d0;
+  --color-foreground-secondary: #9ca0a5;
+  --color-foreground-muted: #81868d;
+  --color-foreground-border: #666666;
+  --color-background-primary: #111;       /* page bg */
+  --color-content-background: #111;       /* article bg */
+  --color-background-secondary: #1a1c1e;
+  --color-background-hover: #1e2124;
+  --color-background-border: #303335;
+  --color-toc-background: #111;
+  --color-header-background: #111;
+}
+
+/* Ensure any dark selectors stay consistent */
+body[data-theme="dark"],
+body:not([data-theme="light"]) {
+  --color-brand-primary: #FF3DEC;
+  --color-brand-content: #FF3DEC;
+  --color-brand-visited: #FF3DEC;
+  --color-foreground-primary: #cfd0d0;
+  --color-foreground-secondary: #9ca0a5;
+  --color-foreground-muted: #81868d;
+  --color-foreground-border: #666666;
+  --color-background-primary: #111;
+  --color-content-background: #111;
+  --color-background-secondary: #1a1c1e;
+  --color-background-hover: #1e2124;
+  --color-background-border: #303335;
+  --color-toc-background: #111;
+  --color-header-background: #111;
+}
+
+/* Headings letter spacing */
+h1, h2, h3, h4, h5, h6 { letter-spacing: -0.01em; }
