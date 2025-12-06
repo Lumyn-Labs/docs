@@ -35,6 +35,19 @@ If the device is not listed, try a different USB cable.
 
 ---
 
+### Device Freezes with Solid Teal LED on Boot
+
+If your device's status LED turns solid teal and freezes during boot, this is a known issue.
+
+#### Resolution
+
+1. Unplug and replug the device, or press the RST/RESET button to restart.
+2. The device should boot normally and the LED will breathe blue when ready.
+
+If the issue persists after multiple restarts, please email us at [support@lumynlabs.com](mailto:support@lumynlabs.com) with your device configuration file and steps to reproduce the issue.
+
+---
+
 ### LED Strip or Matrix Not Responding
 
 #### 1. Verify the microSD Card
@@ -98,10 +111,7 @@ The configuration file is typically exported from Lumyn Studio and placed in you
 
 #### 1. Download Firmware
 
-- ConnectorX: [ConnectorX Firmware Starter Releases](https://github.com/Lumyn-Labs/ConnectorX-Firmware-Starter/releases/latest)
-- ConnectorX Animate: [ConnectorX Animate Firmware Starter Releases](https://github.com/Lumyn-Labs/ConnectorX-Animate-Firmware-Starter/releases)
-
-Download the latest firmware.uf2 from Releases.
+Download the latest `firmware.uf2` for your device from our [GitHub Releases page](https://github.com/Lumyn-Labs/Releases/releases).
 
 #### 2. Enter Bootloader Mode
 

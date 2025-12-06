@@ -7,7 +7,7 @@ hide-toc: true
 Add the Lumyn Labs vendor library to your WPILib project.
 
 ```{warning}
-**Firmware Compatibility**: The 2025 vendordep releases only work with device firmware versions up to v2.1.1. Firmware versions v3.1.1 and beyond require the 2026 beta vendordep to be installed. The 2026 beta vendordep will be available shortly after the FRC 2026 WPILib beta release.
+**Firmware Compatibility**: The 2025 vendordep releases only work with device firmware versions up to v2.1.1. Firmware versions v3.1.1 and beyond require the 2026 vendordep.
 ```
 
 ## WPILib UI (Recommended)
@@ -22,7 +22,7 @@ To begin, click the wpi icon in the top right corner of VSCode, type `Manage Ven
 
 In the text field paste the following url:
 
-```url
+```text
 https://packages.lumynlabs.com/LumynLabs.json
 ```
 

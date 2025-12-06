@@ -12,21 +12,16 @@ Open the Devices page, select your configuration, then click Export Configuratio
 
 ```{image} ../assets/whats-new/config-uploads.png
 :alt: Direct Config Uploads
-:height: 447px
 ```
 
 If your configuration includes image sequences, optionally check Include Image Assets in Export to download a zip containing config.json at the root and folders for each sequence.
 
 ## Direct Upload to Device
 
-```{note}
-**2026 Feature**: You can now upload your configuration JSON directly to any connected device from within Studio. This makes deploying configurations faster and easier - no need to manually copy files to a microSD card.
-```
-
-With a device connected, you can upload your configuration directly to the device from the Connected Device Panel. This eliminates the need to manually copy files to a microSD card for configuration deployment.
+With a device connected, you can upload your configuration directly from the Connected Device Panel—no need to manually copy files to a microSD card.
 
 ```{note}
-**Note**: Image assets still need to be manually copied to the microSD card. Direct image upload is coming in a future update.
+Image assets still need to be manually copied to the microSD card. Direct image upload is coming in a future update.
 ```
 
 ## Copy to microSD (Manual Deploy)

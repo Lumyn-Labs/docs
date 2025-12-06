@@ -23,7 +23,6 @@ Available animations include Blink, Breathe, Chase, FadeIn, FadeOut, Fill, Rainb
 
 ```{image} ../assets/lumyn-studio/animation-sequences/new-animation-sequence.png
 :alt: Creating a new animation sequence
-:height: 400px
 ```
 
 ## Editing a Sequence
@@ -32,7 +31,6 @@ Use the editor to add, remove, and reorder steps.
 
 ```{image} ../assets/lumyn-studio/animation-sequences/animation-sequence-editor.png
 :alt: Animation Sequence Editor
-:height: 400px
 ```
 
 - **Animation Sequence Metadata**: Configure ID, Name, Description, and Tags at the top. Use "ADD TO DEVICE" and "SAVE" buttons to save and deploy.

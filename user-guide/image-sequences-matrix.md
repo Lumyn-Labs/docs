@@ -16,14 +16,12 @@ Open the Image Sequences page. If none exist, the page is empty. Click Create Im
 
 ```{image} ../assets/lumyn-studio/image-sequences/create-dialog-page1.png
 :alt: Image Sequence Creation Dialog Page 1
-:height: 400px
 ```
 
 Assign an ID (for code references), a name, choose a canvas aspect ratio (ideally matching your matrix or source), and optionally add a description and tags. Click Create.
 
 ```{image} ../assets/lumyn-studio/image-sequences/create-dialog-page2.png
 :alt: Image Sequence Creation Dialog Page 2
-:height: 400px
 ```
 
 ## Edit an Image Sequence
@@ -31,22 +29,12 @@ Assign an ID (for code references), a name, choose a canvas aspect ratio (ideall
 The editor includes:
 
 - Preview: Live view of the sequence.
-- Controls: Tools to add/remove/edit objects and a play bar to scrub frames.
+- Controls: Play bar to scrub frames.
 - Frame List: All frames with add/remove/save controls.
 
 ```{image} ../assets/lumyn-studio/image-sequences/editor-page.png
 :alt: Image Sequence Editor
 ```
-
-### Adding Objects
-
-Use the toolbar to add and customize:
-
-- Text: Font, size, color, alignment, etc.
-- Rectangle, Circle, Triangle
-- Line
-
-Objects can be moved, resized, and deleted.
 
 ### Managing Frames
 
@@ -64,16 +52,13 @@ From the Image Sequences page, click Add to Device.
 
 ```{image} ../assets/lumyn-studio/image-sequences/add-to-device.png
 :alt: Add to Device Dialog
-:height: 420px
 ```
 
 - Select a device configuration.
 - Choose a matrix zone (defines exported resolution).
 - Save to attach the sequence to the configuration.
 
-```{note}
-**2026 Feature - Preview at Size**: Once added to a device configuration, you can preview your image sequences at the exact resolution of the LED Matrix they will display on. This helps you see exactly how your content will appear on the physical hardware before deploying.
-```
+Once added, you can preview your image sequence at the exact resolution of the target matrix zone.
 
 ## Next Steps
 

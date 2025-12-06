@@ -43,7 +43,7 @@ Create image sequences for matrix zones by importing images, animated GIFs, or d
 
 **When to use**: Adding sensors or I/O expansion to your ConnectorX device.
 
-Browse official modules, create custom modules, and add modules to your device configuration. Modules extend your device's capabilities with sensors, digital I/O, and other hardware interfaces. Learn how to find, configure, and integrate modules into your robot.
+Browse official modules and add modules to your device configuration. Modules extend your device's capabilities with sensors, digital I/O, and other hardware interfaces. Learn how to find, configure, and integrate modules into your robot.
 
 ### Device Settings & Management
 
@@ -71,7 +71,7 @@ A quick glossary of common terms used throughout the docs and Lumyn Studio:
 - **Animation**: A built-in effect (Blink, Chase, Rainbow, etc.).
 - **Animation Sequence**: An ordered list of animations with timings and parameters.
 - **Image Sequence**: A sequence of images displayed on a matrix zone.
-- **Module**: An extension providing data or behavior via I2C/SPI/UART/digital/analog, including custom modules.
+- **Module**: An extension providing data or behavior via I2C/SPI/UART/digital/analog.
 - **Brightness Auto**: Device-managed brightness based on LED count and power constraints.
 
 ## Common Workflows
