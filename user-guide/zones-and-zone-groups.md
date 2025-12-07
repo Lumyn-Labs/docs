@@ -43,7 +43,6 @@ For power reasons, a single channel supports up to 320 LEDs. For more LEDs, cons
 
 ```{image} ../assets/lumyn-studio/getting-started/channel-creation.png
 :alt: Channel Creation
-:height: 200px
 ```
 
 ## Zones
@@ -55,21 +54,18 @@ Click Set up a new zone and choose the zone type:
 
 ```{image} ../assets/lumyn-studio/getting-started/zone-type.png
 :alt: Zone Type Selection
-:height: 200px
 ```
 
 Configure the zone ID and brightness, then continue:
 
 ```{image} ../assets/lumyn-studio/getting-started/strip-zone-step-1.png
 :alt: Zone Creation
-:height: 400px
 ```
 
 Set length and whether the zone is reversed. Reversed zones index LEDs in the opposite direction.
 
 ```{image} ../assets/lumyn-studio/getting-started/strip-zone-step-2.png
 :alt: Zone Configuration
-:height: 400px
 ```
 
 Reorder zones via drag-and-drop. Create additional zones as needed.

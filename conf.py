@@ -31,13 +31,16 @@ myst_enable_extensions = [
 # MyST: derive document title from first H1 heading
 myst_heading_to_title = True
 
+# MyST: enable heading anchors so that #slug links work
+myst_heading_anchors = 4
+
 source_suffix = {
     '.rst': 'restructuredtext',
     '.md': 'markdown',
 }
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'README.md']
+exclude_patterns = ['_build', 'README.md', 'advanced-topics.md', 'advanced-topics/*']
 
 # MyST configuration: enable fenced directives for toctree blocks
 myst_fence_as_directive = [

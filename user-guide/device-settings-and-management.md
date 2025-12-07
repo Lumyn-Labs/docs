@@ -12,7 +12,6 @@ Open via the Connect button in the title bar after selecting your device.
 
 ```{image} ../assets/lumyn-studio/connected-device-panel/connected-device-panel.png
 :alt: Connected Device Panel
-:height: 420px
 ```
 
 Tabs include:
@@ -21,11 +20,7 @@ Tabs include:
 - Events: Device event log.
 - Logs: Human-readable output (requires connecting to the secondary serial port when available).
 - Module Values: Current values reported by modules.
-- LED Commander: Send raw LED commands for quick wiring tests.
-
-```{note}
-**2026 LED Commander Updates**: The LED Commander now uses the configuration on your device to populate its options. It also shows a live preview of your animations, animation sequences, and image sequences as you send them, making it easier to test and develop LED effects.
-```
+- LED Commander: Send LED commands for quick wiring tests. Uses your device configuration to populate options and shows a live preview.
 
 ```{warning}
 Configurations are stored in browser storage. Export regularly to avoid data loss.
@@ -37,7 +32,6 @@ Access from the gear icon in the title bar.
 
 ```{image} ../assets/lumyn-studio/settings-page/settings-screen.png
 :alt: Settings Page
-:height: 420px
 ```
 
 - FRC Team Number: Optional team number (whole number 1–99999) used in configurations.

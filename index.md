@@ -51,11 +51,11 @@ Windows driver installation and firmware update instructions.
 Learn how to control your devices with our powerful API. Includes examples and best practices.
 :::
 
-:::{grid-item-card} Advanced Topics
-:link: advanced-topics
+:::{grid-item-card} Changelog
+:link: changelog
 :link-type: doc
 
-Dive deeper into custom firmware, module creation, and other advanced features.
+Release notes and important updates for the Lumyn Labs documentation and vendordep.
 :::
 
 :::{grid-item-card} Troubleshooting & FAQ
@@ -85,7 +85,7 @@ quick-start
 drivers-and-firmware
 user-guide/index
 programming-guide/index
-advanced-topics
 troubleshooting-faq
 known-issues
+changelog
 :::

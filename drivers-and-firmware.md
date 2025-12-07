@@ -26,12 +26,9 @@ Firmware updates are performed by putting your device into bootloader mode and c
 
 ### Downloading Firmware
 
-Download the latest firmware UF2 file for your device from the appropriate GitHub releases page:
+Download the latest firmware UF2 file for your device from our [GitHub Releases page](https://github.com/Lumyn-Labs/Releases/releases).
 
-- **ConnectorX**: [ConnectorX-Firmware-Starter Releases](https://github.com/Lumyn-Labs/ConnectorX-Firmware-Starter/releases)
-- **ConnectorX Animate**: [ConnectorX-Animate-Firmware-Starter Releases](https://github.com/Lumyn-Labs/ConnectorX-Animate-Firmware-Starter/releases)
-
-Download the `firmware.uf2` file from the latest release.
+Download the `firmware.uf2` file for your device from the latest release.
 
 ### Entering Bootloader Mode
 
