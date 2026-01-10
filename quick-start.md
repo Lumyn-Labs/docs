@@ -45,17 +45,33 @@ Before using your device, you must format your microSD card to **FAT32**.
 - **macOS**: Use the "Disk Utility" application. Select the SD card, click "Erase," and choose "MS-DOS (FAT)" as the format.
 - **Linux**: Use `gparted` or the command line: `sudo mkfs.vfat -F 32 /dev/sdX` (replace `sdX` with your SD card device).
 
-### Step 2: Connect Power and USB
+### Step 2: Add the Default Config
+
+Create a file named `config.json` in the **root** of the microSD card with the following contents:
+
+```json
+{
+  "team": null,
+  "network": { "mode": "USB" },
+  "channels": {},
+  "sequences": [],
+  "bitmaps": [],
+  "sensors": [],
+  "groups": []
+}
+```
+
+### Step 3: Connect Power and USB
 
 1. Insert the formatted microSD card into your device.
 2. Connect your device to your computer using a USB data cable.
 3. **For LED control**: Connect your device to a 12V power source. For FRC robots, connect directly to a spare port on the PDH or PDP. **Note**: USB-C power alone is sufficient for connecting to Lumyn Studio and configuring your device.
 
-### Step 3: Update Firmware
+### Step 4: Update Firmware
 
 Before configuring your device, ensure you're running the latest firmware. Download the latest firmware from our [GitHub Releases page](https://github.com/Lumyn-Labs/Releases/releases) and follow the [Drivers and Firmware](drivers-and-firmware) guide to update.
 
-### Step 4: Install Drivers (Windows Only)
+### Step 5: Install Drivers (Windows Only)
 
 ```{note}
 **Driver Installation**: You only need to install drivers if your device doesn't appear when you try to connect in Lumyn Studio. If you can see your device in the connection dialog, you can skip this step.
@@ -63,13 +79,13 @@ Before configuring your device, ensure you're running the latest firmware. Downl
 
 On Windows, you may need to install a driver to allow your browser to communicate with the device. See the [Drivers and Firmware](drivers-and-firmware) page for detailed instructions.
 
-### Step 5: Access Lumyn Studio
+### Step 6: Access Lumyn Studio
 
 Open your Chromium-based browser and navigate to [studio.lumynlabs.com](https://studio.lumynlabs.com).
 
 The Studio interface is organized into tabs: Home, Devices, Modules, Animation Sequences, Image Sequences, and Settings. For a detailed overview, see [Getting Started with Lumyn Studio](user-guide/getting-started-with-lumyn-studio).
 
-### Step 6: Connect to the Device
+### Step 7: Connect to the Device
 
 1. Wait for the device to boot. The onboard RGB LED will breathe blue when it's ready.
 2. In Lumyn Studio, click the "Connect" button in the top-right corner.
@@ -88,20 +104,20 @@ The Studio interface is organized into tabs: Home, Devices, Modules, Animation S
 
 If you don't see your device, see the [Troubleshooting & FAQ](troubleshooting-faq) for help.
 
-### Step 7: Create Your First Configuration
+### Step 8: Create Your First Configuration
 
 Once connected, Lumyn Studio will prompt you to set up a new device configuration. Give your device a name, and you're ready to start configuring channels, zones, and modules!
 
-### Step 8: Configure LEDs
+### Step 9: Configure LEDs
 
 Create a channel and add a zone (Strip or Matrix). See: [Getting Started with Lumyn Studio](user-guide/getting-started-with-lumyn-studio)
 
-### Step 9: Add Content
+### Step 10: Add Content
 
 - **For strips**: Create an animation sequence. See: [Animations & Sequences](user-guide/animations-and-sequences)
 - **For matrices**: Create an image sequence. See: [Image Sequences](user-guide/image-sequences-matrix)
 
-### Step 10: Export and Deploy
+### Step 11: Export and Deploy
 
 - Export the configuration JSON and copy to the microSD root. See: [Saving & Exporting Configurations](user-guide/saving-and-exporting-configurations)
 - Insert the microSD card into your device and power it on.

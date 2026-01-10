@@ -8,7 +8,29 @@ All notable changes to the Lumyn Labs WPILib Vendor Library will be documented h
 
 ---
 
-## [2026.0.0-beta1] - December 2025
+## [2026.0.0] - January 7, 2026
+
+This release finalizes the 2026 API surface and adds compatibility with the WPILib LED animation API.
+
+### Added
+
+- **DirectLED buffers** for high-frequency, delta-compressed LED updates in Java and C++
+  - Create via `ConnectorX.createDirectLED(...)` (Java) or `ConnectorX::CreateDirectLED(...)` (C++)
+  - Supports full-refresh interval, force-full update, and reset
+  - Supported in the simulation GUI
+
+### Changed
+
+- Updated WPILib dependency to 2026.1.1
+
+### Fixed
+
+- **ConfigBuilder channels now require a channel number** (e.g., `addChannel(1, "front", 60)`); channel keys are fixed to the numeric channel index
+
+
+---
+
+## [2026.0.0-beta-1] - December 6, 2025
 
 This release includes significant API improvements, enhanced simulation capabilities, and new features for the 2026 FRC season.
 
@@ -132,7 +154,30 @@ The following APIs are deprecated and will be removed in the 2027 release. Pleas
 
 ---
 
-## [2025.1.0] - 2025 Season Release
+## [2025.2.0] - February 16, 2025
+
+Module data pipeline improvements and C++ parity for module data handling.
+
+### Added
+
+- Module data polling pipeline and updated JNI/driver interfaces
+- C++ module data retrieval parity with Java
+- Circular buffer for module data/event queues to bound memory usage
+
+---
+
+## [2025.0.22] - January 6, 2025
+
+Event callbacks and background polling in the Java API.
+
+### Added
+
+- Java `AddEventHandler(...)` callback support
+- Background event polling thread that dispatches event handlers after connect
+
+---
+
+## [2025.0.0] - January 2025
 
 Initial release for the 2025 FRC season with support for ConnectorX and ConnectorXAnimate devices.
 
@@ -140,6 +185,6 @@ Initial release for the 2025 FRC season with support for ConnectorX and Connecto
 
 - USB connection support for ConnectorX and ConnectorXAnimate
 - LED control: colors, animations, animation sequences, image sequences, and matrix text
-- Event handling with callback-based system
-- Module registration and data handling
+- Event reporting via polling API
+- Module registration scaffolding
 - Full integration with WPILib for FRC robot development

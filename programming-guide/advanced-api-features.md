@@ -327,6 +327,66 @@ if (m_cx.GetLatestModuleData("test-dio", latest)) {
 
 **Note**: Module payloads use little-endian byte order. `ExtractFromPayload` handles byte order conversion for you.
 
+## Direct LED Buffers
+
+DirectLED provides high-frequency LED buffer publishing for a zone. It is ideal for per-pixel control (such as WPILib LED patterns) while minimizing bandwidth. Create a DirectLED controller for a zone, then call `update` each loop with an `AddressableLEDBuffer` (Java) or an array of `frc::AddressableLED::LEDData` (C++).
+
+::::{tab-set}
+:::{tab-item} Java
+```java
+import com.lumynlabs.devices.ConnectorX;
+import com.lumynlabs.domain.led.DirectLED;
+import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.LEDPattern;
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+
+ConnectorX cx = new ConnectorX();
+DirectLED direct = cx.createDirectLED("strip-zone", 60);
+AddressableLEDBuffer buffer = new AddressableLEDBuffer(60);
+
+Distance ledSpacing = Meters.of(1.0 / 120.0); // 120 LEDs per meter
+LEDPattern rainbow = LEDPattern.rainbow(255, 128);
+LEDPattern scrolling = rainbow.scrollAtAbsoluteSpeed(MetersPerSecond.of(0.1), ledSpacing);
+
+scrolling.applyTo(buffer);
+direct.update(buffer);
+```
+:::
+:::{tab-item} C++
+```cpp
+#include <array>
+#include <lumyn/device/ConnectorX.h>
+#include <lumyn/device/DirectLED.h>
+#include <frc/AddressableLED.h>
+#include <frc/LEDPattern.h>
+#include <units/length.h>
+#include <units/velocity.h>
+#include <memory>
+
+constexpr int kStripLength = 60;
+constexpr units::meter_t kLedSpacing{1.0 / 120.0};
+
+lumyn::device::ConnectorX cx;
+auto direct = std::make_unique<lumyn::device::DirectLED>(
+    cx.CreateDirectLED("strip-zone", kStripLength));
+
+std::array<frc::AddressableLED::LEDData, kStripLength> buffer;
+auto rainbow = frc::LEDPattern::Rainbow(255, 128);
+auto scrolling = rainbow.ScrollAtAbsoluteSpeed(0.1_mps, kLedSpacing);
+
+scrolling.ApplyTo(buffer);
+direct->Update(buffer);
+```
+:::
+::::
+
+**Notes:**
+- Buffer length must match the zone length (3 bytes per LED).
+- To re-sync after a large change, call `reset()` (Java) / `Reset()` (C++) and then send a new frame.
+- On ConnectorXAnimate in Java, use `cXAnimate.leds.createDirectLED(...)`.
+
 ## Device Configuration
 
 Device configurations define your LED channels, zones, groups, and modules. You can load configurations from JSON files, build them programmatically, or request the current configuration from a connected device.
@@ -346,12 +406,12 @@ import com.lumynlabs.domain.config.LumynDeviceConfig;
 import java.util.Optional;
 
 // Load configuration from deploy/lumyn_config.json (default filename)
-Optional<LumynDeviceConfig> cfg = cXAnimate.LoadConfigurationFromDeploy();
-cfg.ifPresent(cXAnimate::ApplyConfiguration);
+Optional<LumynDeviceConfig> cfg = mCx.LoadConfigurationFromDeploy();
+cfg.ifPresent(mCx::ApplyConfiguration);
 
 // Load configuration from a custom filename
-Optional<LumynDeviceConfig> customCfg = cXAnimate.LoadConfigurationFromDeploy("my_config.json");
-customCfg.ifPresent(cXAnimate::ApplyConfiguration);
+Optional<LumynDeviceConfig> customCfg = mCx.LoadConfigurationFromDeploy("my_config.json");
+customCfg.ifPresent(mCx::ApplyConfiguration);
 ```
 :::
 :::{tab-item} C++
@@ -385,17 +445,21 @@ Use `ConfigBuilder` to construct configurations in code. This is useful for dyna
 ```cpp
 #include <lumyn/device/ConnectorX.h>
 #include <lumyn/configuration/ConfigBuilder.h>
+#include <string>
 
 lumyn::config::ConfigBuilder builder;
 auto cfg = builder
-    .ForTeam("5239")
-    .SetNetworkType(lumyn::internal::Configuration::NetworkType::UART)
-    .SetBaudRate(230400)
-    .AddChannel("front", 60)
-        .AddStripZone("front-strip", 60)
+    .ForTeam("9993")
+    .SetNetworkType(lumyn::internal::Configuration::NetworkType::USB)
+    .AddChannel(1, "main-channel2", 316)
+        .AddStripZone("strip-zone", 60)
+        .AddMatrixZone("matrix-zone", 16, 16)
         .EndChannel()
-    .AddModule("module-1", "DigitalInput", 10, "DIO")
-        .WithConfig("pin", "DIO0")
+    .AddModule("digital-input", "DigitalInput", 50, "DIO")
+        .WithConfig("pin", std::string("DIO0"))
+        .EndModule()
+    .AddModule("analog-input", "AnalogInput", 50, "AIO")
+        .WithConfig("pin", std::string("AIO0"))
         .EndModule()
     .Build();
 
@@ -410,23 +474,27 @@ import com.lumynlabs.domain.config.NetworkType;
 
 ConfigBuilder builder = new ConfigBuilder();
 LumynDeviceConfig cfg = builder
-    .forTeam("5239")
-    .setNetworkType(NetworkType.UART)
-    .setBaudRate(230400)
-    .addChannel("front", 60)
-        .addStripZone("front-strip", 60)
+    .forTeam("9993")
+    .setNetworkType(NetworkType.USB)
+    .addChannel(1, "main-channel2", 316)
+        .addStripZone("strip-zone", 60)
+        .addMatrixZone("matrix-zone", 16, 16)
         .endChannel()
-    .addModule("module-1", "DigitalInput", 10, "DIO")
+    .addModule("digital-input", "DigitalInput", 50, "DIO")
         .withConfig("pin", "DIO0")
+        .endModule()
+    .addModule("analog-input", "AnalogInput", 50, "AIO")
+        .withConfig("pin", "AIO0")
         .endModule()
     .build();
 
-cXAnimate.ApplyConfiguration(cfg);
+mCx.ApplyConfiguration(cfg);
 ```
 :::
 ::::
 
 Network settings default to USB. Use `SetNetworkType` and `SetBaudRate` for UART or other connection types.
+Channel numbers are required and become the JSON keys for channels (for example, channel 1 uses `"1"` as the key).
 
 ### Request Configuration from Device
 
@@ -439,7 +507,7 @@ import com.lumynlabs.domain.config.LumynDeviceConfig;
 import java.util.Optional;
 
 // Request full configuration from the device
-Optional<LumynDeviceConfig> config = cXAnimate.RequestConfig();
+Optional<LumynDeviceConfig> config = mCx.RequestConfig();
 config.ifPresent(cfg -> {
   System.out.println("Received config with " + cfg.channels.size() + " channels");
   // Use config object as needed

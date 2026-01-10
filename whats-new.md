@@ -94,6 +94,60 @@ m_animate.SetText("Hello World!")
 The legacy direct method calls are deprecated and will be removed in 2027. Please migrate to the builder API.
 ```
 
+### DirectLED: Efficient LED Buffer publishing
+
+DirectLED provides LED buffer publishing for high-rate per-pixel control with minimal bandwidth. Use it to bring animations written with the WPILib LED animation API to the ConnectorX. It is available on ConnectorX and ConnectorXAnimate (Java: `cXAnimate.leds.createDirectLED(...)`).
+
+::::{tab-set}
+:::{tab-item} Java
+```java
+import com.lumynlabs.devices.ConnectorX;
+import com.lumynlabs.domain.led.DirectLED;
+import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.LEDPattern;
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+
+ConnectorX cx = new ConnectorX();
+DirectLED direct = cx.createDirectLED("strip-zone", 60);
+AddressableLEDBuffer buffer = new AddressableLEDBuffer(60);
+
+Distance ledSpacing = Meters.of(1.0 / 120.0); // 120 LEDs per meter
+LEDPattern rainbow = LEDPattern.rainbow(255, 128);
+LEDPattern scrolling = rainbow.scrollAtAbsoluteSpeed(MetersPerSecond.of(0.1), ledSpacing);
+
+scrolling.applyTo(buffer);
+direct.update(buffer);
+```
+:::
+:::{tab-item} C++
+```cpp
+#include <lumyn/device/ConnectorX.h>
+#include <lumyn/device/DirectLED.h>
+#include <frc/AddressableLED.h>
+#include <frc/LEDPattern.h>
+#include <units/length.h>
+#include <units/velocity.h>
+#include <memory>
+
+constexpr int kStripLength = 60;
+constexpr units::meter_t kLedSpacing{1.0 / 120.0};
+
+lumyn::device::ConnectorX cx;
+auto direct = std::make_unique<lumyn::device::DirectLED>(
+    cx.CreateDirectLED("strip-zone", kStripLength));
+
+std::array<frc::AddressableLED::LEDData, kStripLength> buffer;
+auto rainbow = frc::LEDPattern::Rainbow(255, 128);
+auto scrolling = rainbow.ScrollAtAbsoluteSpeed(0.1_mps, kLedSpacing);
+
+scrolling.ApplyTo(buffer);
+direct->Update(buffer);
+```
+:::
+::::
+
 ### New Connection Options
 
 ConnectorX now supports **UART connections** with configurable baud rates, in addition to USB. This enables more flexible wiring and higher-bandwidth communication.
@@ -206,37 +260,40 @@ import com.lumynlabs.domain.config.ConfigBuilder;
 import com.lumynlabs.domain.config.NetworkType;
 
 LumynDeviceConfig cfg = new ConfigBuilder()
-    .forTeam("5239")
-    .setNetworkType(NetworkType.UART)
-    .setBaudRate(230400)
-    .addChannel("front", 60)
-        .addStripZone("front-strip", 60)
+    .forTeam("9993")
+    .setNetworkType(NetworkType.USB)
+    .addChannel(1, "main-channel2", 316)
+        .addStripZone("strip-zone", 60)
+        .addMatrixZone("matrix-zone", 16, 16)
         .endChannel()
     .addModule("digital-input", "DigitalInput", 50, "DIO")
         .withConfig("pin", "DIO0")
         .endModule()
-    .addModule("voltage-sensor", "AnalogInput", 100, "ADC")
+    .addModule("analog-input", "AnalogInput", 50, "AIO")
         .withConfig("pin", "AIO0")
-        .withConfig("scaleFactor", 3.3 / 1023.0)
         .endModule()
     .build();
 
-cXAnimate.ApplyConfiguration(cfg);
+mCx.ApplyConfiguration(cfg);
 ```
 :::
 :::{tab-item} C++
 ```cpp
 #include <lumyn/configuration/ConfigBuilder.h>
+#include <string>
 
 auto cfg = lumyn::config::ConfigBuilder()
-    .ForTeam("5239")
-    .SetNetworkType(lumyn::internal::Configuration::NetworkType::UART)
-    .SetBaudRate(230400)
-    .AddChannel("front", 60)
-        .AddStripZone("front-strip", 60)
+    .ForTeam("9993")
+    .SetNetworkType(lumyn::internal::Configuration::NetworkType::USB)
+    .AddChannel(1, "main-channel2", 316)
+        .AddStripZone("strip-zone", 60)
+        .AddMatrixZone("matrix-zone", 16, 16)
         .EndChannel()
     .AddModule("digital-input", "DigitalInput", 50, "DIO")
-        .WithConfig("pin", "DIO0")
+        .WithConfig("pin", std::string("DIO0"))
+        .EndModule()
+    .AddModule("analog-input", "AnalogInput", 50, "AIO")
+        .WithConfig("pin", std::string("AIO0"))
         .EndModule()
     .Build();
 
@@ -256,11 +313,11 @@ import com.lumynlabs.domain.config.LumynDeviceConfig;
 import java.util.Optional;
 
 // Load configuration from deploy directory (works for sim and hardware)
-Optional<LumynDeviceConfig> cfg = cXAnimate.LoadConfigurationFromDeploy("lumyn_config.json");
-cfg.ifPresent(cXAnimate::ApplyConfiguration);
+Optional<LumynDeviceConfig> cfg = mCx.LoadConfigurationFromDeploy("lumyn_config.json");
+cfg.ifPresent(mCx::ApplyConfiguration);
 
 // Request the current configuration from a connected device
-Optional<LumynDeviceConfig> deviceConfig = cXAnimate.RequestConfig();
+Optional<LumynDeviceConfig> deviceConfig = mCx.RequestConfig();
 deviceConfig.ifPresent(c -> {
     System.out.println("Loaded " + c.channels.size() + " channels");
 });

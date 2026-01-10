@@ -14,7 +14,7 @@ The Lumyn Labs Vendor Library resides in the `com.lumynlabs` package in Java and
 
 To connect to a device, you must first create an instance of the device class. There are two device classes, `ConnectorX` and `ConnectorXAnimate`, which share some common methods but also have unique methods related to their specific hardware features.
 
-Connection methods return a boolean indicating success. Devices support USB and UART connections. For UART connections, you can optionally specify a custom baud rate (default is 115200).
+Connection methods return a boolean indicating success. Both devices support USB connections. UART connections are supported only on `ConnectorX` (ConnectorXAnimate is USB-only). For UART connections on `ConnectorX`, you can optionally specify a custom baud rate (default is 115200).
 
 ```{note}
 **Java Resource Management**: In Java, device classes implement `AutoCloseable`, allowing you to use try-with-resources for automatic resource cleanup. This ensures connections are properly closed even if exceptions occur.

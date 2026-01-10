@@ -148,6 +148,20 @@ The device will mount as a removable drive.
 - Optionally include image assets to get a zip with folders.
 - Copy config.json (and any image folders) to the microSD root.
 
+If you need a default empty config to start with, use:
+
+```json
+{
+  "team": null,
+  "network": { "mode": "USB" },
+  "channels": {},
+  "sequences": [],
+  "bitmaps": [],
+  "sensors": [],
+  "groups": []
+}
+```
+
 ### What LED types are supported?
 
 - ConnectorX and ConnectorX Animate support WS2812B LEDs.
@@ -197,4 +211,3 @@ For urgent hardware issues, include:
 - Steps to reproduce and screenshots/logs
 
 We aim to respond within 2–3 business days.
-
