@@ -6,8 +6,8 @@ hide-toc: true
 
 Add the Lumyn Labs vendor library to your WPILib project.
 
-```{warning}
-**Firmware Compatibility**: The 2025 vendordep releases only work with device firmware versions up to v2.1.1. Firmware versions v3.1.1 and beyond require the 2026 vendordep.
+```{note}
+**Version Compatibility**: Use the 2026 vendordep with firmware versions 4.0.2 and later. The 2025 vendordep is compatible with earlier firmware versions.
 ```
 
 ## WPILib UI (Recommended)
