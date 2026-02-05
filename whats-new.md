@@ -27,7 +27,7 @@ Test animations, validate module callbacks, and inject fake sensor data—all wi
 Say goodbye to long parameter lists! The new builder-style API makes your code more readable and self-documenting. Every LED command now supports the fluent builder pattern.
 
 ::::{tab-set}
-:::{tab-item} Java
+:::{tab-item} Java (WPILib)
 ```java
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj.util.Color;
@@ -58,7 +58,7 @@ cXAnimate.leds.SetText("Hello World!")
   .RunOnce(false);
 ```
 :::
-:::{tab-item} C++
+:::{tab-item} C++ (WPILib)
 ```cpp
 #include <lumyn/led/Animation.h>
 #include <frc/util/Color8Bit.h>
@@ -94,12 +94,21 @@ m_animate.SetText("Hello World!")
 The legacy direct method calls are deprecated and will be removed in 2027. Please migrate to the builder API.
 ```
 
+### Matrix Text Formatting
+
+Matrix text gained formatting controls for cleaner layouts and better readability:
+
+- Alignment, no-scroll/static text, and vertical offsets
+- Background colors with optional background rendering
+- Smooth scrolling and ping-pong behavior
+- Expanded font choices for different matrix sizes
+
 ### DirectLED: Efficient LED Buffer publishing
 
 DirectLED provides LED buffer publishing for high-rate per-pixel control with minimal bandwidth. Use it to bring animations written with the WPILib LED animation API to the ConnectorX. It is available on ConnectorX and ConnectorXAnimate (Java: `cXAnimate.leds.createDirectLED(...)`).
 
 ::::{tab-set}
-:::{tab-item} Java
+:::{tab-item} Java (WPILib)
 ```java
 import com.lumynlabs.devices.ConnectorX;
 import com.lumynlabs.domain.led.DirectLED;
@@ -121,7 +130,7 @@ scrolling.applyTo(buffer);
 direct.update(buffer);
 ```
 :::
-:::{tab-item} C++
+:::{tab-item} C++ (WPILib)
 ```cpp
 #include <lumyn/device/ConnectorX.h>
 #include <lumyn/device/DirectLED.h>
@@ -153,7 +162,7 @@ direct->Update(buffer);
 ConnectorX now supports **UART connections** with configurable baud rates, in addition to USB. This enables more flexible wiring and higher-bandwidth communication.
 
 ::::{tab-set}
-:::{tab-item} Java
+:::{tab-item} Java (WPILib)
 ```java
 import com.lumynlabs.connection.usb.USBPort;
 import com.lumynlabs.connection.uart.UARTPort;
@@ -165,7 +174,7 @@ boolean connected = cXAnimate.Connect(USBPort.kUSB1);
 boolean uartConnected = cX.Connect(UARTPort.MXP, 230400);
 ```
 :::
-:::{tab-item} C++
+:::{tab-item} C++ (WPILib)
 ```cpp
 #include <lumyn/connection/USBPort.h>
 #include <lumyn/connection/UARTPort.h>
@@ -199,7 +208,7 @@ The new module system features automatic background polling with support for arb
 - Built-in modules: `DigitalInput`, `AnalogInput` (with scaling/mapping), `VL53L1X` (ToF sensor)
 
 ::::{tab-set}
-:::{tab-item} Java
+:::{tab-item} Java (WPILib)
 ```java
 import com.lumynlabs.modules.DigitalInputModule;
 import com.lumynlabs.modules.AnalogInputModule;
@@ -226,7 +235,7 @@ cX.modules.RegisterModule("test-dio", (data) -> {
 });
 ```
 :::
-:::{tab-item} C++
+:::{tab-item} C++ (WPILib)
 ```cpp
 #include <lumyn/modules/DigitalInputModule.h>
 
@@ -254,7 +263,7 @@ if (m_cx.GetLatestModuleData("test-dio", latest)) {
 New fluent `ConfigBuilder` API lets you construct device configurations programmatically—perfect for dynamic setups or teams who prefer code over JSON files.
 
 ::::{tab-set}
-:::{tab-item} Java
+:::{tab-item} Java (WPILib)
 ```java
 import com.lumynlabs.domain.config.ConfigBuilder;
 import com.lumynlabs.domain.config.NetworkType;
@@ -277,7 +286,7 @@ LumynDeviceConfig cfg = new ConfigBuilder()
 mCx.ApplyConfiguration(cfg);
 ```
 :::
-:::{tab-item} C++
+:::{tab-item} C++ (WPILib)
 ```cpp
 #include <lumyn/configuration/ConfigBuilder.h>
 #include <string>
@@ -307,7 +316,7 @@ m_cx.ApplyConfiguration(cfg);
 Load configurations from deploy directory for simulation, request configurations from connected devices, and seamlessly switch between hardware and desktop testing.
 
 ::::{tab-set}
-:::{tab-item} Java
+:::{tab-item} Java (WPILib)
 ```java
 import com.lumynlabs.domain.config.LumynDeviceConfig;
 import java.util.Optional;
@@ -323,7 +332,7 @@ deviceConfig.ifPresent(c -> {
 });
 ```
 :::
-:::{tab-item} C++
+:::{tab-item} C++ (WPILib)
 ```cpp
 #include <lumyn/configuration/LumynDeviceConfig.h>
 
@@ -347,7 +356,7 @@ if (deviceConfig) {
 C++ now supports callback-based event handling, matching Java's API. Both languages also support manual polling with `GetLatestEvent()` and `GetEvents()`. Control whether events are polled automatically in a background thread or manually in your robot loop.
 
 ::::{tab-set}
-:::{tab-item} Java
+:::{tab-item} Java (WPILib)
 ```java
 // Add event handlers (called by background thread or during polling)
 cXAnimate.AddEventHandler((e) -> {
@@ -362,7 +371,7 @@ cXAnimate.Connect(USBPort.kUSB1);
 cXAnimate.PollEvents();  // Dispatches handlers on your thread
 ```
 :::
-:::{tab-item} C++
+:::{tab-item} C++ (WPILib)
 ```cpp
 // NEW in 2026: Callback-based events in C++ (previously polling-only)
 m_cx.AddEventHandler([](const lumyn::internal::Eventing::Event& event) {

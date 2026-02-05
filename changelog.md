@@ -4,7 +4,72 @@ hide-toc: true
 
 # Changelog
 
-All notable changes to the Lumyn Labs WPILib Vendor Library will be documented here.
+All notable changes to Lumyn Labs products will be documented here.
+
+---
+
+## [2026.1.2] - February 5, 2026
+
+This release introduces Matrix Text 2.0 with enhanced text rendering capabilities, alongside new standalone SDKs and stability improvements.
+
+### Firmware
+
+#### Added
+
+**Matrix Text 2.0**: Major enhancements to matrix text functionality:
+
+- **Multiple Fonts**: Choose from optimized fonts for LED matrices (`BUILTIN`, `FREE_SANS_9`)
+- **Foreground & Background Colors**: Independent color control for text and background
+- **Static Text Mode**: Display non-scrolling text with precise positioning
+- **Ping Pong Scrolling**: Text scrolls forward then reverses for smooth bouncing animation
+- **Smooth Scrolling**: Pixel-by-pixel text movement for improved readability
+- **Y-Offset Control**: Fine vertical positioning with `WithYOffset(int8_t)` for perfect centering
+- **Text Alignment**: Left, center, and right alignment options for static text
+
+### Vendordep
+
+#### Added
+
+**Enhanced Matrix Text Builder**: The fluent builder API now supports all Matrix Text 2.0 features:
+
+- `WithBackgroundColor(frc::Color)` - Set background color (requires `WithShowBackground(true)`)
+- `WithFont(MatrixTextFont)` - Select font type
+- `WithAlign(MatrixTextAlign)` - Control text alignment for static text
+- `WithSmoothScroll(bool)` - Enable pixel-by-pixel scrolling
+- `WithPingPong(bool)` - Enable bouncing scroll animation
+- `WithShowBackground(bool)` - Toggle background color rendering
+- `WithNoScroll(bool)` - Create static text with alignment
+- `WithYOffset(int8_t)` - Fine-tune vertical positioning
+
+#### Changed
+
+**SimGUI Improvements**: Enhanced simulation environment stability and usability:
+
+- More stable and reliable under load
+- Improved UI for module data injection
+- Faster and more intuitive sensor testing
+
+### SDKs
+
+#### Added
+
+**Standalone SDKs (Beta)**: New cross-platform SDKs for non-WPILib applications:
+
+- **Python SDK**: Full API parity with WPILib vendordep, available on PyPI
+  - LED control, module reading, configuration management
+  - Screen mirroring capabilities with DirectLED
+  - Cross-platform support (desktop, Raspberry Pi, etc.)
+
+- **C/C++ SDK**: Performance-optimized SDK for embedded systems
+  - Complete documentation and examples
+  - Available on GitHub Releases
+
+### Fixed
+
+- Patched edge cases discovered since kickoff
+- Overall stability improvements across all components
+- Major build tooling improvements for faster development cycles
+- Enhanced connection reliability
 
 ---
 
