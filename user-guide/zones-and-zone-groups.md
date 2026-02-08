@@ -77,9 +77,3 @@ Create groups to control multiple zones together. Groups can span zones on the s
 1. In LED Channels, open Groups.
 2. Create a group and add zones to it.
 3. Use groups to apply animations or commands to multiple zones at once.
-
-## Tips
-
-- Keep IDs stable; they're used in code and configurations.
-- Use reverse for mirrored physical layouts.
-- Use groups for synchronized effects across zones.

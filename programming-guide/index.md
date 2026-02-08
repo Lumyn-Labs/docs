@@ -4,69 +4,149 @@ hide-toc: true
 
 # Programming Guide
 
-Learn how to control Lumyn Labs devices from your robot code using our powerful WPILib vendor library. This guide covers everything from installation to advanced features, with practical examples to get you started quickly.
+Control Lumyn Labs devices with code. This guide covers all features across Java, C++, Python, and C SDKs.
 
-## Where to Start
+## Installation
 
-**New to the API?** Start with [Installing the Library](installing-the-library-vendordep) to add the vendordep to your project, then jump to [Basic API Usage](basic-api-usage) to learn the fundamentals.
+Before writing code, connect your device in Lumyn Studio and build a configuration. See the [Quick Start Guide](../quick-start) and [Lumyn Studio Guide](../user-guide/index).
 
-**Ready to build?** See the [Basic API Usage](basic-api-usage) page for code examples and common patterns.
+### WPILib Vendordep (Java/C++)
 
-## Guide Overview
+For FRC robots using WPILib, see [Installing the Library (vendordep)](installing-the-library-vendordep).
 
-### Tutorials
+### Python SDK
 
-**Getting started and installation**: Step by step guides for new users and teams.
+```bash
+pip install lumyn-sdk
+```
 
-See:
+### C/C++ SDK
 
-- [Installing the Library (vendordep)](installing-the-library-vendordep)
-- [Quick Start](../quick-start)
+Download from [GitHub Releases](https://github.com/Lumyn-Labs/Releases)
 
-### How-To
+## SDK Overview
 
-**Task-oriented examples**: Short, practical instructions for common tasks.
+Lumyn Labs provides several SDKs for different platforms and use cases:
 
-See:
+| SDK | Language | Platform | Use Case |
+|-----|----------|----------|----------|
+| **WPILib Vendordep** | Java | roboRIO | FRC robots using Java |
+| **WPILib Vendordep** | C++ | roboRIO | FRC robots using C++ |
+| **Python SDK** | Python | Desktop, Raspberry Pi | Host controllers, testing |
+| **C SDK** | C | Embedded, Desktop | Low-level integration |
 
-- [Basic API Usage](basic-api-usage)
+## Task Guide
 
-### Installing the Library (vendordep)
+Find what you want to do:
 
-**When to use**: Setting up a new project or updating to the latest version.
+::::{grid} 1 2 2 2
+:gutter: 3
 
-Learn how to add the Lumyn Labs vendor library to your WPILib project using the WPILib Vendor Dependencies tool or manual installation. Includes firmware compatibility information and setup instructions.
+:::{grid-item-card} Connecting to Devices
+:link: connecting-to-devices
+:link-type: doc
 
-### Conceptual
+USB and UART connections, event handling, device status, and system commands.
+:::
 
-**Understanding the system**: How simulation, modules, and configuration behave and how to reason about them.
+:::{grid-item-card} LED Strip Animations
+:link: led-animations
+:link-type: doc
 
-<!-- Advanced Topics link removed -->
+Set colors, play built-in animations, and use animation sequences.
+:::
 
-### Reference
+:::{grid-item-card} LED Matrices
+:link: led-matrices
+:link-type: doc
 
-**API and command reference**: Methods, types, and descriptions of the API surface.
+Display text, fonts, and image sequences on matrix zones.
+:::
 
-See:
+:::{grid-item-card} DirectLED
+:link: directled
+:link-type: doc
 
-- [Advanced API Features](advanced-api-features)
+High-frequency per-pixel control with WPILib LEDPattern integration.
+:::
+
+:::{grid-item-card} Modules & Sensors
+:link: modules-and-sensors
+:link-type: doc
+
+Read sensor data with typed helpers and raw callbacks. ConnectorX only.
+:::
+
+:::{grid-item-card} Device Configuration
+:link: device-configuration
+:link-type: doc
+
+Load, build, and apply configurations programmatically.
+:::
+
+:::{grid-item-card} Simulation
+:link: simulation
+:link-type: doc
+
+Test in the WPILib desktop simulator. Java/C++ vendordep only.
+:::
+
+::::
 
 ## Quick Reference
 
-**Common Tasks:**
+**Common tasks by topic:**
 
-- **Connect to device**: See [Basic API Usage](basic-api-usage) → Connect to a Device
-- **Set LED color**: See [Basic API Usage](basic-api-usage) → Set a Color
-- **Play animation**: See [Basic API Usage](basic-api-usage) → Set an Animation
-- **Handle events**: See [Advanced API Features](advanced-api-features) → Event Handling
-- **Use modules**: See [Advanced API Features](advanced-api-features) → Modules
+### Connections
 
+- **Connect via USB** - See [Connecting to Devices](connecting-to-devices)
+- **Connect via UART** - See [Connecting to Devices](connecting-to-devices)
+- **Handle events** - See [Connecting to Devices](connecting-to-devices)
+- **Restart device** - See [Connecting to Devices](connecting-to-devices)
+
+### LED Strips
+
+- **Set solid color** - See [LED Animations](led-animations)
+- **Play animation** - See [LED Animations](led-animations)
+- **Use animation sequence** - See [LED Animations](led-animations)
+
+### LED Matrices
+
+- **Display scrolling text** - See [LED Matrices](led-matrices)
+- **Static centered text** - See [LED Matrices](led-matrices)
+- **Play image sequence** - See [LED Matrices](led-matrices)
+- **Choose font** - See [LED Matrices](led-matrices)
+
+### DirectLED
+
+- **Create DirectLED controller** - See [DirectLED](directled)
+- **Use WPILib LEDPattern** - See [DirectLED](directled)
+- **Raw buffer updates** - See [DirectLED](directled)
+
+### Modules (ConnectorX Only)
+
+- **Use DigitalInputModule** - See [Modules & Sensors](modules-and-sensors)
+- **Use VL53L1XModule** - See [Modules & Sensors](modules-and-sensors)
+- **Raw module callback** - See [Modules & Sensors](modules-and-sensors)
+
+### Configuration
+
+- **Load from file** - See [Device Configuration](device-configuration)
+- **Build with ConfigBuilder** - See [Device Configuration](device-configuration)
+- **Request from device** - See [Device Configuration](device-configuration)
 
 ```{toctree}
 :maxdepth: 1
 :hidden:
 
-installing-the-library-vendordep
-basic-api-usage
-advanced-api-features
+getting-started-wpilib
+getting-started-python
+getting-started-c-cpp-sdk
+connecting-to-devices
+led-animations
+led-matrices
+directled
+modules-and-sensors
+device-configuration
+simulation
 ```

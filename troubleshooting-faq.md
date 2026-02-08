@@ -48,6 +48,21 @@ If the issue persists after multiple restarts, please email us at [support@lumyn
 
 ---
 
+### Device Config Larger Than 4KB Fails to Apply
+
+When applying a configuration over USB, particularly large configurations (>4KB) may fail to apply.
+
+#### Resolution
+
+Copy the configuration file directly to the device's SD card instead of applying over USB:
+
+1. Export your configuration from Lumyn Studio
+2. Copy the `config.json` file to the microSD root
+3. Insert the microSD card into the device and restart
+4. The device will load the configuration on boot
+
+---
+
 ### LED Strip or Matrix Not Responding
 
 #### 1. Verify the microSD Card
