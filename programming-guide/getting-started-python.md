@@ -64,11 +64,7 @@ python -m pip install --only-binary=:all: lumyn-sdk==4.1.1
 
 ### Alternative: Install with pip
 
-If you already have Python 3.11+ installed:
-
-```bash
-pip install lumyn-sdk
-```
+If you already have Python 3.11+ installed, see the [PyPI page](https://pypi.org/project/lumyn-sdk/) for installation instructions.
 
 ## Choose Your Device Class
 
@@ -317,11 +313,7 @@ except KeyboardInterrupt:
 
 ### Import Error
 
-If you get `ModuleNotFoundError: No module named 'lumyn_sdk'`, make sure you've installed the package:
-
-```bash
-pip install lumyn-sdk
-```
+If you get `ModuleNotFoundError: No module named 'lumyn_sdk'`, make sure you've installed the package from [PyPI](https://pypi.org/project/lumyn-sdk/).
 
 ### Connection Failed
 

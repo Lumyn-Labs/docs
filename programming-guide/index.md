@@ -16,9 +16,7 @@ For FRC robots using WPILib, see [Installing the Library (vendordep)](installing
 
 ### Python SDK
 
-```bash
-pip install lumyn-sdk
-```
+Install from [PyPI](https://pypi.org/project/lumyn-sdk/)
 
 ### C/C++ SDK
 
