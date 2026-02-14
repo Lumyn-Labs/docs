@@ -93,11 +93,13 @@ bool ok = cx.LoadConfigurationFromFile("my_config.json");
 :::{tab-item} C
 :sync: c
 ```c
-#include <lumyn/c/lumyn_sdk.h>
+#include <lumyn/c/lumyn_device.h>
+#include <lumyn/c/lumyn_config.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+// Pass &cx.base (or &cx_animate.base for ConnectorX Animate) to config functions
 FILE* f = fopen("my_config.json", "rb");
 fseek(f, 0, SEEK_END);
 long len = ftell(f);
@@ -214,7 +216,8 @@ cx.ApplyConfigurationJson(config_json);
 :::{tab-item} C
 :sync: c
 ```c
-#include <lumyn/c/lumyn_sdk.h>
+#include <lumyn/c/lumyn_device.h>
+#include <lumyn/c/lumyn_config.h>
 #include <string.h>
 
 const char* config_json =
@@ -478,8 +481,9 @@ lumyn_ApplyConfig(&cx.base, config_json, strlen(config_json));
 
 These are the exact configs used by the tested standalone example programs.
 
-<details>
-<summary><code>ConnectorX basic.json</code></summary>
+::::{tab-set}
+
+:::{tab-item} CX basic
 
 ```json
 {
@@ -601,10 +605,9 @@ These are the exact configs used by the tested standalone example programs.
   ]
 }
 ```
-</details>
+:::
 
-<details>
-<summary><code>ConnectorX Animate basic.json</code></summary>
+:::{tab-item} CX Animate basic
 
 ```json
 {
@@ -709,10 +712,9 @@ These are the exact configs used by the tested standalone example programs.
   ]
 }
 ```
-</details>
+:::
 
-<details>
-<summary><code>ConnectorX Animate advanced.json</code></summary>
+:::{tab-item} CX Animate advanced
 
 ```json
 {
@@ -858,58 +860,5 @@ These are the exact configs used by the tested standalone example programs.
   ]
 }
 ```
-</details>
-
-## ConfigBuilder Reference
-
-### Top-Level Methods
-
-| Method | Description |
-|--------|-------------|
-| `forTeam(team)` | Set team number/name |
-| `setNetworkType(type)` | Set connection type (USB, UART) |
-| `setBaudRate(baud)` | Set UART baud rate |
-| `addChannel(...)` | Start adding a channel |
-| `addModule(...)` | Start adding a module |
-| `build()` | Build the final configuration |
-
-### Channel Methods
-
-| Method | Description |
-|--------|-------------|
-| `addStripZone(id, length)` | Add a strip zone |
-| `addMatrixZone(id, rows, cols)` | Add a matrix zone |
-| `endChannel()` | Finish channel configuration |
-
-### Module Methods
-
-| Method | Description |
-|--------|-------------|
-| `withConfig(key, value)` | Add a configuration option |
-| `endModule()` | Finish module configuration |
-
-## Configuration JSON Format
-
-The configuration JSON format is the same whether exported from Lumyn Studio or created by ConfigBuilder:
-
-```json
-{
-  "team": "9993",
-  "network": { "mode": "USB" },
-  "channels": {
-    "1": {
-      "name": "main-channel",
-      "totalLeds": 120,
-      "zones": [
-        { "id": "front", "type": "strip", "length": 60 },
-        { "id": "back", "type": "strip", "length": 60 }
-      ]
-    }
-  },
-  "sensors": [
-    { "id": "digital-input", "type": "DigitalInput", "pollRate": 50, "bus": "DIO", "config": { "pin": "DIO0" } }
-  ],
-  "groups": [],
-  "sequences": [],
-  "bitmaps": []
-}
+:::
+::::

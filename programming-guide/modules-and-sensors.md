@@ -94,13 +94,15 @@ dio.start()
 :sync: cpp-standalone
 
 ```cpp
-#include <lumyn/cpp/modules/DigitalInputModule.hpp>
+#include <lumyn/cpp/connectorXVariant/ConnectorX.hpp>
 
-lumyn::modules::DigitalInputModule dio(cx, "digital-input");
-dio.OnUpdate([](const lumyn::modules::DigitalInputPayload& payload) {
-    std::cout << "State: " << (payload.state ? "HIGH" : "LOW") << std::endl;
+// Using the module system with raw callbacks
+cx.RegisterModule("digital-input", [](const std::vector<uint8_t>& data) {
+    if (!data.empty()) {
+        std::cout << "State: " << (data[0] ? "HIGH" : "LOW") << std::endl;
+    }
 });
-dio.Start();
+cx.SetModulePollingEnabled(true);
 ```
 :::
 
@@ -115,7 +117,7 @@ void digital_callback(const char* module_id, const uint8_t* data, size_t len, vo
     }
 }
 
-lumyn_RegisterModule(&cx.base, "digital-input", digital_callback, NULL);
+lumyn_RegisterModule(LUMYN_BASE_PTR(&cx), "digital-input", digital_callback, NULL);
 ```
 :::
 ::::
@@ -175,15 +177,19 @@ tof.start()
 :::{tab-item} C++ (Standalone)
 :sync: cpp-standalone
 ```cpp
-#include <lumyn/cpp/modules/VL53L1XModule.hpp>
+#include <lumyn/cpp/connectorXVariant/ConnectorX.hpp>
 
-lumyn::modules::VL53L1XModule tof(cx, "tof-sensor");
-tof.OnUpdate([](const lumyn::modules::VL53L1XPayload& payload) {
-    if (payload.valid) {
-        std::cout << "Distance: " << payload.dist_mm << " mm" << std::endl;
+// Using raw callback for VL53L1X data
+cx.RegisterModule("tof-sensor", [](const std::vector<uint8_t>& data) {
+    if (data.size() >= 3) {
+        uint8_t valid = data[0];
+        uint16_t dist_mm = data[1] | (data[2] << 8);  // Little-endian
+        if (valid) {
+            std::cout << "Distance: " << dist_mm << " mm" << std::endl;
+        }
     }
 });
-tof.Start();
+cx.SetModulePollingEnabled(true);
 ```
 :::
 
@@ -197,7 +203,7 @@ void tof_callback(const char* module_id, const uint8_t* data, size_t len, void* 
     }
 }
 
-lumyn_RegisterModule(&cx.base, "tof-sensor", tof_callback, NULL);
+lumyn_RegisterModule(LUMYN_BASE_PTR(&cx), "tof-sensor", tof_callback, NULL);
 ```
 :::
 ::::
@@ -243,14 +249,19 @@ analog.start()
 :::{tab-item} C++ (Standalone)
 :sync: cpp-standalone
 ```cpp
-#include <lumyn/cpp/modules/AnalogInputModule.hpp>
+#include <lumyn/cpp/connectorXVariant/ConnectorX.hpp>
 
-lumyn::modules::AnalogInputModule analog(cx, "analog-input");
-analog.OnUpdate([](const lumyn::modules::AnalogInputPayload& payload) {
-    std::cout << "Raw: " << payload.raw_value
-              << ", Scaled: " << payload.scaled_value << std::endl;
+// Using raw callback for analog input data
+cx.RegisterModule("analog-input", [](const std::vector<uint8_t>& data) {
+    if (data.size() >= 6) {
+        uint16_t raw_value = data[0] | (data[1] << 8);    // Little-endian
+        uint32_t scaled_value = data[2] | (data[3] << 8)
+                              | (data[4] << 16) | (data[5] << 24);
+        std::cout << "Raw: " << raw_value
+                  << ", Scaled: " << scaled_value << std::endl;
+    }
 });
-analog.Start();
+cx.SetModulePollingEnabled(true);
 ```
 :::
 
@@ -264,7 +275,7 @@ void analog_callback(const char* module_id, const uint8_t* data, size_t len, voi
     }
 }
 
-lumyn_RegisterModule(&cx.base, "analog-input", analog_callback, NULL);
+lumyn_RegisterModule(LUMYN_BASE_PTR(&cx), "analog-input", analog_callback, NULL);
 ```
 :::
 ::::
@@ -318,13 +329,27 @@ m_cx.RegisterModule("custom-module", [this](uint16_t unitId, const std::vector<u
 :::{tab-item} C++ (Standalone)
 :sync: cpp-standalone
 ```cpp
+#include <lumyn/cpp/connectorXVariant/ConnectorX.hpp>
+
 cx.RegisterModule("custom-module", [](const std::vector<uint8_t>& data) {
     std::cout << "custom-module: " << data.size() << " bytes" << std::endl;
 });
+cx.SetModulePollingEnabled(true);
 ```
 :::
 :::{tab-item} Python
 ```python
+# Option 1: Callback interface
+from lumyn_sdk.interfaces.i_module_data_callback import IModuleDataCallback
+from lumyn_sdk.domain.module.new_data_info import NewDataInfo
+
+class MyModuleHandler(IModuleDataCallback):
+    def handle_data(self, info: NewDataInfo) -> None:
+        print(f"Module data received")
+
+cx.modules.register_module("custom-module", MyModuleHandler())
+
+# Option 2: Dispatcher with function callbacks
 dispatcher = cx.get_module_dispatcher()
 
 def handle_raw(entries):
@@ -394,13 +419,14 @@ dispatcher.start()
 :::{tab-item} C++ (Standalone)
 :sync: cpp-standalone
 ```cpp
+#include <lumyn/cpp/connectorXVariant/ConnectorX.hpp>
 #include <chrono>
 #include <thread>
 
-cx.SetModulePollingEnabled(true);
 cx.RegisterModule("digital-input", [](const std::vector<uint8_t>& data) {
     if (!data.empty()) std::cout << "State: " << static_cast<int>(data[0]) << std::endl;
 });
+cx.SetModulePollingEnabled(true);
 
 while (true) {
     cx.PollModules();
@@ -411,11 +437,11 @@ while (true) {
 :::{tab-item} C
 :sync: c
 ```c
-lumyn_SetModulePollingEnabled(&cx.base, true);
-lumyn_RegisterModule(&cx.base, "digital-input", digital_callback, NULL);
+lumyn_SetModulePollingEnabled(LUMYN_BASE_PTR(&cx), true);
+lumyn_RegisterModule(LUMYN_BASE_PTR(&cx), "digital-input", digital_callback, NULL);
 
 while (1) {
-    lumyn_PollModules(&cx.base);
+    lumyn_PollModules(LUMYN_BASE_PTR(&cx));
 }
 ```
 :::
@@ -481,13 +507,15 @@ config = ConfigBuilder() \
 ```cpp
 #include <lumyn/cpp/connectorXVariant/ConnectorX.hpp>
 
+// Load and apply configuration from a JSON file
 bool ok = cx.LoadConfigurationFromFile("lumyn_config.json");
 ```
 :::
 :::{tab-item} C
 :sync: c
 ```c
-#include <lumyn/c/lumyn_sdk.h>
+#include <lumyn/c/lumyn_device.h>
+#include <lumyn/c/lumyn_config.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -501,7 +529,7 @@ fread(config_json, 1, (size_t)len, f);
 config_json[len] = '\0';
 fclose(f);
 
-lumyn_ApplyConfig(&cx.base, config_json, (size_t)len);
+lumyn_ApplyConfig(LUMYN_BASE_PTR(&cx), config_json, (size_t)len);
 free(config_json);
 ```
 :::

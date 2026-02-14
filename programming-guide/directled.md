@@ -127,10 +127,10 @@ void Robot::RobotPeriodic() {
 :::
 ::::
 
-### Raw Buffer (Python)
+### Raw Buffer
 
-In Python, provide raw RGB bytes (3 bytes per LED):
-
+::::{tab-set}
+:::{tab-item} Python
 ```python
 num_leds = 60
 
@@ -146,13 +146,10 @@ for i in range(num_leds):
 # Update the zone
 direct.update(bytes(buffer))
 ```
-
-### Raw Buffer (C++ Standalone)
-
-In standalone C++, provide raw RGB bytes:
-
+:::
+:::{tab-item} C++ (Standalone)
 ```cpp
-#include <lumyn/device/ConnectorXAnimate.h>
+#include <lumyn/cpp/connectorXVariant/ConnectorXAnimate.hpp>
 #include <vector>
 
 lumyn::device::ConnectorXAnimate cx;
@@ -172,16 +169,14 @@ for (int i = 0; i < 60; i++) {
     buffer[i * 3 + 2] = b;
 }
 
-// Update the zone
-direct.Update(buffer);
+// Update the zone (raw bytes)
+direct.UpdateRaw(buffer.data(), buffer.size());
 ```
-
-### Raw Buffer (C)
-
-In C, provide raw RGB bytes:
-
+:::
+:::{tab-item} C
 ```c
-#include <lumyn/c/lumyn_sdk.h>
+#include <lumyn/c/lumyn_device.h>
+#include <lumyn/c/lumyn_direct_led.h>
 #include <stdint.h>
 #include <stdio.h>
 
@@ -189,8 +184,9 @@ cx_animate_t cx;
 lumyn_CreateConnectorXAnimate(&cx);
 lumyn_Connect(LUMYN_BASE_PTR(&cx), "COM3");
 
-// Create DirectLED controller
-lumyn_error_t err = lumyn_CreateDirectLED(LUMYN_BASE_PTR(&cx), "strip-zone", 60);
+// Create DirectLED controller (60 LEDs, full refresh every 100 frames)
+lumyn_direct_led_t *direct = NULL;
+lumyn_DirectLEDCreate(LUMYN_BASE_PTR(&cx), "strip-zone", 60, 100, &direct);
 
 // Build a gradient buffer (3 bytes per LED: R, G, B)
 uint8_t buffer[60 * 3];
@@ -204,16 +200,30 @@ for (int i = 0; i < 60; i++) {
     buffer[i * 3 + 2] = b;
 }
 
-// Update the zone
-lumyn_DirectLEDUpdate(LUMYN_BASE_PTR(&cx), buffer, sizeof(buffer));
+// Update the zone (raw bytes)
+lumyn_DirectLEDUpdateRaw(direct, buffer, sizeof(buffer));
+
+// Cleanup
+lumyn_DirectLEDDestroy(direct);
+```
+:::
+::::
+
+## Important Behavior
+
+```{warning}
+When DirectLED writes pixel data to a zone, the zone's built-in animation is **frozen**. The animation is not cleared, but it stops updating. To resume normal animations after using DirectLED, you must explicitly send a `SetAnimation` command.
 ```
 
-## Full Example
+This means:
+- After you stop sending DirectLED frames, the zone will display the last frame indefinitely.
+- Calling `SetColor` after DirectLED will **not** make anything visible — the zone is frozen.
+- To return to built-in animations, call `SetAnimation` with any animation type (e.g., `Fill` for a solid color).
 
 ## Full Example
 
-### Java - Rainbow Scroll
-
+::::{tab-set}
+:::{tab-item} Java (WPILib)
 ```java
 package frc.robot;
 
@@ -253,9 +263,8 @@ public class Robot extends TimedRobot {
     }
 }
 ```
-
-### C++ - Rainbow Scroll
-
+:::
+:::{tab-item} C++ (WPILib)
 ```cpp
 // Robot.h
 #pragma once
@@ -264,7 +273,7 @@ public class Robot extends TimedRobot {
 #include <frc/AddressableLED.h>
 #include <frc/LEDPattern.h>
 #include <lumyn/device/ConnectorXAnimate.h>
-#include <lumyn/device/DirectLED.h>
+#include <lumyn/domain/led/DirectLED.h>
 #include <array>
 #include <memory>
 
@@ -301,9 +310,8 @@ void Robot::RobotPeriodic() {
     m_direct->Update(m_buffer);
 }
 ```
-
-### Python - Gradient Animation
-
+:::
+:::{tab-item} Python
 ```python
 #!/usr/bin/env python3
 import time
@@ -344,10 +352,44 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+:::
+::::
+
+## Forcing a Full Update
+
+To send the entire buffer without delta compression (useful for the first frame, or after a drastic color change):
+
+::::{tab-set}
+:::{tab-item} Java (WPILib)
+```java
+direct.forceFullUpdate(buffer);
+```
+:::
+:::{tab-item} C++ (WPILib)
+```cpp
+direct->ForceFullUpdate(buffer);
+```
+:::
+:::{tab-item} Python
+```python
+direct.force_full_update(bytes(buffer))
+```
+:::
+:::{tab-item} C++ (Standalone)
+```cpp
+direct.ForceFullUpdateRaw(buffer.data(), buffer.size());
+```
+:::
+:::{tab-item} C
+```c
+lumyn_DirectLEDForceFullUpdateRaw(direct, buffer, sizeof(buffer));
+```
+:::
+::::
 
 ## Reset and Resync
 
-If the buffer gets out of sync (after a large change or reconnection), call `reset()` to force a full refresh:
+If the buffer gets out of sync (after a large change or reconnection), call `reset()` to reset the delta compression state. The next `update()` call will then send a full buffer:
 
 ::::{tab-set}
 :::{tab-item} Java (WPILib)
@@ -384,17 +426,3 @@ direct.update(buffer)
 4. **Reset after large changes** - If you switch patterns dramatically, call `reset()` first.
 
 5. **Consider zone grouping** - For synchronized multi-zone patterns, update each zone's DirectLED in sequence.
-
-## DirectLED vs Animations
-
-| Feature | DirectLED | Built-in Animations |
-|---------|-----------|---------------------|
-| Control level | Per-pixel | Zone-level |
-| Update frequency | Every frame | Set once |
-| Bandwidth | Delta compressed | Minimal |
-| Complexity | More code | Less code |
-| Use case | Custom patterns | Standard effects |
-
-**Use DirectLED when**: You need custom animations, WPILib LEDPattern, or per-pixel control.
-
-**Use built-in animations when**: Standard effects (Chase, Rainbow, Breathe, etc.) meet your needs.

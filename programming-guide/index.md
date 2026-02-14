@@ -12,11 +12,11 @@ Before writing code, connect your device in Lumyn Studio and build a configurati
 
 ### WPILib Vendordep (Java/C++)
 
-For FRC robots using WPILib, see [Installing the Library (vendordep)](installing-the-library-vendordep).
+For FRC robots using WPILib, see [Installing the Library (vendordep)](getting-started-wpilib).
 
 ### Python SDK
 
-Install from [PyPI](https://pypi.org/project/lumyn-sdk/)
+See [Getting Started (Python)](getting-started-python) and install with uv.
 
 ### C/C++ SDK
 

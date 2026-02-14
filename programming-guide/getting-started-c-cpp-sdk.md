@@ -57,58 +57,65 @@ target_link_libraries(your_target lumyn)
 
 ```cpp
 // For C++
-#include <lumyn/device/ConnectorX.hpp>
-#include <lumyn/device/ConnectorXAnimate.hpp>
+#include <lumyn/cpp/connectorXVariant/ConnectorX.hpp>
+#include <lumyn/cpp/connectorXVariant/ConnectorXAnimate.hpp>
 
 // For C
-#include <lumyn/c/lumyn_sdk.h>
+#include <lumyn/c/lumyn_device.h>
+#include <lumyn/c/lumyn_led.h>
+// Plus lumyn_direct_led.h, lumyn_events.h, lumyn_modules.h, etc. as needed
 ```
 
 ## Choosing Between C and C++
 
-### C++ API
-
+::::{tab-set}
+:::{tab-item} C++
 More ergonomic, object-oriented, uses modern C++ features:
 
 ```cpp
-#include <lumyn/device/ConnectorXAnimate.hpp>
+#include <lumyn/cpp/connectorXVariant/ConnectorXAnimate.hpp>
 
 int main() {
     lumyn::device::ConnectorXAnimate device;
     device.Connect("/dev/ttyACM0");
     
-    device.SetColor("zone-id", 255, 0, 0);  // Red
+    // Change the color of the currently running animation
+    device.SetColor("zone-id", {255, 0, 0});  // Red
     
     device.Disconnect();
     return 0;
 }
 ```
-
-### C API
-
+:::
+:::{tab-item} C
 Lower-level, procedural, maximum compatibility:
 
 ```c
-#include <lumyn/c/lumyn_sdk.h>
+#include <lumyn/c/lumyn_device.h>
+#include <lumyn/c/lumyn_led.h>
 
 int main() {
-    LUMYN_DEVICE device = lumyn_CreateConnectorXAnimate();
-    lumyn_Connect(device, "/dev/ttyACM0");
+    cx_animate_t cx;
+    lumyn_CreateConnectorXAnimate(&cx);
+    lumyn_Connect(LUMYN_BASE_PTR(&cx), "/dev/ttyACM0");
     
-    lumyn_SetColor(device, "zone-id", 255, 0, 0);  // Red
+    // Change the color of the currently running animation
+    lumyn_SetColor(LUMYN_BASE_PTR(&cx), "zone-id", (lumyn_color_t){255, 0, 0});  // Red
     
-    lumyn_Disconnect(device);
-    lumyn_ReleaseDevice(device);
+    lumyn_Disconnect(LUMYN_BASE_PTR(&cx));
+    lumyn_DestroyConnectorXAnimate(&cx);
     return 0;
 }
 ```
+:::
+::::
 
 ## Quick Start: C++
 
 ### Basic Connection and LED Control
 
 ```cpp
-#include <lumyn/device/ConnectorXAnimate.hpp>
+#include <lumyn/cpp/connectorXVariant/ConnectorXAnimate.hpp>
 #include <iostream>
 
 int main() {
@@ -116,15 +123,17 @@ int main() {
     lumyn::device::ConnectorXAnimate device;
     
     // Connect
-    if (!device.Connect("/dev/ttyACM0")) {  // Or "COM3" on Windows
+    device.Connect("/dev/ttyACM0");  // Or "COM3" on Windows
+    
+    if (!device.IsConnected()) {
         std::cerr << "Failed to connect" << std::endl;
         return 1;
     }
     
     std::cout << "Connected!" << std::endl;
     
-    // Set a color
-    device.SetColor("builtin-strip", 255, 0, 0);  // Red
+    // Change the color of the currently running animation
+    device.SetColor("builtin-strip", {255, 0, 0});  // Red
     
     // Disconnect
     device.Disconnect();
@@ -135,7 +144,7 @@ int main() {
 ### Playing Animations
 
 ```cpp
-#include <lumyn/device/ConnectorXAnimate.hpp>
+#include <lumyn/cpp/connectorXVariant/ConnectorXAnimate.hpp>
 #include <thread>
 #include <chrono>
 
@@ -143,15 +152,13 @@ int main() {
     lumyn::device::ConnectorXAnimate device;
     device.Connect("/dev/ttyACM0");
     
-    // Play chase animation
-    device.SetAnimation(
-        "builtin-strip",
-        lumyn::animation::Type::CHASE,
-        {255, 0, 0},      // Red
-        40,               // Delay in milliseconds
-        false,            // Don't reverse
-        false             // Loop continuously
-    );
+    // Play chase animation using the builder pattern
+    device.SetAnimation(lumyn::led::Animation::Chase)
+        .ForZone("builtin-strip")
+        .WithColor({255, 0, 0})    // Red
+        .WithDelay(40)             // Delay in milliseconds
+        .Reverse(false)            // Don't reverse
+        .RunOnce(false);           // Loop continuously
     
     // Keep the connection alive
     std::this_thread::sleep_for(std::chrono::seconds(10));
@@ -164,7 +171,7 @@ int main() {
 ### DirectLED (High-Frequency Updates)
 
 ```cpp
-#include <lumyn/device/ConnectorXAnimate.hpp>
+#include <lumyn/cpp/connectorXVariant/ConnectorXAnimate.hpp>
 #include <vector>
 #include <cstring>
 
@@ -172,21 +179,23 @@ int main() {
     lumyn::device::ConnectorXAnimate device;
     device.Connect("/dev/ttyACM0");
     
-    // Get DirectLED controller for a zone (60 LEDs)
-    auto direct = device.GetDirectLED("builtin-strip", 60);
+    // Create DirectLED controller for a zone (60 LEDs)
+    auto direct = device.CreateDirectLED("builtin-strip", 60);
     
-    // Create RGB buffer (3 bytes per LED)
-    std::vector<uint8_t> buffer(60 * 3, 0);
+    // Create color buffer
+    std::vector<lumyn_color_t> colors(60);
     
     // Set up a gradient: red to blue
     for (int i = 0; i < 60; ++i) {
-        buffer[i * 3 + 0] = (i * 255) / 60;     // Red increases
-        buffer[i * 3 + 1] = 0;                  // Green stays 0
-        buffer[i * 3 + 2] = 255 - (i * 255) / 60; // Blue decreases
+        colors[i] = {
+            static_cast<uint8_t>((i * 255) / 60),       // Red increases
+            0,                                            // Green stays 0
+            static_cast<uint8_t>(255 - (i * 255) / 60)  // Blue decreases
+        };
     }
     
     // Send to device
-    direct->Update(buffer);
+    direct.Update(colors.data(), colors.size());
     
     device.Disconnect();
     return 0;
@@ -198,28 +207,31 @@ int main() {
 ### Basic Connection and LED Control
 
 ```c
-#include <lumyn/c/lumyn_sdk.h>
+#include <lumyn/c/lumyn_device.h>
+#include <lumyn/c/lumyn_led.h>
 #include <stdio.h>
 
 int main() {
-    // Create device
-    LUMYN_DEVICE device = lumyn_CreateConnectorXAnimate();
+    // Create device (stack-allocated)
+    cx_animate_t cx;
+    lumyn_CreateConnectorXAnimate(&cx);
     
     // Connect
-    if (!lumyn_Connect(device, "/dev/ttyACM0")) {  // Or "COM3" on Windows
-        fprintf(stderr, "Failed to connect\n");
-        lumyn_ReleaseDevice(device);
+    lumyn_error_t err = lumyn_Connect(LUMYN_BASE_PTR(&cx), "/dev/ttyACM0");  // Or "COM3" on Windows
+    if (err != LUMYN_OK) {
+        fprintf(stderr, "Failed to connect: %s\n", Lumyn_ErrorString(err));
+        lumyn_DestroyConnectorXAnimate(&cx);
         return 1;
     }
     
     printf("Connected!\n");
     
-    // Set a color
-    lumyn_SetColor(device, "builtin-strip", 255, 0, 0);  // Red
+    // Change the color of the currently running animation
+    lumyn_SetColor(LUMYN_BASE_PTR(&cx), "builtin-strip", (lumyn_color_t){255, 0, 0});  // Red
     
     // Disconnect and cleanup
-    lumyn_Disconnect(device);
-    lumyn_ReleaseDevice(device);
+    lumyn_Disconnect(LUMYN_BASE_PTR(&cx));
+    lumyn_DestroyConnectorXAnimate(&cx);
     return 0;
 }
 ```
@@ -227,29 +239,25 @@ int main() {
 ### Playing Animations
 
 ```c
-#include <lumyn/c/lumyn_sdk.h>
+#include <lumyn/c/lumyn_device.h>
+#include <lumyn/c/lumyn_led.h>
 #include <unistd.h>
 
 int main() {
-    LUMYN_DEVICE device = lumyn_CreateConnectorXAnimate();
-    lumyn_Connect(device, "/dev/ttyACM0");
+    cx_animate_t cx;
+    lumyn_CreateConnectorXAnimate(&cx);
+    lumyn_Connect(LUMYN_BASE_PTR(&cx), "/dev/ttyACM0");
     
     // Play chase animation (red)
-    lumyn_SetAnimation(
-        device,
-        "builtin-strip",
-        LUMYN_ANIMATION_CHASE,
-        255, 0, 0,  // Red
-        40,         // Delay in milliseconds
-        0,          // Don't reverse
-        0           // Loop continuously
-    );
+    lumyn_color_t red = {255, 0, 0};
+    lumyn_SetAnimation(LUMYN_BASE_PTR(&cx), "builtin-strip",
+        LUMYN_ANIMATION_CHASE, red, 40, false, false);
     
     // Keep the connection alive
     sleep(10);
     
-    lumyn_Disconnect(device);
-    lumyn_ReleaseDevice(device);
+    lumyn_Disconnect(LUMYN_BASE_PTR(&cx));
+    lumyn_DestroyConnectorXAnimate(&cx);
     return 0;
 }
 ```
@@ -257,16 +265,19 @@ int main() {
 ### DirectLED (High-Frequency Updates)
 
 ```c
-#include <lumyn/c/lumyn_sdk.h>
+#include <lumyn/c/lumyn_device.h>
+#include <lumyn/c/lumyn_direct_led.h>
 #include <stdint.h>
 #include <string.h>
 
 int main() {
-    LUMYN_DEVICE device = lumyn_CreateConnectorXAnimate();
-    lumyn_Connect(device, "/dev/ttyACM0");
+    cx_animate_t cx;
+    lumyn_CreateConnectorXAnimate(&cx);
+    lumyn_Connect(LUMYN_BASE_PTR(&cx), "/dev/ttyACM0");
     
-    // Create DirectLED controller (60 LEDs)
-    LUMYN_DIRECT_LED direct = lumyn_CreateDirectLED(device, "builtin-strip", 60);
+    // Create DirectLED controller (60 LEDs, full refresh every 100 frames)
+    lumyn_direct_led_t *direct = NULL;
+    lumyn_DirectLEDCreate(LUMYN_BASE_PTR(&cx), "builtin-strip", 60, 100, &direct);
     
     // Create RGB buffer (3 bytes per LED)
     uint8_t buffer[60 * 3];
@@ -279,13 +290,13 @@ int main() {
         buffer[i * 3 + 2] = 255 - (i * 255) / 60; // Blue decreases
     }
     
-    // Send to device
-    lumyn_DirectLEDUpdate(direct, buffer, sizeof(buffer));
+    // Send to device (raw bytes)
+    lumyn_DirectLEDUpdateRaw(direct, buffer, sizeof(buffer));
     
     // Cleanup
-    lumyn_ReleaseDirectLED(direct);
-    lumyn_Disconnect(device);
-    lumyn_ReleaseDevice(device);
+    lumyn_DirectLEDDestroy(direct);
+    lumyn_Disconnect(LUMYN_BASE_PTR(&cx));
+    lumyn_DestroyConnectorXAnimate(&cx);
     return 0;
 }
 ```
@@ -309,7 +320,8 @@ int main() {
 ### Struct-Based Device Lifecycle
 
 ```c
-#include <lumyn/c/lumyn_sdk.h>
+#include <lumyn/c/lumyn_device.h>
+#include <lumyn/c/lumyn_led.h>
 
 // Create device
 cx_t cx;
@@ -341,42 +353,42 @@ int patch = lumyn_GetVersionPatch();
 A complete example demonstrating multiple features:
 
 ```cpp
-#include <lumyn/device/ConnectorXAnimate.hpp>
+#include <lumyn/cpp/connectorXVariant/ConnectorXAnimate.hpp>
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <vector>
 
 int main() {
     try {
         // Create and connect
         lumyn::device::ConnectorXAnimate device;
+        device.Connect("/dev/ttyACM0");
         
-        if (!device.Connect("/dev/ttyACM0")) {
+        if (!device.IsConnected()) {
             std::cerr << "Failed to connect to device" << std::endl;
             return 1;
         }
         
         std::cout << "Connected to device!" << std::endl;
         
-        // Set initial color
-        device.SetColor("builtin-strip", 255, 0, 0);
+        // Change the color of the currently running animation
+        device.SetColor("builtin-strip", {255, 0, 0});
         std::this_thread::sleep_for(std::chrono::seconds(2));
         
-        // Play animation
-        device.SetAnimation(
-            "builtin-strip",
-            lumyn::animation::Type::RAINBOW_ROLL,
-            {0, 0, 0},
-            40,
-            false,
-            false
-        );
+        // Play animation using builder pattern
+        device.SetAnimation(lumyn::led::Animation::RainbowRoll)
+            .ForZone("builtin-strip")
+            .WithColor({0, 0, 0})
+            .WithDelay(40)
+            .Reverse(false)
+            .RunOnce(false);
         
         // Run for 10 seconds
         std::this_thread::sleep_for(std::chrono::seconds(10));
         
         // DirectLED example
-        auto direct = device.GetDirectLED("builtin-strip", 60);
+        auto direct = device.CreateDirectLED("builtin-strip", 60);
         std::vector<uint8_t> buffer(60 * 3);
         
         for (int frame = 0; frame < 100; ++frame) {
@@ -386,7 +398,7 @@ int main() {
                 buffer[i * 3 + 1] = (hue < 20) ? 0 : (hue < 40) ? 255 : 128;
                 buffer[i * 3 + 2] = (hue < 20) ? 0 : (hue < 40) ? 0 : 255;
             }
-            direct->Update(buffer);
+            direct.UpdateRaw(buffer.data(), buffer.size());
             std::this_thread::sleep_for(std::chrono::milliseconds(30));
         }
         
@@ -404,42 +416,51 @@ int main() {
 
 ## Error Handling
 
-### C++
-
+::::{tab-set}
+:::{tab-item} C++
 ```cpp
-#include <lumyn/device/ConnectorXAnimate.hpp>
+#include <lumyn/cpp/connectorXVariant/ConnectorXAnimate.hpp>
 
-try {
-    lumyn::device::ConnectorXAnimate device;
-    if (!device.Connect("/dev/ttyACM0")) {
-        throw std::runtime_error("Connection failed");
-    }
-    device.SetColor("builtin-strip", 255, 0, 0);
-} catch (const std::exception& e) {
-    std::cerr << "Error: " << e.what() << std::endl;
-}
-```
+lumyn::device::ConnectorXAnimate device;
+device.Connect("/dev/ttyACM0");
 
-### C
-
-```c
-#include <lumyn/c/lumyn_sdk.h>
-#include <stdio.h>
-
-LUMYN_DEVICE device = lumyn_CreateConnectorXAnimate();
-if (!lumyn_Connect(device, "/dev/ttyACM0")) {
-    fprintf(stderr, "Connection failed\n");
-    lumyn_ReleaseDevice(device);
+if (!device.IsConnected()) {
+    std::cerr << "Connection failed" << std::endl;
     return 1;
 }
 
-if (!lumyn_SetColor(device, "builtin-strip", 255, 0, 0)) {
-    fprintf(stderr, "Failed to set color\n");
+// Change the color of the currently running animation
+device.SetColor("builtin-strip", {255, 0, 0});
+device.Disconnect();
+```
+:::
+:::{tab-item} C
+```c
+#include <lumyn/c/lumyn_device.h>
+#include <lumyn/c/lumyn_led.h>
+#include <stdio.h>
+
+cx_animate_t cx;
+lumyn_CreateConnectorXAnimate(&cx);
+
+lumyn_error_t err = lumyn_Connect(LUMYN_BASE_PTR(&cx), "/dev/ttyACM0");
+if (err != LUMYN_OK) {
+    fprintf(stderr, "Connection failed: %s\n", Lumyn_ErrorString(err));
+    lumyn_DestroyConnectorXAnimate(&cx);
+    return 1;
 }
 
-lumyn_Disconnect(device);
-lumyn_ReleaseDevice(device);
+// Change the color of the currently running animation
+err = lumyn_SetColor(LUMYN_BASE_PTR(&cx), "builtin-strip", (lumyn_color_t){255, 0, 0});
+if (err != LUMYN_OK) {
+    fprintf(stderr, "Failed to set color: %s\n", Lumyn_ErrorString(err));
+}
+
+lumyn_Disconnect(LUMYN_BASE_PTR(&cx));
+lumyn_DestroyConnectorXAnimate(&cx);
 ```
+:::
+::::
 
 ## Next Steps
 

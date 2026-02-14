@@ -45,8 +45,8 @@ https://packages.lumynlabs.com/LumynLabs.json
 
 ## Your First Program
 
-### Java
-
+::::{tab-set}
+:::{tab-item} Java
 ```java
 package frc.robot;
 
@@ -71,8 +71,12 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        // Set a solid green color on the "front" zone
-        m_leds.leds.SetColor("front", new Color(new Color8Bit(0, 255, 0)));
+        // Display a solid green color on the "front" zone
+        m_leds.leds.SetAnimation(Animation.Fill)
+            .ForZone("front")
+            .WithColor(new Color(new Color8Bit(0, 255, 0)))
+            .WithDelay(Units.Milliseconds.of(0))
+            .RunOnce(false);
     }
 
     @Override
@@ -87,9 +91,8 @@ public class Robot extends TimedRobot {
     }
 }
 ```
-
-### C++
-
+:::
+:::{tab-item} C++
 ```cpp
 // Robot.h
 #pragma once
@@ -126,8 +129,12 @@ void Robot::RobotInit() {
 }
 
 void Robot::TeleopInit() {
-    // Set a solid green color on the "front" zone
-    m_leds.SetColor("front", frc::Color8Bit(0, 255, 0).ToColor());
+    // Display a solid green color on the "front" zone
+    m_leds.SetAnimation(Animation::Fill)
+        .ForZone("front")
+        .WithColor(frc::Color8Bit(0, 255, 0).ToColor())
+        .WithDelay(0_ms)
+        .RunOnce(false);
 }
 
 void Robot::AutonomousInit() {
@@ -140,25 +147,35 @@ void Robot::AutonomousInit() {
         .RunOnce(false);
 }
 ```
+:::
+::::
 
 ## Key Concepts
-
-### Device Classes
-
-- **ConnectorXAnimate**: LED-only control via USB. Best for simple LED projects.
-- **ConnectorX**: Full features including modules/sensors and UART connectivity.
 
 ### Zones and Groups
 
 Zones are named sections of your LED strips/matrices configured in Lumyn Studio. Groups let you control multiple zones together.
 
+::::{tab-set}
+:::{tab-item} Java
 ```java
-// Control a single zone
+// Change the color of the currently running animation on a zone
 m_leds.leds.SetColor("left-climber", new Color(new Color8Bit(255, 0, 0)));
 
-// Control a group of zones
+// Change the color on a group of zones
 m_leds.leds.SetGroupColor("all-climbers", new Color(new Color8Bit(0, 255, 0)));
 ```
+:::
+:::{tab-item} C++
+```cpp
+// Change the color of the currently running animation on a zone
+m_leds.SetColor("left-climber", frc::Color8Bit(255, 0, 0).ToColor());
+
+// Change the color on a group of zones
+m_leds.SetGroupColor("all-climbers", frc::Color8Bit(0, 255, 0).ToColor());
+```
+:::
+::::
 
 ### Connection Ports
 
@@ -169,17 +186,20 @@ For roboRIO, use the `USBPort` enum:
 
 For ConnectorX with UART:
 
+::::{tab-set}
+:::{tab-item} Java
 ```java
-// Java - UART connection
 m_cx.Connect(UARTPort.MXP);
 m_cx.Connect(UARTPort.MXP, 230400);  // Custom baud rate
 ```
-
+:::
+:::{tab-item} C++
 ```cpp
-// C++ - UART connection
 m_cx.Connect(lumyn::connection::UARTPort::kMXP);
 m_cx.Connect(lumyn::connection::UARTPort::kMXP, 230400);  // Custom baud rate
 ```
+:::
+::::
 
 ## Next Steps
 

@@ -8,7 +8,7 @@ Control LED strips with solid colors, built-in animations, and animation sequenc
 
 ## Setting Colors
 
-Set a solid color on a zone or group of zones.
+Display a solid color on a zone or group using the `Fill` animation.
 
 ### Single Zone
 
@@ -20,9 +20,14 @@ Set a solid color on a zone or group of zones.
 
 ```java
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.units.Units;
+import com.lumynlabs.domain.led.Animation;
 
-// Sets the "left-climber" zone to red
-cXAnimate.leds.SetColor("left-climber", new Color(1.0, 0, 0));
+cXAnimate.leds.SetAnimation(Animation.Fill)
+    .ForZone("left-climber")
+    .WithColor(new Color(1.0, 0, 0))
+    .WithDelay(Units.Milliseconds.of(0))
+    .RunOnce(false);
 ```
 :::
 :::{tab-item} C++ (WPILib)
@@ -30,17 +35,23 @@ cXAnimate.leds.SetColor("left-climber", new Color(1.0, 0, 0));
 
 ```cpp
 #include <frc/util/Color.h>
+#include <units/time.h>
+#include <lumyn/led/Animation.h>
 
-// Sets the "left-climber" zone to red
-m_animate.SetColor("left-climber", frc::Color{1.0, 0, 0});
+m_animate.SetAnimation(lumyn::led::Animation::Fill)
+    .ForZone("left-climber")
+    .WithColor(frc::Color{1.0, 0, 0})
+    .WithDelay(0_ms)
+    .RunOnce(false);
 ```
 :::
 :::{tab-item} Python
 :sync: python
 
 ```python
-# Sets the "left-climber" zone to red
-cx_animate.leds.set_color("left-climber", (255, 0, 0))
+from lumyn_sdk import Animation
+
+cx_animate.leds.set_animation("left-climber", Animation.Fill, (255, 0, 0), 0)
 ```
 :::
 
@@ -48,9 +59,15 @@ cx_animate.leds.set_color("left-climber", (255, 0, 0))
 :sync: cpp-standalone
 
 ```cpp
+#include <lumyn/led/Animation.h>
+
 lumyn::device::ConnectorXAnimate cx;
 cx.Connect("/dev/ttyACM0");
-cx.SetColor("left-climber", {255, 0, 0});
+cx.SetAnimation(lumyn::led::Animation::Fill)
+    .ForZone("left-climber")
+    .WithColor({255, 0, 0})
+    .WithDelay(0)
+    .RunOnce(false);
 ```
 :::
 
@@ -59,14 +76,15 @@ cx.SetColor("left-climber", {255, 0, 0});
 
 ```c
 lumyn_color_t red = {255, 0, 0};
-lumyn_SetColor(LUMYN_BASE_PTR(&cx), "left-climber", red);
+lumyn_SetAnimation(LUMYN_BASE_PTR(&cx), "left-climber",
+    LUMYN_ANIMATION_FILL, red, 0, false, false);
 ```
 :::
 ::::
 
 ### Zone Groups
 
-Control multiple zones together:
+Display a solid color on multiple zones:
 
 ::::{tab-set}
 :sync-group: language
@@ -75,24 +93,35 @@ Control multiple zones together:
 :sync: java
 
 ```java
-// Set all zones in the "all-climbers" group to green
-cXAnimate.leds.SetGroupColor("all-climbers", new Color(0, 1.0, 0));
+cXAnimate.leds.SetAnimation(Animation.Fill)
+    .ForGroup("all-climbers")
+    .WithColor(new Color(0, 1.0, 0))
+    .WithDelay(Units.Milliseconds.of(0))
+    .RunOnce(false);
 ```
 :::
 :::{tab-item} C++ (WPILib)
 :sync: cpp
 
 ```cpp
-// Set all zones in the "all-climbers" group to green
-m_animate.SetGroupColor("all-climbers", frc::Color{0, 1.0, 0});
+m_animate.SetAnimation(lumyn::led::Animation::Fill)
+    .ForGroup("all-climbers")
+    .WithColor(frc::Color{0, 1.0, 0})
+    .WithDelay(0_ms)
+    .RunOnce(false);
 ```
 :::
 :::{tab-item} Python
 :sync: python
 
 ```python
-# Set all zones in the "all-climbers" group to green
-cx_animate.leds.set_group_color("all-climbers", (0, 255, 0))
+from lumyn_sdk import Animation
+
+cx_animate.leds.set_animation(Animation.Fill) \
+    .for_group("all-climbers") \
+    .with_color((0, 255, 0)) \
+    .with_delay(0) \
+    .run_once(False)
 ```
 :::
 
@@ -100,7 +129,11 @@ cx_animate.leds.set_group_color("all-climbers", (0, 255, 0))
 :sync: cpp-standalone
 
 ```cpp
-cx.SetGroupColor("all-climbers", {0, 255, 0});
+cx.SetAnimation(lumyn::led::Animation::Fill)
+    .ForGroup("all-climbers")
+    .WithColor({0, 255, 0})
+    .WithDelay(0)
+    .RunOnce(false);
 ```
 :::
 
@@ -109,7 +142,8 @@ cx.SetGroupColor("all-climbers", {0, 255, 0});
 
 ```c
 lumyn_color_t green = {0, 255, 0};
-lumyn_SetGroupColor(LUMYN_BASE_PTR(&cx), "all-climbers", green);
+lumyn_SetGroupAnimation(LUMYN_BASE_PTR(&cx), "all-climbers",
+    LUMYN_ANIMATION_FILL, green, 0, false, false);
 ```
 :::
 ::::
@@ -123,7 +157,7 @@ Use the builder API to configure and play animations. The builder pattern provid
 | Animation | Description |
 |-----------|-------------|
 | `None` | No animation |
-| `Fill` | Solid fill |
+| `Fill` | Solid fill — use this to display a solid color on a zone |
 | `Blink` | On/off blinking |
 | `Breathe` | Smooth fade in/out |
 | `Chase` | Moving dot pattern |
@@ -158,7 +192,11 @@ The builder API follows this pattern:
 3. Set color with `WithColor(color)`
 4. Set timing with `WithDelay(delay)`
 5. Optionally set `Reverse(bool)` for direction
-6. Call `RunOnce(bool)` to execute (true = run once, false = loop)
+6. Call `RunOnce(bool)` to set one-shot behavior, or call `.execute()` to send with defaults
+
+```{tip}
+In C++/Java, you can end the builder chain with either `.RunOnce(false)` or `.execute()`. Using `.execute()` will send the command with the default settings (looping, not reversed).
+```
 
 ::::{tab-set}
 :sync-group: language
@@ -265,7 +303,6 @@ cx_animate.leds.set_animation(Animation.RainbowRoll) \
 :sync: cpp-standalone
 ```cpp
 #include <lumyn/cpp/connectorXVariant/ConnectorXAnimate.hpp>
-#include <lumyn/led/Animation.h>
 
 // Gold chase animation, 40ms between frames, looping
 cx.SetAnimation(lumyn::led::Animation::Chase)
@@ -299,7 +336,15 @@ lumyn_SetAnimation(LUMYN_BASE_PTR(&cx), "right-climber",
 
 ## Animation Sequences
 
-Animation sequences are predefined patterns configured on the device (via Lumyn Studio or configuration files). They chain multiple animations together with timing.
+Animation sequences are predefined patterns configured on the device (via Lumyn Studio or configuration files). They chain multiple animations together with timing. Each step in a sequence has its own animation type, color, delay, direction, and optional repeat count.
+
+```{important}
+Animation sequences **play once** and stop. They do not loop. After the last step completes, the zone goes idle. To replay a sequence, send the `SetAnimationSequence` command again.
+```
+
+```{note}
+Starting a new animation with `SetAnimation` while a sequence is playing will **cancel the sequence** and replace it with the new animation.
+```
 
 ### Playing a Sequence
 
@@ -365,34 +410,3 @@ Understanding zones and groups is key to effective LED control:
 **Zone**: A logical subsection of a channel that you control independently. Configured in Lumyn Studio with an ID like `"left-climber"` or `"front"`.
 
 **Group**: A collection of zones that receive the same command simultaneously. Groups are configured in Lumyn Studio and referenced by their group ID.
-
-### When to Use Each
-
-| Use Case | Approach |
-|----------|----------|
-| Control one LED section | Target a single zone |
-| Synchronize multiple sections | Create and target a group |
-| Independent animations per section | Target zones individually |
-| Same color across all LEDs | Create an "all" group |
-
-### Example: Multi-Zone Robot
-
-```java
-// During teleop - each zone independent
-cXAnimate.leds.SetAnimation(Animation.Chase)
-    .ForZone("left-arm")
-    .WithColor(new Color(new Color8Bit(255, 0, 0)))
-    .WithDelay(Units.Milliseconds.of(30))
-    .Reverse(false)
-    .RunOnce(false);
-
-cXAnimate.leds.SetAnimation(Animation.Chase)
-    .ForZone("right-arm")
-    .WithColor(new Color(new Color8Bit(0, 0, 255)))
-    .WithDelay(Units.Milliseconds.of(30))
-    .Reverse(true)  // Opposite direction
-    .RunOnce(false);
-
-// During disabled - all zones same color
-cXAnimate.leds.SetGroupColor("all", new Color(new Color8Bit(50, 50, 50)));
-```

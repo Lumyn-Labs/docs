@@ -56,18 +56,18 @@ bool cxConnected = m_cx.Connect(lumyn::connection::USBPort::kUSB2);
 :sync: cpp-standalone
 
 ```cpp
-#include <lumyn/device/ConnectorX.h>
-#include <lumyn/device/ConnectorXAnimate.h>
+#include <lumyn/cpp/connectorXVariant/ConnectorX.hpp>
+#include <lumyn/cpp/connectorXVariant/ConnectorXAnimate.hpp>
 #include <iostream>
 
 lumyn::device::ConnectorX m_cx;
 lumyn::device::ConnectorXAnimate m_animate;
 
 // Connect via serial port
-bool animate_connected = m_animate.Connect("/dev/ttyACM0");    // Linux
-bool cx_connected = m_cx.Connect("COM3");                       // Windows
+m_animate.Connect("/dev/ttyACM0");    // Linux
+m_cx.Connect("COM3");                  // Windows
 
-if (animate_connected) {
+if (m_animate.IsConnected()) {
     std::cout << "Device connected!" << std::endl;
 }
 ```
@@ -94,7 +94,7 @@ if animate_connected:
 :sync: c
 
 ```c
-#include <lumyn/c/lumyn_sdk.h>
+#include <lumyn/c/lumyn_device.h>
 
 cx_animate_t cx;
 lumyn_CreateConnectorXAnimate(&cx);
@@ -108,8 +108,6 @@ if (err == LUMYN_OK) {
 ::::
 
 ### UART Connection (ConnectorX Only)
-
-ConnectorX supports UART connections for scenarios where USB isn't available. ConnectorXAnimate is USB-only.
 
 ::::{tab-set}
 :sync-group: language
@@ -150,18 +148,18 @@ bool fastConnected = m_cx.Connect(lumyn::connection::UARTPort::kMXP, 230400);
 :sync: cpp-standalone
 
 ```cpp
-#include <lumyn/device/ConnectorX.h>
+#include <lumyn/cpp/connectorXVariant/ConnectorX.hpp>
 #include <iostream>
 
 lumyn::device::ConnectorX m_cx;
 
 // UART connection with default baud rate (115200)
-bool connected = m_cx.Connect("/dev/ttyS0");
+m_cx.Connect("/dev/ttyS0");
 
 // UART connection with custom baud rate
-bool fast_connected = m_cx.Connect("/dev/ttyS0", 230400);
+m_cx.Connect("/dev/ttyS0", 230400);
 
-if (connected) {
+if (m_cx.IsConnected()) {
     std::cout << "Connected to UART device" << std::endl;
 }
 ```
@@ -181,7 +179,7 @@ fast_connected = cx.connect_uart("/dev/ttyS0", 230400)
 :::
 :::{tab-item} C
 ```c
-#include <lumyn/c/lumyn_sdk.h>
+#include <lumyn/c/lumyn_device.h>
 
 cx_t cx;
 lumyn_CreateConnectorX(&cx);
@@ -199,14 +197,8 @@ Always close connections when done, especially in non-robot applications.
 ::::{tab-set}
 :::{tab-item} Java (WPILib)
 ```java
-// Option 1: Manual close
-cXAnimate.Close();
-
-// Option 2: Try-with-resources (recommended)
-try (ConnectorXAnimate cXAnimate = new ConnectorXAnimate()) {
-    cXAnimate.Connect(USBPort.kUSB1);
-    // Use the device...
-}  // Automatically closed here
+// Disconnect and release resources when done
+cXAnimate.close();
 ```
 :::
 :::{tab-item} C++ (WPILib)
@@ -217,11 +209,11 @@ try (ConnectorXAnimate cXAnimate = new ConnectorXAnimate()) {
 :::
 :::{tab-item} Python
 ```python
-# Manual close
-cx.close()
+# Disconnect from the device (can reconnect later)
+cx.disconnect()
 
-# Or use context manager (when available)
-# The destructor will also clean up if you forget
+# Or fully close (disconnects and releases resources)
+cx.close()
 ```
 :::
 :::{tab-item} C
@@ -398,14 +390,19 @@ WPILib alerts are only available in the Java/C++ vendordep.
 
 The vendordep automatically publishes connection and error events as [WPILib persistent alerts](https://frcdocs.wpi.edu/en/latest/docs/software/telemetry/persistent-alerts.html). These appear in AdvantageScope, Shuffleboard, and the Driver Station.
 
+::::{tab-set}
+:::{tab-item} Java (WPILib)
 ```java
 // Disable automatic alerts if you handle error reporting yourself
 cXAnimate.SetAlertsEnabled(false);
 ```
-
+:::
+:::{tab-item} C++ (WPILib)
 ```cpp
 m_cx.SetAlertsEnabled(false);
 ```
+:::
+::::
 
 ## System Commands
 
@@ -453,15 +450,3 @@ lumyn_RestartDevice(LUMYN_BASE_PTR(&cx), 1000);
 :::
 ::::
 
-## Connection Reference
-
-| Platform | USB Method | UART Method |
-|----------|------------|-------------|
-| Java | `Connect(USBPort)` | `Connect(UARTPort, baud)` |
-| C++ | `Connect(USBPort)` | `Connect(UARTPort, baud)` |
-| Python | `connect_usb(port_string)` | `connect_uart(port, baud)` |
-| C | `lumyn_Connect(inst, port)` | `lumyn_ConnectWithBaud(inst, port, baud)` |
-
-**Default Baud Rate**: 115200
-
-**UART Support**: ConnectorX only (not ConnectorXAnimate)

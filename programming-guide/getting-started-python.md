@@ -13,14 +13,14 @@ Control Lumyn Labs devices from Python on desktop computers, Raspberry Pi, and o
 ## Prerequisites
 
 - **Python 3.11** (recommended)
-- **uv** package manager (recommended) or **pip**
+- **uv** package manager
 - **USB or UART connection** to your device
 
 ## Installation
 
-### Recommended: Install with uv
+### Install with uv
 
-[uv](https://docs.astral.sh/uv/) is a fast Python package installer and virtual environment manager. This is the recommended installation method, especially on ARM platforms like Raspberry Pi.
+[uv](https://docs.astral.sh/uv/) is a fast Python package installer and virtual environment manager. Use it to install the SDK.
 
 #### Step 1: Install uv
 
@@ -59,12 +59,8 @@ python -m pip install -U pip
 #### Step 5: Install the SDK
 
 ```bash
-python -m pip install --only-binary=:all: lumyn-sdk==4.1.1
+python -m pip install --only-binary=:all: lumyn-sdk
 ```
-
-### Alternative: Install with pip
-
-If you already have Python 3.11+ installed, see the [PyPI page](https://pypi.org/project/lumyn-sdk/) for installation instructions.
 
 ## Choose Your Device Class
 
@@ -81,13 +77,6 @@ cx = ConnectorX()
 cx.connect("COM3")
 ```
 
-**ConnectorX hardware features:**
-- USB and UART connections
-- LED control (strips and matrices)
-- DirectLED (high-frequency per-pixel control)
-- Module/sensor ports and data callbacks
-- Configuration management
-
 ### ConnectorXAnimate
 
 Use the `ConnectorXAnimate` class if you have a **ConnectorX Animate** device.
@@ -98,12 +87,6 @@ from lumyn_sdk import ConnectorXAnimate
 cx_animate = ConnectorXAnimate()
 cx_animate.connect("COM3")
 ```
-
-**ConnectorX Animate hardware features:**
-- USB connections only
-- LED control (strips and matrices)
-- DirectLED (high-frequency per-pixel control)
-- No module/sensor ports
 
 ```{important}
 You must use the correct class for your physical device. Using the wrong class may result in unexpected behavior.
@@ -132,11 +115,14 @@ if cx.is_connected():
 ### Set LED Colors
 
 ```python
-# Set solid color on a zone
+# Change the color of the currently running animation on a zone (strip zones only)
 cx.leds.set_color("strip-zone", (255, 0, 0))  # Red
 
-# Set color on a group of zones
+# Change the color on a group of zones
 cx.leds.set_group_color("group-id", (0, 255, 0))  # Green
+
+# To display a solid color from scratch, use the Fill animation
+cx.leds.set_animation("strip-zone", Animation.Fill, (255, 0, 0), 0)
 ```
 
 ### Play Animations
@@ -144,21 +130,18 @@ cx.leds.set_group_color("group-id", (0, 255, 0))  # Green
 ```python
 from lumyn_sdk import Animation
 
-# Set an animation using direct call
-cx.leds.set_animation(
-    "strip-zone",           # zone_id
-    Animation.Chase,        # animation type
-    (0, 0, 255),            # Blue color
-    40,                     # delay_ms between frames
-    False,                  # reversed
-    False                   # one_shot (False = loop continuously)
-)
+# Set an animation (short form - zone, animation, color, delay)
+cx.leds.set_animation("strip-zone", Animation.Chase, (0, 0, 255), 40)
+
+# With optional parameters
+cx.leds.set_animation("strip-zone", Animation.Breathe, (0, 255, 0), 30,
+                       reverse=True, one_shot=True)
 
 # Or use the builder pattern for more control
-cx.leds.set_animation(Animation.Breathe) \
+cx.leds.set_animation(Animation.RainbowRoll) \
     .for_zone("strip-zone") \
-    .with_color((0, 255, 0)) \
-    .with_delay(30) \
+    .with_color((255, 255, 255)) \
+    .with_delay(50) \
     .reverse(False) \
     .run_once(False)
 
@@ -271,7 +254,7 @@ while not cx.is_connected():
 
 print("Connected!")
 
-# Set a color
+# Change the color of the currently running animation
 cx.leds.set_color("strip-zone", (255, 0, 0))
 time.sleep(2)
 
@@ -308,23 +291,4 @@ except KeyboardInterrupt:
 - [DirectLED](directled) - High-frequency per-pixel control
 - [Modules & Sensors](modules-and-sensors) - Module callbacks, typed helpers
 - [Device Configuration](device-configuration) - ConfigBuilder, loading configs
-
-## Troubleshooting
-
-### Import Error
-
-If you get `ModuleNotFoundError: No module named 'lumyn_sdk'`, make sure you've installed the package from [PyPI](https://pypi.org/project/lumyn-sdk/).
-
-### Connection Failed
-
-- **Check port name**: Use Device Manager (Windows) or `ls /dev/tty*` (Linux/macOS) to find the correct port
-- **Check permissions**: On Linux, add your user to the `dialout` group: `sudo usermod -a -G dialout $USER`
-- **Check USB cable**: Ensure it's a data cable, not charge-only
-- **Try a different port**: Some USB hubs may cause issues
-
-### Module Not Updating
-
-- **Check configuration**: Ensure the module is configured in the device
-- **Check connection**: Modules require a stable connection
-- **Check module ID**: Verify the module ID matches your configuration
-- **Enable auto-polling**: `cx.set_auto_poll_events(True)` for automatic updates
+- [Troubleshooting & FAQ](../troubleshooting-faq) - Common issues and solutions

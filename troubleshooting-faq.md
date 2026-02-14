@@ -33,6 +33,12 @@ If the device is not listed, try a different USB cable.
 - Select TinyUSB Serial Interface 0
 - Install USB CDC driver, then reconnect the device.
 
+#### 5. Connecting via SDK (Python, WPILib, C/C++)
+
+- **Check port name**: Use Device Manager (Windows) or `ls /dev/tty*` (Linux/macOS) to find the correct port
+- **Check permissions**: On Linux, add your user to the `dialout` group: `sudo usermod -a -G dialout $USER`
+- **Try a different port**: Some USB hubs may cause issues
+
 ---
 
 ### Device Freezes with Solid Teal LED on Boot
@@ -120,6 +126,13 @@ The configuration file is typically exported from Lumyn Studio and placed in you
 
 - ConnectorX/Animate support WS2812B-only. Try a known-good strip/matrix.
 
+### Module Data Not Updating
+
+- **Check configuration**: Ensure the module is configured in the device
+- **Check connection**: Modules require a stable connection
+- **Check module ID**: Verify the module ID matches your configuration
+- **Enable polling**: Ensure event/module polling is enabled (e.g. `cx.set_auto_poll_events(True)` in Python)
+
 ---
 
 ### Flashing Official Firmware
@@ -150,6 +163,10 @@ The device will mount as a removable drive.
 - Use a Chromium-based browser that supports Web Serial.
 - Try a different USB cable that supports data.
 - Install drivers on Windows (see [Troubleshooting Guide](#troubleshooting-guide) above).
+
+### Python: ModuleNotFoundError for lumyn_sdk?
+
+Install the SDK with uv. See [Getting Started (Python)](programming-guide/getting-started-python).
 
 ### My LEDs don't light up. What should I check?
 

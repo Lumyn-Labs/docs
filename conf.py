@@ -40,7 +40,7 @@ source_suffix = {
 }
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'README.md', 'advanced-topics.md', 'advanced-topics/*']
+exclude_patterns = ['_build', 'README.md', 'advanced-topics.md']
 
 # MyST configuration: enable fenced directives for toctree blocks
 myst_fence_as_directive = [

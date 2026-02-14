@@ -149,7 +149,7 @@ cx.SetText("GO TEAM!")
 :sync: c
 ```c
 lumyn_color_t yellow = {255, 255, 0};
-lumyn_SetGroupText(&cx.base, "all-matrices", "GO TEAM!",
+lumyn_SetGroupText(LUMYN_BASE_PTR(&cx), "all-matrices", "GO TEAM!",
     yellow, LUMYN_MATRIX_TEXT_SCROLL_RIGHT, 500, false);
 ```
 :::
@@ -268,7 +268,7 @@ flags.showBackground = 1;
 flags.smoothScroll = 1;
 
 lumyn_SetTextAdvanced(
-    &cx.base, "front-matrix", "Team 9993", (lumyn_color_t){255, 255, 0},
+    LUMYN_BASE_PTR(&cx), "front-matrix", "Team 9993", (lumyn_color_t){255, 255, 0},
     LUMYN_MATRIX_TEXT_SCROLL_LEFT, 40, false,
     (lumyn_color_t){0, 0, 64},
     LUMYN_MATRIX_TEXT_FONT_FREE_SANS_9,
@@ -352,7 +352,7 @@ lumyn_matrix_text_flags_t flags = {0};
 flags.noScroll = 1;
 
 lumyn_SetTextAdvanced(
-    &cx.base, "status-matrix", "READY", (lumyn_color_t){0, 255, 0},
+    LUMYN_BASE_PTR(&cx), "status-matrix", "READY", (lumyn_color_t){0, 255, 0},
     LUMYN_MATRIX_TEXT_SCROLL_LEFT, 50, false,
     (lumyn_color_t){0, 0, 0},
     LUMYN_MATRIX_TEXT_FONT_TOM_THUMB,
@@ -431,6 +431,8 @@ cx_animate.leds.set_image_sequence("logo_8x32") \
 :::{tab-item} C++ (Standalone)
 :sync: cpp-standalone
 ```cpp
+#include <lumyn/cpp/connectorXVariant/ConnectorXAnimate.hpp>
+
 cx.SetImageSequence("Emoji_16x16_unknown")
     .ForZone("front-matrix")
     .WithColor({120, 0, 100})
@@ -448,10 +450,10 @@ cx.SetImageSequence("logo_8x32")
 :::{tab-item} C
 :sync: c
 ```c
-lumyn_SetImageSequence(&cx.base, "front-matrix", "Emoji_16x16_unknown",
+lumyn_SetImageSequence(LUMYN_BASE_PTR(&cx), "front-matrix", "Emoji_16x16_unknown",
     (lumyn_color_t){120, 0, 100}, true, false);
 
-lumyn_SetGroupImageSequence(&cx.base, "all-matrices", "logo_8x32",
+lumyn_SetGroupImageSequence(LUMYN_BASE_PTR(&cx), "all-matrices", "logo_8x32",
     (lumyn_color_t){255, 255, 255}, false, true);
 ```
 :::

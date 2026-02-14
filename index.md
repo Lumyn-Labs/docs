@@ -91,8 +91,8 @@ quick-start
 drivers-and-firmware
 user-guide/index
 programming-guide/index
-advanced-topics
 troubleshooting-faq
+known-issues
 changelog
 third-party-licenses
 :::
