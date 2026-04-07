@@ -43,7 +43,12 @@ If the device is not listed, try a different USB cable.
 
 ### Device Freezes with Solid Teal LED on Boot
 
-If your device's status LED turns solid teal and freezes during boot, this is a known issue.
+```{admonition} Status: Under investigation
+:class: tip
+This is a known issue. We are investigating root causes and workarounds.
+```
+
+If your device's status LED turns solid teal and freezes during boot:
 
 #### Resolution
 
@@ -56,11 +61,18 @@ If the issue persists after multiple restarts, please email us at [support@lumyn
 
 ### Device Config Larger Than 4KB Fails to Apply
 
-When applying a configuration over USB, particularly large configurations (>4KB) may fail to apply.
+```{admonition} Status: Fixed in firmware 4.3+
+:class: tip
+Device firmware **4.3** and above supports large configurations over USB. Use **Send to Device** in the **Export Configuration** dialog in Lumyn Studio; stream upload applies configs that exceed the older ~4KB USB apply limit.
+```
+
+On firmware **older than 4.3**, applying a configuration larger than ~4KB will fail.
 
 #### Resolution
 
-Copy the configuration file directly to the device's SD card instead of applying over USB:
+On firmware **4.3** and newer, use **Send to Device** from the **Export Configuration** dialog in Lumyn Studio.
+
+If you cannot upgrade yet, or upload still fails, copy the configuration file directly to the device's SD card instead of applying over USB:
 
 1. Export your configuration from Lumyn Studio
 2. Copy the `config.json` file to the microSD root
@@ -137,22 +149,7 @@ The configuration file is typically exported from Lumyn Studio and placed in you
 
 ### Flashing Official Firmware
 
-#### 1. Download Firmware
-
-Download the latest `firmware.uf2` for your device from our [GitHub Releases page](https://github.com/Lumyn-Labs/Releases/releases).
-
-#### 2. Enter Bootloader Mode
-
-1. Connect device via USB and wait for boot.
-2. Hold BOOT/BOOTSEL.
-3. Press and release RESET.
-4. Release BOOT/BOOTSEL.
-
-The device will mount as a removable drive.
-
-#### 3. Flash the Firmware
-
-- Drag-and-drop firmware.uf2 onto the mounted drive. The device flashes and restarts automatically.
+If you need to flash or update firmware, see the [Drivers and Firmware](drivers-and-firmware) page for full instructions on entering bootloader mode and flashing UF2 files.
 
 ---
 
@@ -176,23 +173,11 @@ Install the SDK with uv. See [Getting Started (Python)](programming-guide/gettin
 
 ### How do I export and deploy a configuration?
 
-- Export from Devices > Export Configuration.
+- Open a device's **Configuration Overview** page and click **Export Configuration** in the toolbar.
 - Optionally include image assets to get a zip with folders.
 - Copy config.json (and any image folders) to the microSD root.
 
-If you need a default empty config to start with, use:
-
-```json
-{
-  "team": null,
-  "network": { "mode": "USB" },
-  "channels": {},
-  "sequences": [],
-  "bitmaps": [],
-  "sensors": [],
-  "groups": []
-}
-```
+If you need a default empty config to start with, see the [Configuration File Reference](#configuration-file-reference) section above, or **Step 2: Add the Default Config** in the [Quick Start Guide](quick-start).
 
 ### What LED types are supported?
 
@@ -224,8 +209,7 @@ If you need a default empty config to start with, use:
 4. See [Saving & Exporting Configurations](user-guide/saving-and-exporting-configurations)
 
 **Need to update firmware:**
-1. See [Drivers and Firmware](drivers-and-firmware)
-2. Check [Flashing Official Firmware](#flashing-official-firmware) section above
+1. See [Drivers and Firmware](drivers-and-firmware) for bootloader steps and UF2 flashing.
 
 ---
 

@@ -33,7 +33,7 @@ New to Lumyn Labs? Set up hardware and software for the first time.
 :link: user-guide/index
 :link-type: doc
 
-Configure devices with our desktop application.
+Configure devices with our web application.
 :::
 
 ::::
@@ -68,7 +68,7 @@ Release notes and vendordep updates.
 :link: troubleshooting-faq
 :link-type: doc
 
-Common questions, known issues, and solutions.
+Common questions, known issues, solutions, and FAQs.
 :::
 
 :::{grid-item-card} Third-Party Licenses
@@ -92,7 +92,6 @@ drivers-and-firmware
 user-guide/index
 programming-guide/index
 troubleshooting-faq
-known-issues
 changelog
 third-party-licenses
 :::

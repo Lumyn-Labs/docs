@@ -49,5 +49,5 @@ Download the `firmware.uf2` file for your device from the latest release.
 
 ### Firmware Notifications in Lumyn Studio
 
-Lumyn Studio will automatically notify you when a new firmware version is available for your connected device. A notification will appear upon connecting the device with a link to download the release.
+When you connect a device, Lumyn Studio notifies you if a newer firmware version is available. On devices running firmware **4.3** or newer, you can apply the update **over the air (OTA)** from Studio by following the prompt without manually entering bootloader mode. The notification will also include a link to the release on GitHub if you prefer to download the UF2 and flash using bootloader mode (see above).
 

@@ -83,30 +83,34 @@ On Windows, you may need to install a driver to allow your browser to communicat
 
 Open your Chromium-based browser and navigate to [studio.lumynlabs.com](https://studio.lumynlabs.com).
 
-The Studio interface is organized into tabs: Home, Devices, Modules, Animation Sequences, Image Sequences, and Settings. For a detailed overview, see [Getting Started with Lumyn Studio](user-guide/getting-started-with-lumyn-studio).
+The Studio interface is organized into tabs: Devices, Modules, Animation Sequences, Image Sequences, and Settings. For a detailed overview, see [Getting Started with Lumyn Studio](user-guide/getting-started-with-lumyn-studio).
 
 ### Step 7: Connect to the Device
 
 1. Wait for the device to boot. The onboard RGB LED will breathe blue when it's ready.
-2. In Lumyn Studio, click the "Connect" button in the top-right corner.
+2. In Lumyn Studio, click the connection icon in the top-right corner of the navigation bar.
 
 ```{image} assets/quickstart/connect-button.png
 :alt: Click Connect Button in Lumyn Studio
 ```
 
-3. In the dialog that shows up, click "Connect Device"
+3. In the dialog that shows up, click **Connect Device**.
 
 ```{image} assets/quickstart/disconnected-connection-dialog.png
 :alt: Click Connect in the Connected Device Panel
 ```
 
-3. A dialog will appear listing available serial ports. Select your Lumyn Labs device from the list and click "Connect."
+4. A dialog will appear listing available serial ports. Select your Lumyn Labs device from the list and click **Connect**.
 
 If you don't see your device, see the [Troubleshooting & FAQ](troubleshooting-faq) for help.
 
 ### Step 8: Create Your First Configuration
 
-Once connected, Lumyn Studio will prompt you to set up a new device configuration. Give your device a name, and you're ready to start configuring channels, zones, and modules!
+Once connected, Lumyn Studio can prompt you to set up the device. Click **Set Up This Device**, then choose **Create new device** (name and create a new entry) or **Associate existing** (link to an existing Studio device). After that, you can configure channels, zones, and modules.
+
+```{tip}
+For a deeper look at the Studio interface, tabs, and features, see [Getting Started with Lumyn Studio](user-guide/getting-started-with-lumyn-studio).
+```
 
 ### Step 9: Configure LEDs
 
@@ -114,7 +118,7 @@ Create a channel and add a zone (Strip or Matrix). See: [Getting Started with Lu
 
 ### Step 10: Add Content
 
-- **For strips**: Create an animation sequence. See: [Animations & Sequences](user-guide/animations-and-sequences)
+- **For strips**: Create an animation sequence. See: [Animation Sequences](user-guide/animation-sequences)
 - **For matrices**: Create an image sequence. See: [Image Sequences](user-guide/image-sequences-matrix)
 
 ### Step 11: Export and Deploy

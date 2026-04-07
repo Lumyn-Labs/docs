@@ -396,12 +396,12 @@ lumyn_SetGroupAnimationSequence(LUMYN_BASE_PTR(&cx), "all-intake", "intake-seque
 Animation sequences are typically created in Lumyn Studio:
 
 1. Open the **Animation Sequences** tab
-2. Click **Create Animation Sequence**
+2. Click **Create sequence**
 3. Add steps with animations, colors, delays, and repeat counts
 4. Use the preview to visualize the sequence
 5. Save and export to your device
 
-See [Animations & Sequences](../user-guide/animations-and-sequences) in the Lumyn Studio Guide for details.
+See [Animation Sequences](../user-guide/animation-sequences) in the Lumyn Studio Guide for details.
 
 ## Zones vs Groups
 

@@ -8,54 +8,63 @@ This section walks through the Lumyn Studio UI and core workflows. Learn how to 
 
 ## Where to Start
 
-**New to Lumyn Studio?** Start with [Getting Started with Lumyn Studio](getting-started-with-lumyn-studio) to learn the interface and connect your first device.
-
-**Ready to configure LEDs?** Begin with [Getting Started with Lumyn Studio](getting-started-with-lumyn-studio) to learn the interface and set up your LED channels and zones.
+**New to Lumyn Studio?** Start with [Getting Started with Lumyn Studio](getting-started-with-lumyn-studio) for the interface, connecting your first device, and initial setup. From there, use [Zones and Zone Groups](zones-and-zone-groups) to add LED channels, zones, and groups.
 
 ## Guide Overview
 
-### Getting Started with Lumyn Studio
+### Setup & Configuration
 
-**When to use**: First time using Lumyn Studio or need to understand the interface.
+Configure hardware layout and I/O before you create animations.
 
-Learn how to access Lumyn Studio, navigate the interface, connect to your device, and create your first configuration. This page covers the basics of the Studio interface, including tabs, the Connected Device Panel, and initial device setup.
+#### [Getting Started with Lumyn Studio](getting-started-with-lumyn-studio)
 
+**When to use**: First time using Lumyn Studio or you need to understand the interface.
 
-### Zones and Zone Groups
+Learn how to access Lumyn Studio, navigate the interface, connect to your device, and create your first configuration. Covers tabs, the Connected Device Panel, and initial device setup.
 
-**When to use**: Need to divide channels into sections or control multiple zones together.
+#### [Zones and Zone Groups](zones-and-zone-groups)
 
-Learn how to create zones that divide a channel into independently controllable sections, and how to create groups that let you control multiple zones simultaneously. Essential for complex LED setups where different parts of your robot need different animations.
+**When to use**: You need to divide channels into sections or control multiple zones together.
 
-### Animations & Sequences
+Create zones on a channel and groups that control multiple zones at once. Essential for complex LED setups.
 
-**When to use**: Creating LED strip animations or animation sequences.
-
-Create and edit animation sequences for LED strips. Learn how to combine multiple animations (Blink, Chase, Rainbow, etc.) into sequences with timing and parameters. Perfect for creating dynamic lighting effects that respond to robot state.
-
-### Image Sequences (Matrix)
-
-**When to use**: Working with LED matrices and need to display images or animations.
-
-Create image sequences for matrix zones by importing images, animated GIFs, or drawing directly on the canvas. Learn how to create frame-by-frame animations, text displays, and custom graphics for your matrix displays.
-
-### Modules
+#### [Modules](modules)
 
 **When to use**: Adding sensors or I/O expansion to your ConnectorX device.
 
-Browse official modules and add modules to your device configuration. Modules extend your device's capabilities with sensors, digital I/O, and other hardware interfaces. Learn how to find, configure, and integrate modules into your robot.
+Browse official modules, add modules to your configuration, and create custom modules. Covers finding, configuring, and integrating modules.
 
-### Device Settings & Management
+### Creating Content
 
-**When to use**: Managing device connections, viewing logs, or configuring Studio settings.
+Build what appears on your LEDs.
 
-Use the Connected Device Panel to monitor device events, view module values, send test commands, and access device logs. Also covers Studio-level settings like FRC team number and cache management.
+#### [Animation Sequences](animation-sequences)
 
-### Saving & Exporting Configurations
+**When to use**: Creating LED strip animations or animation sequences.
 
-**When to use**: Ready to deploy your configuration to hardware or share it with your team.
+Combine built-in animations (Blink, Chase, Fire, Confetti, Plasma, etc.) into sequences with timing and parameters.
 
-Learn how to export device configurations from Lumyn Studio, include image assets, and properly deploy configurations to your device's microSD card. Essential for getting your configuration onto your robot.
+#### [Image Sequences (Matrix)](image-sequences-matrix)
+
+**When to use**: Working with LED matrices and need images or motion graphics.
+
+Import images or GIFs, or start from a blank canvas. Create keyframe-animated sequences with vector shapes, text, and images in the Motion Editor.
+
+### Managing & Deploying
+
+Run the app day-to-day and get configurations onto hardware.
+
+#### [Device Settings & Management](device-settings-and-management)
+
+**When to use**: Managing connections, viewing logs, sending test commands, or changing Studio settings.
+
+Use the Connected Device Panel for events, module data, LED Commander, and logs. Adjust team number, cache refresh, and optional developer settings (debug mode and experiments) from the Settings tab.
+
+#### [Saving & Exporting Configurations](saving-and-exporting-configurations)
+
+**When to use**: Ready to deploy your configuration or share it with your team.
+
+Export JSON or zip (with assets), use Send to Device when supported, or copy files to the microSD card.
 
 ## Key Concepts
 
@@ -68,9 +77,9 @@ A quick glossary of common terms used throughout the docs and Lumyn Studio:
 - **Strip Zone**: A linear sequence of LEDs.
 - **Matrix Zone**: A 2D grid of LEDs, used with image sequences and text.
 - **Group**: A collection of zones controlled together.
-- **Animation**: A built-in effect (Blink, Chase, Rainbow, etc.).
+- **Animation**: A built-in effect (for example Blink, Chase, Fire, Confetti, Plasma, Heartbeat). Lumyn Studio includes 26 built-in animations.
 - **Animation Sequence**: An ordered list of animations with timings and parameters.
-- **Image Sequence**: A sequence of images displayed on a matrix zone.
+- **Image Sequence**: A timeline-based animation of vector shapes, text, and images, rendered as frames for a matrix zone.
 - **Module**: An extension providing data or behavior via I2C/SPI/UART/digital/analog.
 - **Brightness Auto**: Device-managed brightness based on LED count and power constraints.
 
@@ -78,27 +87,42 @@ A quick glossary of common terms used throughout the docs and Lumyn Studio:
 
 **Setting up a new device:**
 1. [Getting Started with Lumyn Studio](getting-started-with-lumyn-studio) → Connect device and create channels/zones
-2. [Animations & Sequences](animations-and-sequences) or [Image Sequences](image-sequences-matrix) → Create content
+2. [Animation Sequences](animation-sequences) or [Image Sequences](image-sequences-matrix) → Create content
 3. [Saving & Exporting Configurations](saving-and-exporting-configurations) → Deploy to device
 
 **Adding sensors:**
 1. [Modules](modules) → Browse and add modules
-2. [Device Settings & Management](device-settings-and-management) → Monitor module values
+2. [Device Settings & Management](device-settings-and-management) → Monitor module data
 
 **Creating complex LED effects:**
 1. [Zones and Zone Groups](zones-and-zone-groups) → Organize your LEDs
-2. [Animations & Sequences](animations-and-sequences) → Create sequences
+2. [Animation Sequences](animation-sequences) → Create sequences
 3. [Image Sequences (Matrix)](image-sequences-matrix) → Create matrix content
 
 ```{toctree}
+:caption: Setup & Configuration
 :maxdepth: 1
 :hidden:
 
 getting-started-with-lumyn-studio
 zones-and-zone-groups
-animations-and-sequences
-image-sequences-matrix
 modules
+```
+
+```{toctree}
+:caption: Creating Content
+:maxdepth: 1
+:hidden:
+
+animation-sequences
+image-sequences-matrix
+```
+
+```{toctree}
+:caption: Managing & Deploying
+:maxdepth: 1
+:hidden:
+
 device-settings-and-management
 saving-and-exporting-configurations
 ```
