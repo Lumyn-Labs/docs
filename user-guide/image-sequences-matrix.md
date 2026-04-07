@@ -14,10 +14,6 @@ Open the Image Sequences page. If none exist, the page is empty. Click **Create 
 - **Import Image**: Start from a single image as one frame.
 - **Free-draw**: Start with a blank canvas.
 
-```{image} ../assets/lumyn-studio/image-sequences/create-dialog-page1.png
-:alt: Image Sequence Creation Dialog Page 1
-```
-
 The creation flow (**Project setup**) walks through:
 
 - **Details**: ID, Name, Tags.
