@@ -57,16 +57,10 @@ Click **Set up a new Zone** and choose the zone type using the option tiles:
 :alt: Zone Type Selection
 ```
 
-Configure the zone ID and brightness, then continue:
+Configure the zone ID and brightness, then set the length and whether the zone is reversed.
 
-```{image} ../assets/lumyn-studio/getting-started/strip-zone-step-1.png
+```{image} ../assets/lumyn-studio/getting-started/strip-zone-dialog.png
 :alt: Zone Creation
-```
-
-Set length and whether the zone is reversed. Reversed zones index LEDs in the opposite direction.
-
-```{image} ../assets/lumyn-studio/getting-started/strip-zone-step-2.png
-:alt: Zone Configuration
 ```
 
 For matrix zones, the editor uses four tabs: **General**, **Dimensions**, **Origin**, and **Layout**.

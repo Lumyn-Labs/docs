@@ -47,3 +47,8 @@ body:not([data-theme="light"]) {
 
 /* Headings letter spacing */
 h1, h2, h3, h4, h5, h6 { letter-spacing: -0.01em; }
+
+/* Remove the large empty gap to the left of the sidebar on wide viewports */
+.sidebar-drawer {
+  width: 15em;
+}
