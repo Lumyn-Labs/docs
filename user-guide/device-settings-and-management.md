@@ -20,7 +20,7 @@ Tabs include (order may vary by device capabilities):
 - **LED Commander**: Send test LED commands. Command types include Animation, Animation Sequence, Image Sequence, Lumyn Animation (LLA-compatible animations), Matrix Text Scroll, and Color. Targets are filtered using your device configuration, with a live preview. Footer: **Send Command**.
 - **Modules**: Live module data (push/pull where supported). Footer: **Refresh**, **Clear**. Shown for module-capable devices.
 - **Events**: Device event log.
-- **Logs**: Human-readable serial output when **Debug mode** is enabled in the device firmware
+- **Logs**: Human-readable serial output from the device. Requires **Debug mode** to be enabled in Studio settings and device firmware (see Advanced section below).
 
 ```{warning}
 Configurations are stored in browser storage. Export regularly to avoid data loss.

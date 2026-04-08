@@ -16,7 +16,7 @@ Open a device's **Configuration Overview** page, then click **Export Configurati
 
 If your configuration includes image sequences, optionally check **Include image assets in export** to download a zip containing `config.json` at the root and folders for each sequence.
 
-When assets are included and your device firmware supports it, you can also enable **Export as LLA animation files** to package Lumyn LED Animation (`.lla`) files. A chip in the dialog shows whether you are exporting JSON only, a zip with bitmaps, or a zip with `.lla` files.
+When assets are included and your device firmware supports it, you can also enable **Export as LLA animation files** to package Lumyn LED Animation (`.lla`) files - a compact format that the device renders directly, replacing raw bitmap frames. A chip in the dialog shows whether you are exporting JSON only, a zip with bitmaps, or a zip with `.lla` files.
 
 Use **Download JSON/ZIP** to save the file locally. With a connected device running firmware **4.3** or newer and stream support, **Send to Device** uploads the configuration (and assets when applicable) directly from this dialog.
 

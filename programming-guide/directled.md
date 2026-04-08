@@ -33,10 +33,9 @@ import com.lumynlabs.connection.usb.USBPort;
 ConnectorX cx = new ConnectorX();
 cx.Connect(USBPort.kUSB1);
 
-// Create DirectLED for a 60-LED zone
-DirectLED direct = cx.createDirectLED("strip-zone", 60);
-// Or via the leds handler:
-// DirectLED direct = cx.leds.createDirectLED("strip-zone", 60);
+// Recommended: create via the leds handler
+DirectLED direct = cx.leds.createDirectLED("strip-zone", 60);
+// Equivalent shorthand: cx.createDirectLED("strip-zone", 60)
 ```
 :::
 :::{tab-item} C++ (WPILib)
@@ -273,7 +272,7 @@ public class Robot extends TimedRobot {
 #include <frc/AddressableLED.h>
 #include <frc/LEDPattern.h>
 #include <lumyn/device/ConnectorXAnimate.h>
-#include <lumyn/domain/led/DirectLED.h>
+#include <lumyn/device/DirectLED.h>
 #include <array>
 #include <memory>
 

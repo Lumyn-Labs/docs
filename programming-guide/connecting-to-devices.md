@@ -165,6 +165,7 @@ if (m_cx.IsConnected()) {
 ```
 :::
 :::{tab-item} Python
+:sync: python
 ```python
 from lumyn_sdk import ConnectorX
 
@@ -178,6 +179,7 @@ fast_connected = cx.connect_uart("/dev/ttyS0", 230400)
 ```
 :::
 :::{tab-item} C
+:sync: c
 ```c
 #include <lumyn/c/lumyn_device.h>
 

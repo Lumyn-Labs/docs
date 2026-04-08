@@ -48,6 +48,26 @@ To learn more about this panel, see [Device Settings & Management](device-settin
 
 Click outside the panel to explore the Devices tab.
 
+## Device Configuration Page
+
+The Devices tab shows your device and its configuration overview, including channels, sequences, and modules. You can export the configuration from here.
+
+Left-side navigation:
+
+- Configuration: Overview of the device plus channels, sequences, and modules.
+- LED Channels: Configure channels, zones, and groups (shown when the device supports LEDs).
+- Modules: View and edit modules added to the device (shown when the device supports modules).
+- Animation Sequences: Preview and edit sequence assets on the device (shown when the device supports LEDs).
+- Image Sequences: Preview and edit image sequences on the device (shown when the device supports LEDs).
+- Information: Device variant, firmware version, serial number, rename, specifications, communication modes, and peripheral support.
+- Back to Devices: Return to the device list.
+
+```{image} ../assets/lumyn-studio/getting-started/configuration-overview.png
+:alt: Configuration Overview
+```
+
+Your next step is to create LED channels and zones. See [Zones and Zone Groups](zones-and-zone-groups).
+
 ## Next Steps
 
 - Configure channels, zones, and groups: [Zones and Zone Groups](zones-and-zone-groups)

@@ -56,9 +56,13 @@ Create a file named `config.json` in the **root** of the microSD card with the f
   "channels": {},
   "sequences": [],
   "bitmaps": [],
-  "sensors": [],
+  "modules": [],
   "groups": []
 }
+```
+
+```{note}
+This is a minimal starter configuration. Once you configure your device in Lumyn Studio, you will export a complete configuration file to replace it.
 ```
 
 ### Step 3: Connect Power and USB
@@ -68,6 +72,10 @@ Create a file named `config.json` in the **root** of the microSD card with the f
 3. **For LED control**: Connect your device to a 12V power source. For FRC robots, connect directly to a spare port on the PDH or PDP. **Note**: USB-C power alone is sufficient for connecting to Lumyn Studio and configuring your device.
 
 ### Step 4: Update Firmware
+
+```{tip}
+On Windows, if your device is not recognized during the firmware update, complete Step 5 (driver installation) first, then return to this step.
+```
 
 Before configuring your device, ensure you're running the latest firmware. Download the latest firmware from our [GitHub Releases page](https://github.com/Lumyn-Labs/Releases/releases) and follow the [Drivers and Firmware](drivers-and-firmware) guide to update.
 
@@ -114,17 +122,19 @@ For a deeper look at the Studio interface, tabs, and features, see [Getting Star
 
 ### Step 9: Configure LEDs
 
-Create a channel and add a zone (Strip or Matrix). See: [Getting Started with Lumyn Studio](user-guide/getting-started-with-lumyn-studio)
+In the device's LED Channels page, click an empty port and choose Configure. Set an ID, the number of LEDs, and brightness. Then add a zone (Strip for linear LEDs, Matrix for a 2D grid). See: [Getting Started with Lumyn Studio](user-guide/getting-started-with-lumyn-studio)
 
 ### Step 10: Add Content
 
-- **For strips**: Create an animation sequence. See: [Animation Sequences](user-guide/animation-sequences)
-- **For matrices**: Create an image sequence. See: [Image Sequences](user-guide/image-sequences-matrix)
+- **For strips**: Open the Animation Sequences tab, click Create sequence, and add animation steps with colors and timing. See: [Animation Sequences](user-guide/animation-sequences)
+- **For matrices**: Open Image Sequences and import a GIF or create from scratch in the Motion Editor. See: [Image Sequences](user-guide/image-sequences-matrix)
 
 ### Step 11: Export and Deploy
 
-- Export the configuration JSON and copy to the microSD root. See: [Saving & Exporting Configurations](user-guide/saving-and-exporting-configurations)
-- Insert the microSD card into your device and power it on.
+- Click Export Configuration on your device's overview page and download the JSON file.
+- Copy `config.json` to the root of your microSD card.
+- For configurations with images, export as a zip and copy all contents to the microSD card root.
+- Insert the microSD card into your device and power it on. See: [Saving & Exporting Configurations](user-guide/saving-and-exporting-configurations)
 
 ## Next Steps
 

@@ -105,7 +105,7 @@ Matrix text gained formatting controls for cleaner layouts and better readabilit
 
 ### DirectLED: Efficient LED Buffer publishing
 
-DirectLED provides LED buffer publishing for high-rate per-pixel control with minimal bandwidth. Use it to bring animations written with the WPILib LED animation API to the ConnectorX. It is available on ConnectorX and ConnectorXAnimate (Java: `cXAnimate.leds.createDirectLED(...)`).
+DirectLED provides LED buffer publishing for high-rate per-pixel control with minimal bandwidth. Use it to bring animations written with the WPILib LED animation API to the ConnectorX. It is available on ConnectorX and ConnectorX Animate (Java: `cXAnimate.leds.createDirectLED(...)`).
 
 ::::{tab-set}
 :::{tab-item} Java (WPILib)
@@ -167,7 +167,7 @@ ConnectorX now supports **UART connections** with configurable baud rates, in ad
 import com.lumynlabs.connection.usb.USBPort;
 import com.lumynlabs.connection.uart.UARTPort;
 
-// USB connections (both ConnectorX and ConnectorXAnimate)
+// USB connections (both ConnectorX and ConnectorX Animate)
 boolean connected = cXAnimate.Connect(USBPort.kUSB1);
 
 // UART connections with custom baud rate (ConnectorX only)

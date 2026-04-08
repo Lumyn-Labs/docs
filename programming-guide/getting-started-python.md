@@ -77,7 +77,7 @@ cx = ConnectorX()
 cx.connect("COM3")
 ```
 
-### ConnectorXAnimate
+### ConnectorX Animate
 
 Use the `ConnectorXAnimate` class if you have a **ConnectorX Animate** device.
 

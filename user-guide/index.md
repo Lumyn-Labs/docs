@@ -30,7 +30,7 @@ Create zones on a channel and groups that control multiple zones at once. Essent
 
 #### [Modules](modules)
 
-**When to use**: Adding sensors or I/O expansion to your ConnectorX device.
+**When to use**: Adding sensors or I/O expansion to a compatible Lumyn Labs device.
 
 Browse official modules, add modules to your configuration, and create custom modules. Covers finding, configuring, and integrating modules.
 
@@ -80,7 +80,11 @@ A quick glossary of common terms used throughout the docs and Lumyn Studio:
 - **Animation**: A built-in effect (for example Blink, Chase, Fire, Confetti, Plasma, Heartbeat). Lumyn Studio includes 26 built-in animations.
 - **Animation Sequence**: An ordered list of animations with timings and parameters.
 - **Image Sequence**: A timeline-based animation of vector shapes, text, and images, rendered as frames for a matrix zone.
+- **LLA (Lumyn LED Animation)**: A compact animation file format (`.lla`) for matrix zones. Exported from Lumyn Studio when your configuration includes image sequences.
+- **DirectLED**: A mode for high-frequency per-pixel LED control from robot code, bypassing built-in animations. Uses compression for efficiency.
+- **Vendordep (Vendor Dependency)**: A WPILib mechanism for adding third-party libraries to FRC robot projects. The Lumyn Labs vendordep provides Java and C++ APIs for controlling ConnectorX devices.
 - **Module**: An extension providing data or behavior via I2C/SPI/UART/digital/analog.
+- **Polling Rate**: How often (in milliseconds) a module reads data from its sensor and reports it to the host.
 - **Brightness Auto**: Device-managed brightness based on LED count and power constraints.
 
 ## Common Workflows

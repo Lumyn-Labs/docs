@@ -6,25 +6,9 @@ hide-toc: true
 
 Zones divide a channel into independently controllable sections; groups let you control multiple zones together.
 
-## The Devices Tab
-
-The Devices tab shows your device and its configuration overview, including channels, sequences, and modules. You can export the configuration from here.
-
-Left-side navigation:
-
-- Configuration: Overview of the device plus channels, sequences, and modules.
-- LED Channels: Configure channels, zones, and groups (shown when the device supports LEDs).
-- Modules: View and edit modules added to the device (shown when the device supports modules).
-- Animation Sequences: Preview and edit sequence assets on the device (shown when the device supports LEDs).
-- Image Sequences: Preview and edit image sequences on the device (shown when the device supports LEDs).
-- Information: Device variant, firmware version, serial number, rename, specifications, communication modes, and peripheral support.
-- Back to Devices: Return to the device list.
-
-```{image} ../assets/lumyn-studio/getting-started/configuration-overview.png
-:alt: Configuration Overview
-```
-
 ## LED Channels
+
+Once your device is set up, open it from the Devices list to access its configuration. Use the **LED Channels** page in the left sidebar to configure channels, zones, and groups.
 
 Use LED Channels to configure channel length, zones, and groups.
 

@@ -37,7 +37,13 @@ Re-open the repository in VS Code after rebooting and watch as PlatformIO instal
 
 #### main.cpp Structure
 
-Open `main.cpp` and notice the `TODO` comment between the two `init()` calls. Ordering here is **very** important since `init()` sets up the board's basic functionality and gives a place for your custom Modules/Animations to go while `initServices()` then takes the registered entities and allows the Configuration in code or on your SD card to use them.
+Open `main.cpp` in the firmware starter and notice the registration section between the two system init calls. Ordering here is important:
+
+1. `LumynLabs::System::init()`
+2. Register your custom modules/animations
+3. `LumynLabs::System::initServices()`
+
+This ensures custom types are registered before services load your configuration.
 
 ### Register Custom Animations
 
@@ -54,20 +60,20 @@ The core building block of every Animation is the `Animation::AnimationInstance`
 | Member name | Type | Description |
 | :---------: | :--: | :---------: |
 | `id` | `std::string_view` | The ID to reference this Animation in commands and Animation Sequences |
-| `stateMode` | `Animation::StateMode` | `Constant` for constant; `LedMode` for LED count + `stateCount` |
+| `stateMode` | `Animation::StateMode` | `Constant` for constant; `LedCount` for LED count + `stateCount` |
 | `stateCount` | `uint16_t` | Number of states |
 | `defaultDelay` | `uint16_t` | The default delay between each state update in milliseconds |
-| `defaultColor` | `Configuration::ActionColor` | The default color of the Animation given as 8-bit `r, g, b` values |
+| `defaultColor` | `LumynLabs::Color` | The default color of the Animation given as 8-bit `r, g, b` values |
 | `cb` | `Animation::AnimationFrameCallback` | The function called every time the state updates |
 
 #### AnimationFrameCallback
 
-This function is called every time the state changes. The signature is: `std::function<bool(CRGB*, CRGB, uint16_t, uint16_t)>` with the parameters:
+This function is called every time the state changes. The signature is: `std::function<bool(LumynLabs::Color*, LumynLabs::Color, uint16_t, uint16_t)>` with the parameters:
 
 | Name | Type | Description |
 | :--: | :--: | :---------: |
-| `strip` | `CRGB*` | The array of raw color values. This corresponds 1:1 with the zone so do not modify values outside of its boundary |
-| `color` | `CRGB` | The requested color. Note that this may be ignored depending on the Animation's needs (such as a rainbow animation) |
+| `strip` | `LumynLabs::Color*` | The array of raw color values. This corresponds 1:1 with the zone so do not modify values outside of its boundary |
+| `color` | `LumynLabs::Color` | The requested color. Note that this may be ignored depending on the Animation's needs (such as a rainbow animation) |
 | `state` | `uint16_t` | The current, 0-indexed state that the callback needs to handle. It is incremented automatically for you |
 | `count` | `uint16_t` | The number of LEDs in the Zone. This must be used when updating the `strip` array in order to not exceed its boundary! |
 
@@ -79,26 +85,39 @@ To create a custom Animation, it is recommended to create a new header file (`.h
 
 #### Registration
 
-Simply call `AnimationMngr.registerAnimation(std::move(MyAnimationStruct));` where `MyAnimationStruct` is the name of your `static Animation::AnimationInstance` value.
+Simply call `LumynLabs::registerAnimation(MyAnimationStruct);` where `MyAnimationStruct` is the name of your `static Animation::AnimationInstance` value.
 
 ```{note}
-The Animations in `BuiltInAnimations.h` are registered **automatically** by the system and shouldn't typically be modified!
+Built-in animations are registered **automatically** by the SDK and should not need to be re-registered.
 ```
 
 ### Register Custom Modules
 
-Similar to how all Animations are an `Animation::AnimationInstance`, all Modules must inherit from the `Modules::BaseModule` class. To create a new Custom Module in your firmware, first take a look at [our docs](user-guide/modules) which covers how to get started and generate some boilerplate code that can be copy-pasted into a header file. Once the header has been added inside of the `include` directory, make sure to address the `TODO` comments for each configuration parameter, if any, as well as populating the custom Payload inside of the `poll()` method.
+Custom modules should inherit from `LumynLabs::Module<T>`, where `T` is your module payload struct.
 
-To make your Custom Module known to the rest of the system and be able to instantiate an instance(s) from a Configuration, place:
+Use Lumyn Studio's generated Source templates as your starting point (see [Modules](user-guide/modules)):
+
+- **Module Header**: generated class skeleton implementing `initModule()` and `readData(T* dataOut)`
+- **Module Registration**: generated registration snippet for `main.cpp`
+
+A minimal registration looks like:
 
 ```cpp
-SystemManagerService.registerModuleType(
-  "MY_CUSTOM_MODULE_ID", [](const Configuration::Sensor& cfg) {
-    return std::make_shared<MyCustomModuleClass>(cfg);
-});
+LumynLabs::registerModule<MyCustomData, MyCustomModule>("MY_CUSTOM_MODULE_ID");
 ```
 
-into the appropriate section in `main.cpp`. Remember that `"MY_CUSTOM_MODULE_ID"` should be replaced with the same ID you gave it in the Custom Module Editor in Lumyn Studio and `MyCustomModuleClass` is the class name in the header for your Custom Module.
+The module ID string must match the Module ID used in Lumyn Studio. Register modules during startup before services are initialized.
+
+When implementing module code:
+
+- Populate payload values in `readData(T* dataOut)`.
+- Keep payload struct layout stable between firmware and host-side expectations.
+- Parse optional custom configuration from `config().customConfig` and `config().customConfigSize`.
+- Use `config().connectionType` to select the expected peripheral behavior.
+
+```{note}
+`config().customConfig` is a raw byte blob and is module-defined. In the current SDK headers, `customConfigSize` is limited to 32 bytes.
+```
 
 ### Flashing Custom Firmware
 
@@ -126,9 +145,9 @@ Alternatively, you can follow the setup instructions above to compile the defaul
 
 ### Available Classes and Methods
 
-#### SystemManagerService
+#### System APIs
 
-Used to initialize the system. Optionally, you can call `getStatus`, `getErrorFlags`, or `getAssignedId` to check on your Device's status. **Do not call start()** as this will start additional `SystemService` tasks in the RTOS and lead to conflicts.
+Use `LumynLabs::System::init()` and `LumynLabs::System::initServices()` as shown in the firmware starter `main.cpp`. Register custom modules and animations between those calls.
 
 #### LedService
 
@@ -138,28 +157,30 @@ In here, you can manually register additional Channels, Animations, Animation Se
 
 Use `SerialLogger` to log messages via the secondary serial port in a thread-safe way. There are 5 different logging levels: `Verbose`, `Info`, `Warn`, `Error`, and `Fatal`.
 
-#### EventingService
+#### Event APIs
 
-You can send an `Eventing::Event` with a call to `EventService.sendEvent()`. If calling from an interrupt, use `EventService.sendEventFromISR()`.
+Use the event service APIs provided by your selected firmware starter version for asynchronous events. If you're working from interrupt context, use the ISR-safe variant documented in that starter's README/source comments.
 
 ## Creating Custom Modules (Studio-Based)
 
-Custom modules allow you to extend device functionality without modifying firmware. Use Lumyn Studio's Create Custom Module feature to define module metadata, payload, and firmware.
+Custom modules in Studio define metadata, payload shape, and configuration inputs, then generate source templates you can copy into firmware. You still need to implement, build, and flash firmware for the module to run on hardware.
 
 ### Workflow
 
-1. **Basic Information**: Define the module type, name, category, tags, connection types, images, and links.
-2. **Payload**: Define up to 16 bytes of data returned each poll cycle.
-3. **Custom Configuration**: Specify module-specific options that will be available in your robot code.
-4. **Readme**: Author markdown documentation for sharing and maintenance.
-5. **Generated Firmware**: Generate and download starter firmware once all inputs are complete.
+1. **Create Module**: Open the Create dialog, set a Module ID, and create your custom module.
+2. **Define Editor Sections**: Fill out Overview, Details, README, and Data sections in the custom module editor.
+3. **Model Payload + Config**: Define payload fields and configuration options that are passed into firmware at runtime.
+4. **Copy Source Artifacts**: Use the Source tab to copy:
+   - the generated module header template
+   - the module registration snippet for `main.cpp`
+5. **Implement + Flash**: Complete TODOs in the generated template, build with PlatformIO, and flash your device.
 
 ### Module Development Tips
 
-- Keep payload sizes small (under 16 bytes) for best performance
+- Keep payload sizes small for best performance and compatibility
 - Use clear, descriptive names for your modules
 - Document your module's behavior and wiring requirements
-- Test modules thoroughly in simulation before deploying to hardware
+- Test modules thoroughly on hardware after flashing firmware changes
 
 See the [Modules](user-guide/modules) page for UI details and screenshots of the module creation interface.
 
