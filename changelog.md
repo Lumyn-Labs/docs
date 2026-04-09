@@ -8,6 +8,60 @@ All notable changes to Lumyn Labs products will be documented here.
 
 ---
 
+## [2026.2.0] - April 2026
+
+Major release featuring a redesigned Lumyn Studio, OTA firmware updates, the LLA animation file format, and module support on ConnectorX Animate.
+
+### Firmware 4.3
+
+#### Added
+
+- **OTA Firmware Updates**: Devices running firmware 4.3 or newer can be updated over the air directly from Lumyn Studio. No bootloader mode or manual UF2 flashing required.
+- **LLA File Support**: New Lumyn Labs Animation (`.lla`) file format for image sequences. LLA files are highly compressed compared to raw bitmap data, load faster on-device, and are portable between teams.
+- **Direct Config and Asset Uploads**: Configurations and image sequence assets can now be streamed to the device over USB from Studio, eliminating manual SD card file transfers.
+- **Module Support on ConnectorX Animate**: ConnectorX Animate now supports up to two I2C modules, bringing sensor integration to the multi-channel LED controller.
+
+#### Changed
+
+- Improved overall firmware stability and response times.
+
+### Lumyn Studio 4.3
+
+#### Added
+
+- **Redesigned Interface**: Lumyn Studio has been rebuilt from the ground up with a new dark-mode-first UI. Every panel, dialog, and editor has been revisited for clarity and speed.
+- **OTA Firmware Update Prompt**: When a connected device has a newer firmware version available, Studio displays an update prompt. Users can apply the update in one click without entering bootloader mode.
+- **LLA Export**: The Export Configuration dialog now offers an **Export as LLA animation files** option when image sequences are included. LLA files replace raw bitmap frames with a compact, device-rendered format.
+- **Direct Upload to Device**: A new **Send to Device** button in the Export Configuration dialog streams the configuration (and assets, when applicable) directly to a connected device over USB.
+- **Redesigned Custom Module Workflow**: The custom module editor now guides users through creating modules step by step with dedicated sections for Overview, Details, README, Data (payload and configuration fields), and Source (generated firmware boilerplate).
+- **Improved Animation Sequence Editor**: Cleaner timeline, better performance, more responsive previews, and a redesigned step editor with inline controls.
+- **Image Sequence Editor 2.0 (Motion Editor)**: Completely rebuilt editor with layer support, vector shapes and text, keyframe-based animation, GIF import/export, and timeline transport controls.
+- **Redesigned LED Commander**: The testing utility now populates command targets from the device configuration and shows live animation previews. Supports Animation, Animation Sequence, Image Sequence, Lumyn Animation (LLA), Matrix Text Scroll, and Color command types.
+- **Configuration Sync**: Studio automatically reads the device configuration on connect and prompts the user to resolve conflicts when Studio and device configurations differ.
+- **Image Sequence Preview at Matrix Size**: Image sequences can now be previewed at the exact pixel resolution of the target LED matrix.
+
+#### Changed
+
+- Settings page reorganized with General, Advanced, Debug, Network, Experiments, and Resources sections.
+- Module catalog and detail pages updated with new layout and navigation.
+- Device configuration overview page redesigned with clearer channel, sequence, and module cards.
+
+### Vendordep 2026.2.0
+
+#### Added
+
+- **Module support on ConnectorX Animate**: `ConnectorXAnimate` now supports I2C modules (up to two). Module typed helpers (`DigitalInputModule`, `AnalogInputModule`, `VL53L1XModule`) and raw callbacks work on both device types.
+
+#### Changed
+
+- Improved module data reliability under high polling rates.
+
+#### Fixed
+
+- Fixed an issue that could cause ConnectorX devices to fail to connect when used in conjunction with a CANivore.
+
+---
+
 ## [2026.1.2] - February 5, 2026
 
 This release introduces Matrix Text 2.0 with enhanced text rendering capabilities, alongside new standalone SDKs and stability improvements.
@@ -187,11 +241,6 @@ We're the **first FRC vendor** to offer a custom GUI inside of WPILib's SimGUI:
 
 - Event type is now accessed via `evt->header.type` instead of `evt->type`
 
-#### Module Support
-
-- Modules are now supported exclusively on `ConnectorX` devices
-- `ConnectorXAnimate` no longer supports module functionality
-
 ### Deprecated
 
 The following APIs are deprecated and will be removed in the 2027 release. Please migrate to the builder APIs:
@@ -244,11 +293,11 @@ Event callbacks and background polling in the Java API.
 
 ## [2025.0.0] - January 2025
 
-Initial release for the 2025 FRC season with support for ConnectorX and ConnectorXAnimate devices.
+Initial release for the 2025 FRC season with support for ConnectorX and ConnectorX Animate devices.
 
 ### Features
 
-- USB connection support for ConnectorX and ConnectorXAnimate
+- USB connection support for ConnectorX and ConnectorX Animate
 - LED control: colors, animations, animation sequences, image sequences, and matrix text
 - Event reporting via polling API
 - Module registration scaffolding

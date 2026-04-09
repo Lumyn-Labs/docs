@@ -6,24 +6,9 @@ hide-toc: true
 
 Zones divide a channel into independently controllable sections; groups let you control multiple zones together.
 
-## The Devices Tab
-
-The Devices tab shows your device and its configuration overview, including channels, sequences, and modules. You can export the configuration from here.
-
-Left-side navigation:
-
-- Configuration: Overview of the device plus channels, sequences, and modules.
-- LED Channels: Configure channels, zones, and groups.
-- Modules: View and edit modules added to the device.
-- Animation Sequences: Preview and edit sequence assets on the device.
-- Image Sequences: Preview and edit image sequences on the device.
-- Information: Device variant details and rename.
-
-```{image} ../assets/lumyn-studio/getting-started/configuration-overview.png
-:alt: Configuration Overview
-```
-
 ## LED Channels
+
+Once your device is set up, open it from the Devices list to access its configuration. Use the **LED Channels** page in the left sidebar to configure channels, zones, and groups.
 
 Use LED Channels to configure channel length, zones, and groups.
 
@@ -34,8 +19,8 @@ Use LED Channels to configure channel length, zones, and groups.
 Create a channel by clicking an empty port and choosing Configure. Set:
 
 - ID: Unique identifier used for direct control.
-- Length: Number of LEDs on the channel.
-- Brightness: Fixed value or Auto for automatic power-aware brightness.
+- Length: Number of LEDs on the channel (up to 320 per channel).
+- Brightness: 1–255, or enable Auto Brightness for power-aware brightness.
 
 ```{tip}
 For power reasons, a single channel supports up to 320 LEDs. For more LEDs, consider ConnectorX Animate (four channels, up to 1280 LEDs total).
@@ -47,7 +32,7 @@ For power reasons, a single channel supports up to 320 LEDs. For more LEDs, cons
 
 ## Zones
 
-Click Set up a new zone and choose the zone type:
+Click **Set up a new Zone** and choose the zone type using the option tiles:
 
 - Strip Zone: Linear section of LEDs.
 - Matrix Zone: 2D grid of LEDs.
@@ -56,24 +41,20 @@ Click Set up a new zone and choose the zone type:
 :alt: Zone Type Selection
 ```
 
-Configure the zone ID and brightness, then continue:
+Configure the zone ID and brightness, then set the length and whether the zone is reversed.
 
-```{image} ../assets/lumyn-studio/getting-started/strip-zone-step-1.png
+```{image} ../assets/lumyn-studio/getting-started/strip-zone-dialog.png
 :alt: Zone Creation
 ```
 
-Set length and whether the zone is reversed. Reversed zones index LEDs in the opposite direction.
+For matrix zones, the editor uses four tabs: **General**, **Dimensions**, **Origin**, and **Layout**.
 
-```{image} ../assets/lumyn-studio/getting-started/strip-zone-step-2.png
-:alt: Zone Configuration
-```
-
-Reorder zones via drag-and-drop. Create additional zones as needed.
+Reorder zones via drag-and-drop (or use Shift+Up and Shift+Down on a keyboard). Create additional zones as needed.
 
 ## Groups
 
 Create groups to control multiple zones together. Groups can span zones on the same channel, allowing you to synchronize animations across multiple zones with a single command.
 
-1. In LED Channels, open Groups.
-2. Create a group and add zones to it.
+1. In LED Channels, open **Groups** (the dedicated groups page for that device).
+2. Click **Set up a new Animation Group**. Enter a group ID and select zones using the zone chips (all zones in a group must be the same type: strip or matrix).
 3. Use groups to apply animations or commands to multiple zones at once.

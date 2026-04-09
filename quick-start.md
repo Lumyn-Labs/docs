@@ -56,9 +56,13 @@ Create a file named `config.json` in the **root** of the microSD card with the f
   "channels": {},
   "sequences": [],
   "bitmaps": [],
-  "sensors": [],
+  "modules": [],
   "groups": []
 }
+```
+
+```{note}
+This is a minimal starter configuration. Once you configure your device in Lumyn Studio, you will export a complete configuration file to replace it.
 ```
 
 ### Step 3: Connect Power and USB
@@ -68,6 +72,10 @@ Create a file named `config.json` in the **root** of the microSD card with the f
 3. **For LED control**: Connect your device to a 12V power source. For FRC robots, connect directly to a spare port on the PDH or PDP. **Note**: USB-C power alone is sufficient for connecting to Lumyn Studio and configuring your device.
 
 ### Step 4: Update Firmware
+
+```{tip}
+On Windows, if your device is not recognized during the firmware update, complete Step 5 (driver installation) first, then return to this step.
+```
 
 Before configuring your device, ensure you're running the latest firmware. Download the latest firmware from our [GitHub Releases page](https://github.com/Lumyn-Labs/Releases/releases) and follow the [Drivers and Firmware](drivers-and-firmware) guide to update.
 
@@ -83,44 +91,50 @@ On Windows, you may need to install a driver to allow your browser to communicat
 
 Open your Chromium-based browser and navigate to [studio.lumynlabs.com](https://studio.lumynlabs.com).
 
-The Studio interface is organized into tabs: Home, Devices, Modules, Animation Sequences, Image Sequences, and Settings. For a detailed overview, see [Getting Started with Lumyn Studio](user-guide/getting-started-with-lumyn-studio).
+The Studio interface is organized into tabs: Devices, Modules, Animation Sequences, Image Sequences, and Settings. For a detailed overview, see [Getting Started with Lumyn Studio](user-guide/getting-started-with-lumyn-studio).
 
 ### Step 7: Connect to the Device
 
 1. Wait for the device to boot. The onboard RGB LED will breathe blue when it's ready.
-2. In Lumyn Studio, click the "Connect" button in the top-right corner.
+2. In Lumyn Studio, click the connection icon in the top-right corner of the navigation bar.
 
 ```{image} assets/quickstart/connect-button.png
 :alt: Click Connect Button in Lumyn Studio
 ```
 
-3. In the dialog that shows up, click "Connect Device"
+3. In the dialog that shows up, click **Connect Device**.
 
 ```{image} assets/quickstart/disconnected-connection-dialog.png
 :alt: Click Connect in the Connected Device Panel
 ```
 
-3. A dialog will appear listing available serial ports. Select your Lumyn Labs device from the list and click "Connect."
+4. A dialog will appear listing available serial ports. Select your Lumyn Labs device from the list and click **Connect**.
 
 If you don't see your device, see the [Troubleshooting & FAQ](troubleshooting-faq) for help.
 
 ### Step 8: Create Your First Configuration
 
-Once connected, Lumyn Studio will prompt you to set up a new device configuration. Give your device a name, and you're ready to start configuring channels, zones, and modules!
+Once connected, Lumyn Studio can prompt you to set up the device. Click **Set Up This Device**, then choose **Create new device** (name and create a new entry) or **Associate existing** (link to an existing Studio device). After that, you can configure channels, zones, and modules.
+
+```{tip}
+For a deeper look at the Studio interface, tabs, and features, see [Getting Started with Lumyn Studio](user-guide/getting-started-with-lumyn-studio).
+```
 
 ### Step 9: Configure LEDs
 
-Create a channel and add a zone (Strip or Matrix). See: [Getting Started with Lumyn Studio](user-guide/getting-started-with-lumyn-studio)
+In the device's LED Channels page, click an empty port and choose Configure. Set an ID, the number of LEDs, and brightness. Then add a zone (Strip for linear LEDs, Matrix for a 2D grid). See: [Getting Started with Lumyn Studio](user-guide/getting-started-with-lumyn-studio)
 
 ### Step 10: Add Content
 
-- **For strips**: Create an animation sequence. See: [Animations & Sequences](user-guide/animations-and-sequences)
-- **For matrices**: Create an image sequence. See: [Image Sequences](user-guide/image-sequences-matrix)
+- **For strips**: Open the Animation Sequences tab, click Create sequence, and add animation steps with colors and timing. See: [Animation Sequences](user-guide/animation-sequences)
+- **For matrices**: Open Image Sequences and import a GIF or create from scratch in the Motion Editor. See: [Image Sequences](user-guide/image-sequences-matrix)
 
 ### Step 11: Export and Deploy
 
-- Export the configuration JSON and copy to the microSD root. See: [Saving & Exporting Configurations](user-guide/saving-and-exporting-configurations)
-- Insert the microSD card into your device and power it on.
+- Click Export Configuration on your device's overview page and download the JSON file.
+- Copy `config.json` to the root of your microSD card.
+- For configurations with images, export as a zip and copy all contents to the microSD card root.
+- Insert the microSD card into your device and power it on. See: [Saving & Exporting Configurations](user-guide/saving-and-exporting-configurations)
 
 ## Next Steps
 

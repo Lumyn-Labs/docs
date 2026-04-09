@@ -6,7 +6,7 @@ hide-toc: true
 
 Welcome to the next generation of the Lumyn Labs software ecosystem! For 2026, we've rebuilt our entire software stack from the ground up based on your feedback to be faster, more powerful, and easier to use.
 
-This massive free update is focused on three key areas: a more powerful **Vendordep** for robot code, a smarter **Lumyn Studio** for configuration, and a faster, simpler **Firmware** experience.
+This massive free update brings a more powerful **Vendordep** for robot code, a smarter **Lumyn Studio** for configuration (including stream uploads, OTA firmware updates, and the Motion Editor), faster **Firmware**, and **standalone SDKs** for Python, C, and C++ outside the WPILib ecosystem.
 
 ---
 
@@ -105,7 +105,7 @@ Matrix text gained formatting controls for cleaner layouts and better readabilit
 
 ### DirectLED: Efficient LED Buffer publishing
 
-DirectLED provides LED buffer publishing for high-rate per-pixel control with minimal bandwidth. Use it to bring animations written with the WPILib LED animation API to the ConnectorX. It is available on ConnectorX and ConnectorXAnimate (Java: `cXAnimate.leds.createDirectLED(...)`).
+DirectLED provides LED buffer publishing for high-rate per-pixel control with minimal bandwidth. Use it to bring animations written with the WPILib LED animation API to the ConnectorX. It is available on ConnectorX and ConnectorX Animate (Java: `cXAnimate.leds.createDirectLED(...)`).
 
 ::::{tab-set}
 :::{tab-item} Java (WPILib)
@@ -167,7 +167,7 @@ ConnectorX now supports **UART connections** with configurable baud rates, in ad
 import com.lumynlabs.connection.usb.USBPort;
 import com.lumynlabs.connection.uart.UARTPort;
 
-// USB connections (both ConnectorX and ConnectorXAnimate)
+// USB connections (both ConnectorX and ConnectorX Animate)
 boolean connected = cXAnimate.Connect(USBPort.kUSB1);
 
 // UART connections with custom baud rate (ConnectorX only)
@@ -402,7 +402,7 @@ cXAnimate.RestartDevice(Units.Seconds.of(1));       // Restart after 1 second
 
 ## A Smarter Lumyn Studio
 
-Our desktop configuration tool has received a major overhaul with a snappier communications stack and powerful new features.
+Our web-based configuration tool has received a major overhaul with a snappier communications stack and powerful new features.
 
 ### Configuration Sync
 
@@ -422,7 +422,7 @@ Upload your configuration JSON directly to any connected device from within Stud
 
 ### Redesigned LED Commander
 
-The LED testing utility now uses the configuration on your device to populate its options. It shows a **live preview** of your animations, animation sequences, and image sequences as you send them.
+The LED testing utility now uses the configuration on your device to populate its options. Choose from command types including **Animation**, **Animation Sequence**, **Image Sequence**, **Lumyn Animation** (LLA-compatible animations), **Matrix Text Scroll**, and **Color**, with targets filtered for compatibility. It shows a **live preview** of your animations, animation sequences, and image sequences as you send them.
 
 ```{image} assets/whats-new/led-commander.png
 :alt: LED Commander
@@ -435,6 +435,16 @@ Preview your image sequences at the exact resolution of the LED Matrix they will
 ```{image} assets/whats-new/bing-chilling.png
 :alt: Preview Image Sequences at Size
 ```
+
+### OTA Firmware Updates
+
+Devices running firmware **4.3** and newer support **over-the-air (OTA) firmware updates** from Lumyn Studio. When you connect the device, if a newer firmware version is available, Studio shows a prompt so you can update without entering bootloader mode or copying a UF2 file manually. Follow the on-screen steps in that flow. You can still flash via UF2 from [GitHub Releases](https://github.com/Lumyn-Labs/Releases/releases) if you prefer the bootloader path described in [Drivers and Firmware](drivers-and-firmware).
+
+---
+
+## Motion Editor for Image Sequences
+
+The image sequence editor for matrix zones is now upgraded with timeline-based editing, vector shapes and text, layers, keyframes, GIF preview, and more. See [Image Sequences (Matrix)](user-guide/image-sequences-matrix) in the User Guide for how to create and deploy sequences.
 
 ---
 
@@ -450,12 +460,20 @@ Express your robot's personality with 13 brand-new animations, including **Fire*
 
 <iframe src="https://widgets.lumynlabs.com/animations-widget?default=fire" height="330" width="100%" frameborder="0" loading="lazy"></iframe>
 
-## Future Roadmap
+---
 
-Looking beyond the 2026 release, we're planning additional features for future updates:
+## Python SDK
 
-- **Python SDK**: A Python library with API parity to the WPILib Vendordep is in development.
-- **C SDK**: A standalone C library for integration with custom applications and embedded systems.
-- **C++ SDK**: A standalone C++ library for use outside of the WPILib ecosystem.
-- **Lumyn Studio Firmware Upload**: Upload firmware directly to your device from within Lumyn Studio.
-- **Studio Enhancements**: We're planning an improved Image Sequence editor and more robust device management features.
+The **Python SDK** is available on PyPI for desktop, Raspberry Pi, and other hosts. It offers a Pythonic API for LED control, modules, events, DirectLED, and configuration—with parity to the capabilities you get from the WPILib vendordep, outside the FRC robot stack. Install with **uv**, connect over USB or UART, and follow [Getting Started with Python SDK](programming-guide/getting-started-python). The SDK remains under active development; report issues to [support@lumynlabs.com](mailto:support@lumynlabs.com).
+
+---
+
+## C SDK
+
+The **standalone C SDK** ships as pre-built releases for Windows, Linux, and macOS (and supports embedded Linux targets). Use it for custom applications, tooling, and embedded hosts where you want a native C API and maximum control. Download binaries and walk through examples in [Getting Started with C/C++ SDK](programming-guide/getting-started-c-cpp-sdk).
+
+---
+
+## C++ SDK
+
+The **standalone C++ SDK** shares packaging and documentation with the C SDK and targets the same platforms. Use it for C++ applications outside WPILib—desktop tools, services, or embedded Linux—while keeping the same wire protocol as other Lumyn clients. See [Getting Started with C/C++ SDK](programming-guide/getting-started-c-cpp-sdk) for C++-specific examples and error handling.

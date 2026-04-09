@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'Lumyn Labs Documentation'
-copyright = '2025, Lumyn Labs'
+copyright = '2025-2026, Lumyn Labs'
 author = 'Lumyn Labs'
 
 # -- General configuration ---------------------------------------------------
@@ -40,7 +40,7 @@ source_suffix = {
 }
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'README.md', 'advanced-topics.md']
+exclude_patterns = ['_build', 'README.md']
 
 # MyST configuration: enable fenced directives for toctree blocks
 myst_fence_as_directive = [

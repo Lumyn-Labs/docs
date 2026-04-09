@@ -33,6 +33,18 @@ Lumyn Labs provides several SDKs for different platforms and use cases:
 | **Python SDK** | Python | Desktop, Raspberry Pi | Host controllers, testing |
 | **C SDK** | C | Embedded, Desktop | Low-level integration |
 
+:::{important}
+**Java vs C++ API Style Difference:** In Java, LED commands are accessed through the `.leds` sub-object (for example, `cXAnimate.leds.SetAnimation(...)`). In C++, LED commands are called directly on the device object (for example, `m_animate.SetAnimation(...)`). Module commands follow the same pattern: Java uses `cX.modules.RegisterModule(...)`, C++ uses `m_cx.RegisterModule(...)`.
+:::
+
+:::{note}
+This guide uses terminology from the [WPILib / FRC ecosystem](https://frcdocs.wpi.edu). Key terms: **roboRIO** (the FRC robot controller), **vendordep** (a WPILib third-party library package), **SimGUI** (WPILib's desktop simulation environment), **MXP** (the roboRIO expansion port for UART).
+:::
+
+## How Studio and Code Connect
+
+The zone IDs, group IDs, module IDs, and sequence IDs you create in Lumyn Studio are the exact strings you use in your robot code. For example, if you create a strip zone called `left-climber` in Studio, you reference it as `"left-climber"` in `SetAnimation(...).ForZone("left-climber")`. Keep IDs short, lowercase-with-hyphens, and consistent between Studio and code.
+
 ## Task Guide
 
 Find what you want to do:

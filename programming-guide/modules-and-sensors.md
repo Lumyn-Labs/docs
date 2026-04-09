@@ -7,7 +7,7 @@ hide-toc: true
 Extend ConnectorX with sensor inputs and hardware interfaces using the module system.
 
 ```{important}
-Modules are only supported on **ConnectorX**, not ConnectorXAnimate.
+Modules are only supported on **ConnectorX**, not **ConnectorX Animate**.
 ```
 
 ## Overview
@@ -81,7 +81,7 @@ dio.Start();
 ```python
 from lumyn_sdk import DigitalInputModule
 
-dio = DigitalInputModule(cx, "digital-1")
+dio = DigitalInputModule(cx, "digital-input")
 dio.on_update(lambda payload: print(f"State: {'HIGH' if payload.state else 'LOW'}"))
 dio.start()
 
@@ -151,12 +151,12 @@ tof.start();
 
 lumyn::modules::VL53L1XModule tof(m_cx, "tof-sensor");
 
-tof.onUpdate([](const lumyn::modules::VL53L1XPayload& payload) {
+tof.OnUpdate([](const lumyn::modules::VL53L1XPayload& payload) {
     if (payload.valid) {
         std::cout << "Distance: " << payload.dist << " mm" << std::endl;
     }
 });
-tof.start();
+tof.Start();
 ```
 :::
 :::{tab-item} Python
@@ -229,11 +229,11 @@ analog.start();
 
 lumyn::modules::AnalogInputModule analog(m_cx, "analog-input");
 
-analog.onUpdate([](const lumyn::modules::AnalogInputPayload& payload) {
+analog.OnUpdate([](const lumyn::modules::AnalogInputPayload& payload) {
     std::cout << "Raw: " << payload.rawValue 
               << ", Scaled: " << payload.scaledValue << std::endl;
 });
-analog.start();
+analog.Start();
 ```
 :::
 :::{tab-item} Python
@@ -492,6 +492,7 @@ auto cfg = lumyn::config::ConfigBuilder()
 :::
 :::{tab-item} Python
 ```python
+# The Python ConfigBuilder mirrors Java/C++ naming
 config = ConfigBuilder() \
     .AddModule("digital-input", "DigitalInput", 50, "DIO") \
         .WithConfig("pin", "DIO0") \

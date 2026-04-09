@@ -38,9 +38,10 @@ cXAnimate.leds.SetAnimation(Animation.Fill)
 #include <units/time.h>
 #include <lumyn/led/Animation.h>
 
+// Use frc::Color8Bit(r, g, b).ToColor() for 0-255 RGB values.
 m_animate.SetAnimation(lumyn::led::Animation::Fill)
     .ForZone("left-climber")
-    .WithColor(frc::Color{1.0, 0, 0})
+    .WithColor(frc::Color8Bit(255, 0, 0).ToColor())
     .WithDelay(0_ms)
     .RunOnce(false);
 ```
@@ -106,7 +107,7 @@ cXAnimate.leds.SetAnimation(Animation.Fill)
 ```cpp
 m_animate.SetAnimation(lumyn::led::Animation::Fill)
     .ForGroup("all-climbers")
-    .WithColor(frc::Color{0, 1.0, 0})
+    .WithColor(frc::Color8Bit(0, 255, 0).ToColor())
     .WithDelay(0_ms)
     .RunOnce(false);
 ```
@@ -248,7 +249,7 @@ using lumyn::led::Animation;
 // Gold chase animation, 40ms between frames, looping
 m_animate.SetAnimation(Animation::Chase)
     .ForZone("left-climber")
-    .WithColor({200, 120, 15})
+    .WithColor(frc::Color8Bit(200, 120, 15).ToColor())
     .WithDelay(40_ms)
     .Reverse(false)
     .RunOnce(false);
@@ -256,7 +257,7 @@ m_animate.SetAnimation(Animation::Chase)
 // Red chase on a group, reversed, runs once
 m_animate.SetAnimation(Animation::Chase)
     .ForGroup("right-climber")
-    .WithColor({255, 0, 0})
+    .WithColor(frc::Color8Bit(255, 0, 0).ToColor())
     .WithDelay(40_ms)
     .Reverse(true)
     .RunOnce(true);
@@ -396,12 +397,12 @@ lumyn_SetGroupAnimationSequence(LUMYN_BASE_PTR(&cx), "all-intake", "intake-seque
 Animation sequences are typically created in Lumyn Studio:
 
 1. Open the **Animation Sequences** tab
-2. Click **Create Animation Sequence**
+2. Click **Create sequence**
 3. Add steps with animations, colors, delays, and repeat counts
 4. Use the preview to visualize the sequence
 5. Save and export to your device
 
-See [Animations & Sequences](../user-guide/animations-and-sequences) in the Lumyn Studio Guide for details.
+See [Animation Sequences](../user-guide/animation-sequences) in the Lumyn Studio Guide for details.
 
 ## Zones vs Groups
 
