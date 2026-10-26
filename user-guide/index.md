@@ -42,7 +42,7 @@ Build what appears on your LEDs.
 
 **When to use**: Creating LED strip animations or animation sequences.
 
-Combine built-in animations (Blink, Chase, Fire, Confetti, Plasma, etc.) into sequences with timing and parameters.
+Combine built-in animations, such as Blink, Chase, Fire, Confetti, and Plasma, into sequences with timing and parameters.
 
 #### [Image sequences (matrix)](image-sequences-matrix)
 

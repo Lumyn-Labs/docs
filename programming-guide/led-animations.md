@@ -155,6 +155,8 @@ Use the builder API to configure and play animations. The builder pattern provid
 
 ### Available animations
 
+There are 37 built-in animations, plus `None`. The last 11 in the table, from `Strobe` on, need firmware 4.4 or later. The six marked *Matrix only* run only on a matrix zone; a strip zone refuses them.
+
 | Animation | Description |
 |-----------|-------------|
 | `None` | No animation |
@@ -183,6 +185,17 @@ Use the builder API to configure and play animations. The builder pattern provid
 | `Lava` | Lava lamp effect |
 | `Plasma` | Plasma effect |
 | `Heartbeat` | Heartbeat pattern |
+| `Strobe` | Short hard flashes in bursts of three, with a pause between bursts |
+| `Wipe` | Fills along the zone, holds, then clears in the same direction |
+| `Fireworks` | Rockets climb and burst into sparks that fall and fade |
+| `Aurora` | Northern lights: bright rays that sway and shift toward purple |
+| `Converge` | Two bars glide in from the ends, flash when they meet, and start over |
+| `Starfield` | Stars stream out of the center as streaks. *Matrix only* |
+| `Snake` | A snake that plays itself, chasing an apple. *Matrix only* |
+| `DigitalRain` | Streams fall down the columns with bright heads and fading tails. *Matrix only* |
+| `Drops` | Raindrops on a pond: rings start at random points and fade as they spread. *Matrix only* |
+| `Monitor` | A heart monitor's trace sweeps across the matrix. *Matrix only* |
+| `BouncingBalls` | Balls drop, bounce off the walls and each other, and slow down. *Matrix only* |
 
 ### Animation builder
 
