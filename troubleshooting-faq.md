@@ -91,14 +91,7 @@ If you cannot upgrade yet, or upload still fails, copy the configuration file di
 
 - Ensure the exported configuration JSON is correct and located on the microSD root as config.json.
 - For image sequences, export with assets and copy the folders to the microSD root.
-
----
-
-### Configuration file reference
-
-The fields of the configuration JSON, what each one means, and which files the board refuses are in the [Configuration file reference](config-reference).
-
----
+- To check each field, see the [Configuration file reference](config-reference).
 
 #### 3. Confirm the device is receiving 12V power
 
@@ -119,7 +112,7 @@ The fields of the configuration JSON, what each one means, and which files the b
 - **Check configuration**: Ensure the module is configured in the device
 - **Check connection**: Modules require a stable connection
 - **Check module ID**: Verify the module ID matches your configuration
-- **Enable polling**: Ensure event/module polling is enabled (e.g. `cx.set_auto_poll_events(True)` in Python)
+- **Enable polling**: Ensure event/module polling is enabled (for example, `cx.set_auto_poll_events(True)` in Python)
 
 ---
 
@@ -153,7 +146,7 @@ Install the SDK with uv. See [Getting started (Python)](programming-guide/gettin
 - Optionally include image assets to get a zip with folders.
 - Copy config.json (and any image folders) to the microSD root.
 
-If you need a default empty config to start with, see the [Configuration file reference](#configuration-file-reference) section above, or **Step 2: Add the Default Config** in the [Quick start guide](quick-start).
+If you need a default empty config to start with, see [Minimal configuration](config-reference.md#minimal-configuration) in the configuration file reference.
 
 ### What LED types are supported?
 
