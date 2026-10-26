@@ -15,19 +15,18 @@ Both devices support:
 
 - USB connectivity
 - microSD-backed configuration and assets
-- onboard screen support
 - Lumyn Studio configuration and SDK control
 
-## ConnectorX vs ConnectorX Animate
+## ConnectorX and ConnectorX Animate compared
 
 | Capability | ConnectorX | ConnectorX Animate |
 |---|---|---|
-| LED Channels | 1 | 4 |
-| Max LEDs | Up to 320 | Up to 1280 total (4x320) |
-| Module/Sensor support | Yes (I2C, SPI, UART, DIO/AIO) | Yes (I2C) |
-| Supported Communications | USB, UART | USB |
+| LED channels | 1 | 4 |
+| Maximum LEDs | Up to 320 | Up to 1280 total (4x320) |
+| Modules | Up to 5 (I2C, SPI, UART, DIO, AIO) | Up to 2 (I2C only) |
+| Robot connection | USB, UART | USB |
 | microSD | Yes | Yes |
-| Regulator Output | 3000 mA | 6000 mA |
+| 5 V regulator output | 3000 mA | 6000 mA |
 
 ## Ports and configuration concepts
 

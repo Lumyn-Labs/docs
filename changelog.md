@@ -50,7 +50,7 @@ Major release featuring a redesigned Lumyn Studio, OTA firmware updates, the LLA
 
 #### Added
 
-- **Module support on ConnectorX Animate**: `ConnectorXAnimate` now supports I2C modules (up to two). Module typed helpers (`DigitalInputModule`, `AnalogInputModule`, `VL53L1XModule`) and raw callbacks work on both device types.
+- **Module support on ConnectorX Animate**: `ConnectorXAnimate` now supports I2C modules (up to two). `VL53L1XModule` and raw callbacks work on both device types. `DigitalInputModule` and `AnalogInputModule` read DIO and AIO pins, which only ConnectorX has.
 
 #### Changed
 

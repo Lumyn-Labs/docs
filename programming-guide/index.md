@@ -84,7 +84,7 @@ High-frequency per-pixel control with WPILib LEDPattern integration.
 :link: modules-and-sensors
 :link-type: doc
 
-Read sensor data with typed helpers and raw callbacks. ConnectorX only.
+Read sensor data with typed helpers and raw callbacks. ConnectorX Animate supports I2C modules only.
 :::
 
 :::{grid-item-card} Device Configuration
@@ -133,7 +133,7 @@ Test in the WPILib desktop simulator. Java/C++ vendordep only.
 - **Use WPILib LEDPattern** - See [DirectLED](directled)
 - **Raw buffer updates** - See [DirectLED](directled)
 
-### Modules (ConnectorX only)
+### Modules
 
 - **Use DigitalInputModule** - See [Modules & sensors](modules-and-sensors)
 - **Use VL53L1XModule** - See [Modules & sensors](modules-and-sensors)

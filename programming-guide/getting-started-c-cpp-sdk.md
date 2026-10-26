@@ -469,7 +469,7 @@ lumyn_DestroyConnectorXAnimate(&cx);
 - [LED matrices](led-matrices) - Matrix control, text, images
 - [DirectLED](directled) - High-frequency per-pixel control
 - [Device configuration](device-configuration) - Configuration management
-- [Modules & sensors](modules-and-sensors) - ConnectorX module support (C++ only)
+- [Modules & sensors](modules-and-sensors) - Module callbacks and typed helpers
 
 ## Troubleshooting
 

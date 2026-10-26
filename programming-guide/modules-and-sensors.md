@@ -4,11 +4,19 @@ hide-toc: true
 
 # Modules & sensors
 
-Extend ConnectorX with sensor inputs and hardware interfaces using the module system.
+Extend ConnectorX and ConnectorX Animate with sensor inputs and hardware interfaces using the module system.
 
-```{important}
-Modules are only supported on **ConnectorX**, not **ConnectorX Animate**.
-```
+## Device support
+
+| | ConnectorX | ConnectorX Animate |
+|---|---|---|
+| Modules at once | Up to 5 | Up to 2 |
+| Connection types | I2C, SPI, UART, DIO, AIO | I2C only |
+| `DigitalInputModule` (DIO) | Yes | No |
+| `AnalogInputModule` (AIO) | Yes | No |
+| `VL53L1XModule` (I2C) | Yes | Yes |
+
+Lumyn Studio offers only the connection types each device supports. In the WPILib vendordep and the C and C++ SDKs, both device types have the same module API. In the Python SDK, only `ConnectorX` has a `modules` handler; `ConnectorXAnimate` has none.
 
 ## Overview
 
