@@ -103,6 +103,7 @@ quick-start
 drivers-and-firmware
 user-guide/index
 programming-guide/index
+config-reference
 troubleshooting-faq
 changelog
 third-party-licenses

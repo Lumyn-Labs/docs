@@ -495,8 +495,8 @@ See [Image sequences](../user-guide/image-sequences-matrix) in the Lumyn Studio 
 
 Matrix zones are configured in Lumyn Studio with:
 
-- **Rows/Columns**: Matrix dimensions (e.g., 16x16, 8x32)
-- **Orientation**: How LEDs are wired (corner position, axis layout, sequence layout)
-- **Brightness**: Optional brightness override
+- **Rows** and **Columns**: the matrix size, such as 16 by 16 or 8 by 32.
+- **Orientation**: how the LEDs are wired: the corner of the first LED, whether they run along rows or columns, and whether each line runs the same way or alternates.
+- **Brightness**: an optional brightness for the zone.
 
-The orientation settings ensure images display correctly regardless of how the physical LEDs are wired.
+The orientation lets text and images display the right way up however the LEDs are wired. The [Configuration file reference](../config-reference.md#matrix-orientation) shows the LED order for each setting.

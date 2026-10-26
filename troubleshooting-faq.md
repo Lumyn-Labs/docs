@@ -96,31 +96,7 @@ If you cannot upgrade yet, or upload still fails, copy the configuration file di
 
 ### Configuration file reference
 
-Reference for the JSON structure used by Lumyn Studio device exports.
-
-A minimal example:
-
-```json
-{
-  "team": null,
-  "network": { "mode": "USB" },
-  "channels": {},
-  "sequences": [],
-  "bitmaps": [],
-  "sensors": [],
-  "groups": []
-}
-```
-
-#### Configuration file structure
-
-- **channels**: Per-channel definitions, including zones and groups. Each channel defines the physical LED configuration and contains one or more zones.
-- **sequences**: Animation sequence metadata used by zones/groups. Defines ordered lists of animations with timing and parameters.
-- **bitmaps**: Image sequence descriptors for matrix zones. References image files stored in the deploy directory.
-- **sensors**: Module wiring/configuration. Defines how modules are connected and configured on the device.
-- **groups**: Collections of zones for synchronized control. Allows you to control multiple zones together with a single command.
-
-The configuration file is typically exported from Lumyn Studio and placed in your robot project's `deploy/` directory. The device loads this configuration at startup, and your robot code references zones, groups, and modules by their names as defined in this file.
+The fields of the configuration JSON, what each one means, and which files the board refuses are in the [Configuration file reference](config-reference).
 
 ---
 
