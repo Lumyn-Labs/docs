@@ -84,6 +84,7 @@ cx = ConnectorX()
 # Connect by port name
 animate_connected = cx_animate.connect("COM3")      # Windows
 cx_connected = cx.connect("/dev/ttyACM0")           # Linux
+# On macOS, use a name such as "/dev/cu.usbmodem1101"
 
 if animate_connected:
     print("Device connected!")

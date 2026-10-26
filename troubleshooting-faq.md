@@ -35,7 +35,7 @@ If the device is not listed, try a different USB cable.
 
 #### 5. Connecting via SDK (Python, WPILib, C/C++)
 
-- **Check port name**: Use Device Manager (Windows) or `ls /dev/tty*` (Linux/macOS) to find the correct port
+- **Check port name**: Use Device Manager on Windows, `ls /dev/ttyACM*` on Linux, or `ls /dev/cu.usbmodem*` on macOS. From Python, `lumyn_sdk.list_available_ports()` lists every serial port.
 - **Check permissions**: On Linux, add your user to the `dialout` group: `sudo usermod -a -G dialout $USER`
 - **Try a different port**: Some USB hubs may cause issues
 

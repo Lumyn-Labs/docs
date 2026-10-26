@@ -105,12 +105,38 @@ cx = ConnectorX()
 # Connect via USB
 cx.connect("COM3")  # Windows
 # cx.connect("/dev/ttyACM0")  # Linux
-# cx.connect("/dev/tty.usbserial-0001")  # macOS
+# cx.connect("/dev/cu.usbmodem1101")  # macOS; the number varies
 
 # Check connection status
 if cx.is_connected():
     print("Connected!")
 ```
+
+### Find the port
+
+The board is a USB serial device. Its port name depends on the operating system:
+
+| Operating system | Port name |
+|---|---|
+| Windows | `COM` and a number, such as `COM3` |
+| Linux | `/dev/ttyACM` and a number, such as `/dev/ttyACM0` |
+| macOS | `/dev/cu.usbmodem` and a number, such as `/dev/cu.usbmodem1101` |
+
+To see the ports on your computer, list them before and after you plug in the board:
+
+```python
+from lumyn_sdk import list_available_ports
+
+print(list_available_ports())
+```
+
+On macOS, each USB serial device appears twice, as `/dev/cu.usbmodem...` and `/dev/tty.usbmodem...`. Use the `/dev/cu.` name.
+
+### `connect()` and `connect_usb()`
+
+`connect(port)` opens the board on a serial port. `connect_usb(port)` does the same thing; it calls `connect(port)` and exists so USB code reads clearly. Both return `True` when the connection opens.
+
+`ConnectorX` also has `connect_uart(port, baud=115200)` for a UART connection at a set speed. `ConnectorXAnimate` has no UART connection.
 
 ### Set LED colors
 
