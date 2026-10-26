@@ -52,7 +52,7 @@ If your device's status LED turns solid teal and freezes during boot:
 
 #### Resolution
 
-1. Unplug and replug the device, or press the RST/RESET button to restart.
+1. Unplug and replug the device, or press the `RST` button to restart.
 2. The device should boot normally and the LED will breathe blue when ready.
 
 If the issue persists after multiple restarts, please email us at [support@lumynlabs.com](mailto:support@lumynlabs.com) with your device configuration file and steps to reproduce the issue.
@@ -125,7 +125,7 @@ The fields of the configuration JSON, what each one means, and which files the b
 
 ### Flashing official firmware
 
-If you need to flash or update firmware, see the [Drivers and firmware](drivers-and-firmware) page for full instructions on entering bootloader mode and flashing UF2 files.
+If you need to flash or update firmware, see [Entering bootloader mode](drivers-and-firmware.md#entering-bootloader-mode) and the flashing steps after it.
 
 ---
 
@@ -185,7 +185,7 @@ If you need a default empty config to start with, see the [Configuration file re
 4. See [Saving & exporting configurations](user-guide/saving-and-exporting-configurations)
 
 **Need to update firmware:**
-1. See [Drivers and firmware](drivers-and-firmware) for bootloader steps and UF2 flashing.
+1. See [Updating firmware](drivers-and-firmware.md#updating-firmware).
 
 ---
 

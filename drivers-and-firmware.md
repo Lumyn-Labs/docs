@@ -26,25 +26,28 @@ Firmware updates are performed by putting your device into bootloader mode and c
 
 ### Downloading firmware
 
-Download the latest firmware UF2 file for your device from our [GitHub Releases page](https://github.com/Lumyn-Labs/Releases/releases).
+1. Go to the [Lumyn Labs releases page](https://github.com/Lumyn-Labs/Releases/releases) and open the latest **ConnectorX Firmware** release. The page also lists SDK releases; skip those.
+2. Download the file for your board:
+   - ConnectorX: `connectorx-v<version>.uf2`
+   - ConnectorX Animate: `connectorx-animate-v<version>.uf2`
 
-Download the `firmware.uf2` file for your device from the latest release.
+   Each file is built for one board. Flash the one that matches your board.
 
 ### Entering bootloader mode
 
-1. **Connect Your Device**: Plug your ConnectorX or ConnectorX Animate into your computer via USB.
-2. **Enter Bootloader Mode**:
-    1. Wait for the device to fully boot (the LED will be breathing blue).
-    2. Press and hold the `BOOT` or `BOOTSEL` button on the device.
-    3. While still holding `BOOT`, press and release the `RESET` button.
-    4. Release the `BOOT` button.
-    
-    The device will now appear to your computer as a removable drive called `RPI-RP2`.
+Both boards have two buttons, labeled `BOOTSEL` and `RST`. This works whatever firmware the board runs, including firmware that doesn't start.
+
+1. Connect the board to your computer with a USB cable.
+2. Press and hold `BOOTSEL`.
+3. While you hold `BOOTSEL`, press and release `RST`.
+4. Release `BOOTSEL`.
+
+The board appears on your computer as a removable drive named `RPI-RP2`.
 
 ### Flashing firmware
 
-1. **Copy the UF2 File**: Simply drag and drop the downloaded UF2 firmware file onto the `RPI-RP2` drive.
-2. **Wait for Completion**: The device will automatically flash the firmware and restart. The `RPI-RP2` drive will disappear when the update is complete.
+1. **Copy the UF2 file**: Drag the downloaded UF2 firmware file onto the `RPI-RP2` drive.
+2. **Wait for completion**: The device will automatically flash the firmware and restart. The `RPI-RP2` drive will disappear when the update is complete.
 3. **Verify**: The device should boot normally with the new firmware version.
 
 ### Firmware notifications in Lumyn Studio

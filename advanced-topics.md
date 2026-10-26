@@ -131,15 +131,11 @@ PlatformIO gives the option to **Upload Filesystem Image**. DO NOT CLICK THIS be
 
 If you or your device get stuck, you can recover by flashing a default UF2 file. The firmware starter repositories contain a default UF2 file that is identical in function to the image that shipped on your device (no custom Modules or Animations), although be aware that future releases of the firmware will also be reflected in it, such as bug fixes or new features.
 
-With the board plugged into your computer:
+1. Put the board in bootloader mode. Follow the steps in [Entering bootloader mode](drivers-and-firmware.md#entering-bootloader-mode).
+2. Drag the UF2 file from the repository's `firmware` folder onto the `RPI-RP2` drive, and wait for it to copy.
+3. The board restarts with the default firmware.
 
-1. Hold down the `BOOT`/`BOOTSEL` button near the USB-C port
-2. While holding the button, click `RST`/`RESET` and _continue_ holding the `BOOT`/`BOOTSEL` button
-3. Release the `BOOT`/`BOOTSEL` button when a drive mounts to your computer
-4. Drag-n-drop the UF2 file found in the `firmware` folder of the repository and wait for it to upload
-5. Watch as your ConnectorX reboots
-
-This process will work regardless of the software running on the ConnectorX, so if you accidentally created an infinite loop - no worries!
+This works whatever firmware the board runs, including firmware stuck in an infinite loop.
 
 Alternatively, you can follow the setup instructions above to compile the default firmware locally and then flash via PlatformIO.
 
