@@ -199,6 +199,13 @@ Each step:
 
 Each entry in `sensors` is one module. See [Modules and sensors](programming-guide/modules-and-sensors) for which modules each board supports.
 
+Each board runs a limited number of modules, on the connections it has:
+
+| Board | Modules | Connections |
+|---|---|---|
+| ConnectorX | Up to 5 | `"I2C"`, `"SPI"`, `"UART"`, `"DIO"`, `"AIO"` |
+| ConnectorX Animate | Up to 2 | `"I2C"` only |
+
 | Field | Type | Required | Description |
 |---|---|---|---|
 | `id` | string | Yes | Module name. Your code uses it. |
@@ -241,4 +248,6 @@ With firmware 4.4 and later, a configuration you send is checked before it repla
 - An animation file has no `id` or `path`.
 - A bitmap has no `id`, its `type` is not `"static"` or `"animated"`, a static bitmap has no `path`, or an animated bitmap has no `folder` or `delay`.
 - A module has no `id`, `type`, `pollingRateMs`, or `connection`, its `pollingRateMs` is between 1 and 19, or its `connection` is not one of the listed values.
+- `sensors` has more modules than the board runs: more than 5 on ConnectorX, or more than 2 on ConnectorX Animate.
+- A module's `connection` is one the board doesn't have, such as `"SPI"` or `"DIO"` on ConnectorX Animate.
 - A group has no `id` or `zoneIds`.
