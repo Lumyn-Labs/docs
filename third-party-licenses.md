@@ -2,7 +2,7 @@
 hide-toc: true
 ---
 
-# Third-Party Licenses
+# Third-party licenses
 
 This page contains the licenses for all open source software used in Lumyn Labs products and documentation. We are committed to complying with all open source license requirements and providing transparency about the third-party software we use.
 

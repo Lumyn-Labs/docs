@@ -2,15 +2,15 @@
 hide-toc: true
 ---
 
-# LED Strip Animations
+# LED strip animations
 
 Control LED strips with solid colors, built-in animations, and animation sequences.
 
-## Setting Colors
+## Setting colors
 
 Display a solid color on a zone or group using the `Fill` animation.
 
-### Single Zone
+### Single zone
 
 ::::{tab-set}
 :sync-group: language
@@ -83,7 +83,7 @@ lumyn_SetAnimation(LUMYN_BASE_PTR(&cx), "left-climber",
 :::
 ::::
 
-### Zone Groups
+### Zone groups
 
 Display a solid color on multiple zones:
 
@@ -149,11 +149,11 @@ lumyn_SetGroupAnimation(LUMYN_BASE_PTR(&cx), "all-climbers",
 :::
 ::::
 
-## Built-in Animations
+## Built-in animations
 
 Use the builder API to configure and play animations. The builder pattern provides a fluent interface for setting animation parameters.
 
-### Available Animations
+### Available animations
 
 | Animation | Description |
 |-----------|-------------|
@@ -184,7 +184,7 @@ Use the builder API to configure and play animations. The builder pattern provid
 | `Plasma` | Plasma effect |
 | `Heartbeat` | Heartbeat pattern |
 
-### Animation Builder
+### Animation builder
 
 The builder API follows this pattern:
 
@@ -335,7 +335,7 @@ lumyn_SetAnimation(LUMYN_BASE_PTR(&cx), "right-climber",
 :::
 ::::
 
-## Animation Sequences
+## Animation sequences
 
 Animation sequences are predefined patterns configured on the device (via Lumyn Studio or configuration files). They chain multiple animations together with timing. Each step in a sequence has its own animation type, color, delay, direction, and optional repeat count.
 
@@ -347,7 +347,7 @@ Animation sequences **play once** and stop. They do not loop. After the last ste
 Starting a new animation with `SetAnimation` while a sequence is playing will **cancel the sequence** and replace it with the new animation.
 ```
 
-### Playing a Sequence
+### Playing a sequence
 
 ::::{tab-set}
 :::{tab-item} Java (WPILib)
@@ -392,7 +392,7 @@ lumyn_SetGroupAnimationSequence(LUMYN_BASE_PTR(&cx), "all-intake", "intake-seque
 :::
 ::::
 
-### Creating Sequences
+### Creating sequences
 
 Animation sequences are typically created in Lumyn Studio:
 
@@ -402,9 +402,9 @@ Animation sequences are typically created in Lumyn Studio:
 4. Use the preview to visualize the sequence
 5. Save and export to your device
 
-See [Animation Sequences](../user-guide/animation-sequences) in the Lumyn Studio Guide for details.
+See [Animation sequences](../user-guide/animation-sequences) in the Lumyn Studio Guide for details.
 
-## Zones vs Groups
+## Zones vs groups
 
 Understanding zones and groups is key to effective LED control:
 

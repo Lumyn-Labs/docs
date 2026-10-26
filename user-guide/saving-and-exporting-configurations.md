@@ -2,11 +2,11 @@
 hide-toc: true
 ---
 
-# Saving & Exporting Configurations
+# Saving & exporting configurations
 
 Export device configurations from Lumyn Studio and deploy them to your device.
 
-## Export from Devices Page
+## Export from devices page
 
 Open a device's **Configuration Overview** page, then click **Export Configuration** in the toolbar to preview and download JSON.
 
@@ -20,7 +20,7 @@ When assets are included and your device firmware supports it, you can also enab
 
 Use **Download JSON/ZIP** to save the file locally. With a connected device running firmware **4.3** or newer and stream support, **Send to Device** uploads the configuration (and assets when applicable) directly from this dialog.
 
-## Direct Upload to Device
+## Direct upload to device
 
 With a compatible device connected, use **Send to Device** in the **Export Configuration** dialog. A progress overlay shows phases such as preparing assets, uploading, and completion. This can avoid copying files manually when stream upload is available.
 
@@ -28,14 +28,14 @@ With a compatible device connected, use **Send to Device** in the **Export Confi
 For very large configurations, copying `config.json` to the microSD card can still be the most reliable approach if USB apply limits apply on your hardware. See [Troubleshooting & FAQ](../troubleshooting-faq).
 ```
 
-## Copy to microSD (Manual Deploy)
+## Copy to microSD (manual deploy)
 
 - Place `config.json` in the microSD root.
 - If exporting image assets, copy the included sequence folders to the microSD root unchanged.
 
 Keep the structure intact so the device can locate assets.
 
-## Next Steps
+## Next steps
 
-- Create sequences: [Animation Sequences](animation-sequences)
-- Create matrix content: [Image Sequences](image-sequences-matrix)
+- Create sequences: [Animation sequences](animation-sequences)
+- Create matrix content: [Image sequences](image-sequences-matrix)

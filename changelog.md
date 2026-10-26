@@ -155,7 +155,7 @@ This release includes significant API improvements, enhanced simulation capabili
 
 ### Added
 
-#### Builder-Style LED APIs
+#### Builder-style LED APIs
 
 Introducing fluent builder APIs for LED control, providing improved readability and ease of use:
 
@@ -164,7 +164,7 @@ Introducing fluent builder APIs for LED control, providing improved readability 
 - **Matrix text builder**: `SetText("text").ForZone("zone").WithColor(...).WithDirection(...).WithDelay(...).RunOnce(false)`
 - All builders support both zone and group targeting via `ForZone()` and `ForGroup()` methods
 
-#### Group LED Commands
+#### Group LED commands
 
 Apply effects to multiple zones simultaneously with new group control methods:
 
@@ -173,7 +173,7 @@ Apply effects to multiple zones simultaneously with new group control methods:
 - `SetGroupAnimationSequence()` - Apply an animation sequence to all zones in a group
 - `SetGroupText()` - Display text on all matrix zones in a group
 
-#### Configuration System
+#### Configuration system
 
 New programmatic configuration APIs for both Java and C++:
 
@@ -182,7 +182,7 @@ New programmatic configuration APIs for both Java and C++:
 - `ApplyConfiguration()` - Apply configurations to both hardware devices and simulation environments
 - `RequestConfig()` - Retrieve the current configuration from a connected device
 
-#### Event Handling Improvements
+#### Event handling improvements
 
 Enhanced event system with more control over how events are processed:
 
@@ -194,7 +194,7 @@ Enhanced event system with more control over how events are processed:
 - C++ now supports callback-based event handlers matching Java semantics via `AddEventHandler()`
 - WPILib Alerts integration for automatic error and warning reporting to the Driver Station
 
-#### Connection Enhancements
+#### Connection enhancements
 
 Improved connection APIs with better feedback:
 
@@ -203,7 +203,7 @@ Improved connection APIs with better feedback:
 - Connect methods now return a boolean indicating connection success
 - UART connections support optional custom baud rate parameter (default: 115200)
 
-#### Module System Enhancements
+#### Module system enhancements
 
 Typed module helpers for easier sensor integration:
 
@@ -211,11 +211,11 @@ Typed module helpers for easier sensor integration:
 - Module helpers provide automatic payload parsing and type-safe access to sensor data
 - `ModuleBase` base class for creating your own custom module helpers
 
-#### System Commands
+#### System commands
 
 - `RestartDevice()` - Restart the device with configurable delay using WPILib units
 
-#### Desktop Simulation Environment
+#### Desktop simulation environment
 
 We're the **first FRC vendor** to offer a custom GUI inside of WPILib's SimGUI:
 
@@ -232,12 +232,12 @@ We're the **first FRC vendor** to offer a custom GUI inside of WPILib's SimGUI:
 - Java: Changed from `edu.wpi.first.wpilibj.SerialPort.Port` to `com.lumynlabs.connection.usb.USBPort`
 - C++: Changed from `HAL_SerialPort` to `lumyn::connection::USBPort`
 
-#### C++ Color Specification
+#### C++ color specification
 
 - Colors now use `frc::Color8Bit(...).ToColor()` instead of brace-initialized structs
 - Example: Changed from `{255, 0, 0}` to `frc::Color8Bit(255, 0, 0).ToColor()`
 
-#### C++ Event Structure
+#### C++ event structure
 
 - Event type is now accessed via `evt->header.type` instead of `evt->type`
 
@@ -245,17 +245,17 @@ We're the **first FRC vendor** to offer a custom GUI inside of WPILib's SimGUI:
 
 The following APIs are deprecated and will be removed in the 2027 release. Please migrate to the builder APIs:
 
-#### Legacy Animation Methods
+#### Legacy animation methods
 
 - `SetAnimation(zoneId, animation, color, delay, reversed, oneShot)` → Use builder API instead
 - `SetGroupAnimation(groupId, animation, color, delay, reversed, oneShot)` → Use builder API instead
 
-#### Legacy Image Sequence Methods
+#### Legacy image sequence methods
 
 - `SetImageSequence(zoneId, sequenceId, color, setColor, oneShot)` → Use builder API instead
 - `SetGroupImageSequence(groupId, sequenceId, color, setColor, oneShot)` → Use builder API instead
 
-#### Legacy Text Methods
+#### Legacy text methods
 
 - `SetText(zoneId, text, color, direction, delay, oneShot)` → Use builder API instead
 - `SetGroupText(groupId, text, color, direction, delay, oneShot)` → Use builder API instead

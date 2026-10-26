@@ -2,7 +2,7 @@
 hide-toc: true
 ---
 
-# What's New in 2026
+# What's new in 2026
 
 Welcome to the next generation of the Lumyn Labs software ecosystem! For 2026, we've rebuilt our entire software stack from the ground up based on your feedback to be faster, more powerful, and easier to use.
 
@@ -10,9 +10,9 @@ This massive free update brings a more powerful **Vendordep** for robot code, a 
 
 ---
 
-## Vendordep & Simulation Upgrades
+## Vendordep & simulation upgrades
 
-### Full SimGUI Integration
+### Full SimGUI integration
 
 We are the **first FRC vendor** to offer a custom GUI inside of WPILib's SimGUI. Our simulation environment provides three powerful tabs:
 
@@ -22,7 +22,7 @@ We are the **first FRC vendor** to offer a custom GUI inside of WPILib's SimGUI.
 
 Test animations, validate module callbacks, and inject fake sensor data—all without a physical robot.
 
-### Modern "Builder" API
+### Modern "builder" API
 
 Say goodbye to long parameter lists! The new builder-style API makes your code more readable and self-documenting. Every LED command now supports the fluent builder pattern.
 
@@ -94,7 +94,7 @@ m_animate.SetText("Hello World!")
 The legacy direct method calls are deprecated and will be removed in 2027. Please migrate to the builder API.
 ```
 
-### Matrix Text Formatting
+### Matrix text formatting
 
 Matrix text gained formatting controls for cleaner layouts and better readability:
 
@@ -103,7 +103,7 @@ Matrix text gained formatting controls for cleaner layouts and better readabilit
 - Smooth scrolling and ping-pong behavior
 - Expanded font choices for different matrix sizes
 
-### DirectLED: Efficient LED Buffer publishing
+### DirectLED: Efficient LED buffer publishing
 
 DirectLED provides LED buffer publishing for high-rate per-pixel control with minimal bandwidth. Use it to bring animations written with the WPILib LED animation API to the ConnectorX. It is available on ConnectorX and ConnectorX Animate (Java: `cXAnimate.leds.createDirectLED(...)`).
 
@@ -157,7 +157,7 @@ direct->Update(buffer);
 :::
 ::::
 
-### New Connection Options
+### New connection options
 
 ConnectorX now supports **UART connections** with configurable baud rates, in addition to USB. This enables more flexible wiring and higher-bandwidth communication.
 
@@ -188,7 +188,7 @@ bool uartConnected = m_cx.Connect(lumyn::connection::UARTPort::kMXP, 230400);
 :::
 ::::
 
-### NetworkTables Integration & Persistent Alerts
+### NetworkTables integration & persistent alerts
 
 All device states are automatically published to NetworkTables for easier debugging. Get clear, actionable [persistent alerts](https://frcdocs.wpi.edu/en/latest/docs/software/telemetry/persistent-alerts.html) directly in the Driver Station for connection issues, errors, and device status changes.
 
@@ -197,7 +197,7 @@ All device states are automatically published to NetworkTables for easier debugg
 cXAnimate.SetAlertsEnabled(false);
 ```
 
-### Modules V2: Push-Pull Architecture
+### Modules V2: Push-pull architecture
 
 The new module system features automatic background polling with support for arbitrary-length data payloads. No more manual polling loops!
 
@@ -258,7 +258,7 @@ if (m_cx.GetLatestModuleData("test-dio", latest)) {
 :::
 ::::
 
-### ConfigBuilder: Build Configurations in Code
+### ConfigBuilder: Build configurations in code
 
 New fluent `ConfigBuilder` API lets you construct device configurations programmatically—perfect for dynamic setups or teams who prefer code over JSON files.
 
@@ -311,7 +311,7 @@ m_cx.ApplyConfiguration(cfg);
 :::
 ::::
 
-### Device Configuration API
+### Device configuration API
 
 Load configurations from deploy directory for simulation, request configurations from connected devices, and seamlessly switch between hardware and desktop testing.
 
@@ -351,7 +351,7 @@ if (deviceConfig) {
 :::
 ::::
 
-### Unified Event System
+### Unified event system
 
 C++ now supports callback-based event handling, matching Java's API. Both languages also support manual polling with `GetLatestEvent()` and `GetEvents()`. Control whether events are polled automatically in a background thread or manually in your robot loop.
 
@@ -387,7 +387,7 @@ for (auto& evt : events) {
 :::
 ::::
 
-### System Commands
+### System commands
 
 Restart devices programmatically with configurable delays—useful for error recovery or applying configuration changes.
 
@@ -400,11 +400,11 @@ cXAnimate.RestartDevice(Units.Seconds.of(1));       // Restart after 1 second
 
 ---
 
-## A Smarter Lumyn Studio
+## A smarter Lumyn Studio
 
 Our web-based configuration tool has received a major overhaul with a snappier communications stack and powerful new features.
 
-### Configuration Sync
+### Configuration sync
 
 When you connect a device, Studio now automatically syncs the configuration from the device. If a different configuration for that device is already saved in Studio, you'll be prompted to choose which version to keep.
 
@@ -412,7 +412,7 @@ When you connect a device, Studio now automatically syncs the configuration from
 :alt: New Studio Configuration Sync
 ```
 
-### Direct Config Uploads
+### Direct config uploads
 
 Upload your configuration JSON directly to any connected device from within Studio—no more manual file transfers!
 
@@ -428,7 +428,7 @@ The LED testing utility now uses the configuration on your device to populate it
 :alt: LED Commander
 ```
 
-### Preview Image Sequences at Size
+### Preview image sequences at size
 
 Preview your image sequences at the exact resolution of the LED Matrix they will display on.
 
@@ -436,25 +436,25 @@ Preview your image sequences at the exact resolution of the LED Matrix they will
 :alt: Preview Image Sequences at Size
 ```
 
-### OTA Firmware Updates
+### OTA firmware updates
 
-Devices running firmware **4.3** and newer support **over-the-air (OTA) firmware updates** from Lumyn Studio. When you connect the device, if a newer firmware version is available, Studio shows a prompt so you can update without entering bootloader mode or copying a UF2 file manually. Follow the on-screen steps in that flow. You can still flash via UF2 from [GitHub Releases](https://github.com/Lumyn-Labs/Releases/releases) if you prefer the bootloader path described in [Drivers and Firmware](drivers-and-firmware).
-
----
-
-## Motion Editor for Image Sequences
-
-The image sequence editor for matrix zones is now upgraded with timeline-based editing, vector shapes and text, layers, keyframes, GIF preview, and more. See [Image Sequences (Matrix)](user-guide/image-sequences-matrix) in the User Guide for how to create and deploy sequences.
+Devices running firmware **4.3** and newer support **over-the-air (OTA) firmware updates** from Lumyn Studio. When you connect the device, if a newer firmware version is available, Studio shows a prompt so you can update without entering bootloader mode or copying a UF2 file manually. Follow the on-screen steps in that flow. You can still flash via UF2 from [GitHub Releases](https://github.com/Lumyn-Labs/Releases/releases) if you prefer the bootloader path described in [Drivers and firmware](drivers-and-firmware).
 
 ---
 
-## Faster Firmware
+## Motion Editor for image sequences
 
-### Performance & Stability
+The image sequence editor for matrix zones is now upgraded with timeline-based editing, vector shapes and text, layers, keyframes, GIF preview, and more. See [Image sequences (matrix)](user-guide/image-sequences-matrix) in the User Guide for how to create and deploy sequences.
+
+---
+
+## Faster firmware
+
+### Performance & stability
 
 Our V2 firmware is our fastest and most stable firmware yet, with improved response times and reliability.
 
-### 13 New Stunning Animations
+### 13 new stunning animations
 
 Express your robot's personality with 13 brand-new animations, including **Fire**, **Plasma**, **Confetti**, and more! Use the interactive widget below to try them out:
 
@@ -464,16 +464,16 @@ Express your robot's personality with 13 brand-new animations, including **Fire*
 
 ## Python SDK
 
-The **Python SDK** is available on PyPI for desktop, Raspberry Pi, and other hosts. It offers a Pythonic API for LED control, modules, events, DirectLED, and configuration—with parity to the capabilities you get from the WPILib vendordep, outside the FRC robot stack. Install with **uv**, connect over USB or UART, and follow [Getting Started with Python SDK](programming-guide/getting-started-python). The SDK remains under active development; report issues to [support@lumynlabs.com](mailto:support@lumynlabs.com).
+The **Python SDK** is available on PyPI for desktop, Raspberry Pi, and other hosts. It offers a Pythonic API for LED control, modules, events, DirectLED, and configuration—with parity to the capabilities you get from the WPILib vendordep, outside the FRC robot stack. Install with **uv**, connect over USB or UART, and follow [Getting started with Python SDK](programming-guide/getting-started-python). The SDK remains under active development; report issues to [support@lumynlabs.com](mailto:support@lumynlabs.com).
 
 ---
 
 ## C SDK
 
-The **standalone C SDK** ships as pre-built releases for Windows, Linux, and macOS (and supports embedded Linux targets). Use it for custom applications, tooling, and embedded hosts where you want a native C API and maximum control. Download binaries and walk through examples in [Getting Started with C/C++ SDK](programming-guide/getting-started-c-cpp-sdk).
+The **standalone C SDK** ships as pre-built releases for Windows, Linux, and macOS (and supports embedded Linux targets). Use it for custom applications, tooling, and embedded hosts where you want a native C API and maximum control. Download binaries and walk through examples in [Getting started with C/C++ SDK](programming-guide/getting-started-c-cpp-sdk).
 
 ---
 
 ## C++ SDK
 
-The **standalone C++ SDK** shares packaging and documentation with the C SDK and targets the same platforms. Use it for C++ applications outside WPILib—desktop tools, services, or embedded Linux—while keeping the same wire protocol as other Lumyn clients. See [Getting Started with C/C++ SDK](programming-guide/getting-started-c-cpp-sdk) for C++-specific examples and error handling.
+The **standalone C++ SDK** shares packaging and documentation with the C SDK and targets the same platforms. Use it for C++ applications outside WPILib—desktop tools, services, or embedded Linux—while keeping the same wire protocol as other Lumyn clients. See [Getting started with C/C++ SDK](programming-guide/getting-started-c-cpp-sdk) for C++-specific examples and error handling.

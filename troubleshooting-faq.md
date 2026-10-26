@@ -6,16 +6,16 @@ hide-toc: true
 
 Find solutions to common issues and answers to frequent questions. This guide helps you diagnose problems and get the support you need.
 
-## Troubleshooting Guide
+## Troubleshooting guide
 
-### Unable to Connect Using Lumyn Studio
+### Unable to connect using Lumyn Studio
 
-#### 1. Verify the Device Has Fully Booted
+#### 1. Verify the device has fully booted
 
 - RGB LED should breathe blue when ready.
 - If not, power-cycle the device. If running custom firmware, try flashing official firmware (see [Flashing Official Firmware](#flashing-official-firmware) below).
 
-#### 2. Check Your USB Cable
+#### 2. Check your USB cable
 
 - Ensure the cable supports data, not just charging.
 - In your OS device list, the device should appear under serial/COM interfaces.
@@ -26,7 +26,7 @@ If the device is not listed, try a different USB cable.
 
 - Force refresh with CTRL+F5 to ensure the latest version is loaded.
 
-#### 4. Install Correct USB Drivers (Windows)
+#### 4. Install correct USB drivers (Windows)
 
 - Download and run [Zadig](https://zadig.akeo.ie/)
 - Options > List All Devices
@@ -41,7 +41,7 @@ If the device is not listed, try a different USB cable.
 
 ---
 
-### Device Freezes with Solid Teal LED on Boot
+### Device freezes with solid teal LED on boot
 
 ```{admonition} Status: Under investigation
 :class: tip
@@ -59,7 +59,7 @@ If the issue persists after multiple restarts, please email us at [support@lumyn
 
 ---
 
-### Device Config Larger Than 4KB Fails to Apply
+### Device config larger than 4KB fails to apply
 
 ```{admonition} Status: Fixed in firmware 4.3+
 :class: tip
@@ -81,20 +81,20 @@ If you cannot upgrade yet, or upload still fails, copy the configuration file di
 
 ---
 
-### LED Strip or Matrix Not Responding
+### LED strip or matrix not responding
 
-#### 1. Verify the microSD Card
+#### 1. Verify the microSD card
 
 - Format as FAT32 only. exFAT/NTFS are not supported.
 
-#### 2. Verify the Configuration File
+#### 2. Verify the configuration file
 
 - Ensure the exported configuration JSON is correct and located on the microSD root as config.json.
 - For image sequences, export with assets and copy the folders to the microSD root.
 
 ---
 
-### Configuration File Reference
+### Configuration file reference
 
 Reference for the JSON structure used by Lumyn Studio device exports.
 
@@ -112,7 +112,7 @@ A minimal example:
 }
 ```
 
-#### Configuration File Structure
+#### Configuration file structure
 
 - **channels**: Per-channel definitions, including zones and groups. Each channel defines the physical LED configuration and contains one or more zones.
 - **sequences**: Animation sequence metadata used by zones/groups. Defines ordered lists of animations with timing and parameters.
@@ -124,21 +124,21 @@ The configuration file is typically exported from Lumyn Studio and placed in you
 
 ---
 
-#### 3. Confirm the Device is Receiving 12V Power
+#### 3. Confirm the device is receiving 12V power
 
 - +12V IN to positive, GND to ground.
 - Do not power the LED strip/matrix separately; the device regulates 5V for LEDs.
 - FRC: Power from PDP/PDH, not VRM.
 
-#### 4. Ensure Proper LED Connection
+#### 4. Ensure proper LED connection
 
 - +5V to +5V, GND to GND, data to DATA.
 
-#### 5. Test with a Different LED Strip or Matrix
+#### 5. Test with a different LED strip or matrix
 
 - ConnectorX/Animate support WS2812B-only. Try a known-good strip/matrix.
 
-### Module Data Not Updating
+### Module data not updating
 
 - **Check configuration**: Ensure the module is configured in the device
 - **Check connection**: Modules require a stable connection
@@ -147,13 +147,13 @@ The configuration file is typically exported from Lumyn Studio and placed in you
 
 ---
 
-### Flashing Official Firmware
+### Flashing official firmware
 
-If you need to flash or update firmware, see the [Drivers and Firmware](drivers-and-firmware) page for full instructions on entering bootloader mode and flashing UF2 files.
+If you need to flash or update firmware, see the [Drivers and firmware](drivers-and-firmware) page for full instructions on entering bootloader mode and flashing UF2 files.
 
 ---
 
-## Frequently Asked Questions
+## Frequently asked questions
 
 ### Why can't Lumyn Studio find my device?
 
@@ -163,7 +163,7 @@ If you need to flash or update firmware, see the [Drivers and Firmware](drivers-
 
 ### Python: ModuleNotFoundError for lumyn_sdk?
 
-Install the SDK with uv. See [Getting Started (Python)](programming-guide/getting-started-python).
+Install the SDK with uv. See [Getting started (Python)](programming-guide/getting-started-python).
 
 ### My LEDs don't light up. What should I check?
 
@@ -177,7 +177,7 @@ Install the SDK with uv. See [Getting Started (Python)](programming-guide/gettin
 - Optionally include image assets to get a zip with folders.
 - Copy config.json (and any image folders) to the microSD root.
 
-If you need a default empty config to start with, see the [Configuration File Reference](#configuration-file-reference) section above, or **Step 2: Add the Default Config** in the [Quick Start Guide](quick-start).
+If you need a default empty config to start with, see the [Configuration file reference](#configuration-file-reference) section above, or **Step 2: Add the Default Config** in the [Quick start guide](quick-start).
 
 ### What LED types are supported?
 
@@ -185,16 +185,16 @@ If you need a default empty config to start with, see the [Configuration File Re
 
 ### Where do I get firmware or drivers?
 
-- See [Drivers and Firmware](drivers-and-firmware) for firmware flashing steps and driver links.
+- See [Drivers and firmware](drivers-and-firmware) for firmware flashing steps and driver links.
 
 ---
 
-## Common Issues Quick Reference
+## Common issues quick reference
 
 **Device won't connect:**
 1. Check [Unable to Connect Using Lumyn Studio](#unable-to-connect-using-lumyn-studio) section above
 2. Verify USB cable supports data transfer
-3. Install drivers on Windows (see [Drivers and Firmware](drivers-and-firmware))
+3. Install drivers on Windows (see [Drivers and firmware](drivers-and-firmware))
 
 **LEDs not working:**
 1. Check [LED Strip or Matrix Not Responding](#led-strip-or-matrix-not-responding) section above
@@ -206,18 +206,18 @@ If you need a default empty config to start with, see the [Configuration File Re
 1. Verify config.json is in microSD root (not in a subfolder)
 2. Check file format is valid JSON
 3. Ensure image sequences are in correct folders if used
-4. See [Saving & Exporting Configurations](user-guide/saving-and-exporting-configurations)
+4. See [Saving & exporting configurations](user-guide/saving-and-exporting-configurations)
 
 **Need to update firmware:**
-1. See [Drivers and Firmware](drivers-and-firmware) for bootloader steps and UF2 flashing.
+1. See [Drivers and firmware](drivers-and-firmware) for bootloader steps and UF2 flashing.
 
 ---
 
-## Support & Contact Information
+## Support & contact information
 
 Need help? Try these options:
 
-- **Documentation**: Browse this site's [User Guide](user-guide/index), [Programming Guide](programming-guide/index), and [Troubleshooting & FAQ](troubleshooting-faq) sections.
+- **Documentation**: Browse this site's [User guide](user-guide/index), [Programming guide](programming-guide/index), and [Troubleshooting & FAQ](troubleshooting-faq) sections.
 - **Email**: [support@lumynlabs.com](mailto:support@lumynlabs.com)
 
 For urgent hardware issues, include:

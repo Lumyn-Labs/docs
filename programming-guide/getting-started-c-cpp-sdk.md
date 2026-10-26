@@ -2,7 +2,7 @@
 hide-toc: true
 ---
 
-# Getting Started with C/C++ SDK (Standalone)
+# Getting started with C/C++ SDK (standalone)
 
 Control Lumyn Labs devices using native C or C++ on Windows, Linux, macOS, and embedded systems. The standalone C/C++ SDK provides a low-level API for maximum performance and control.
 
@@ -10,7 +10,7 @@ Control Lumyn Labs devices using native C or C++ on Windows, Linux, macOS, and e
 **Beta Software**: The standalone C/C++ SDK is currently in beta and may be unstable. APIs and functionality are subject to change. Please report any issues to [support@lumynlabs.com](mailto:support@lumynlabs.com).
 ```
 
-## When to Use This SDK
+## When to use this SDK
 
 Use the **standalone C/C++ SDK** when:
 
@@ -27,7 +27,7 @@ Use **WPILib C++** instead if:
 
 ## Installation
 
-### Download Binary Release
+### Download binary release
 
 Download the latest pre-built release from the [GitHub releases page](https://github.com/Lumyn-Labs/lumyn-c-sdk/releases):
 
@@ -37,7 +37,7 @@ Download the latest pre-built release from the [GitHub releases page](https://gi
    - `lumyn-c-sdk-*.tar.gz` for Linux/macOS
 3. Extract to your desired location
 
-### CMake Integration
+### CMake integration
 
 In your `CMakeLists.txt`:
 
@@ -53,7 +53,7 @@ link_directories(${LUMYN_SDK_PATH}/lib)
 target_link_libraries(your_target lumyn)
 ```
 
-### Include Headers
+### Include headers
 
 ```cpp
 // For C++
@@ -66,7 +66,7 @@ target_link_libraries(your_target lumyn)
 // Plus lumyn_direct_led.h, lumyn_events.h, lumyn_modules.h, etc. as needed
 ```
 
-## Choosing Between C and C++
+## Choosing between C and C++
 
 ::::{tab-set}
 :::{tab-item} C++
@@ -110,9 +110,9 @@ int main() {
 :::
 ::::
 
-## Quick Start: C++
+## Quick start: C++
 
-### Basic Connection and LED Control
+### Basic connection and LED control
 
 ```cpp
 #include <lumyn/cpp/connectorXVariant/ConnectorXAnimate.hpp>
@@ -141,7 +141,7 @@ int main() {
 }
 ```
 
-### Playing Animations
+### Playing animations
 
 ```cpp
 #include <lumyn/cpp/connectorXVariant/ConnectorXAnimate.hpp>
@@ -168,7 +168,7 @@ int main() {
 }
 ```
 
-### DirectLED (High-Frequency Updates)
+### DirectLED (high-frequency updates)
 
 ```cpp
 #include <lumyn/cpp/connectorXVariant/ConnectorXAnimate.hpp>
@@ -202,9 +202,9 @@ int main() {
 }
 ```
 
-## Quick Start: C
+## Quick start: C
 
-### Basic Connection and LED Control
+### Basic connection and LED control
 
 ```c
 #include <lumyn/c/lumyn_device.h>
@@ -236,7 +236,7 @@ int main() {
 }
 ```
 
-### Playing Animations
+### Playing animations
 
 ```c
 #include <lumyn/c/lumyn_device.h>
@@ -262,7 +262,7 @@ int main() {
 }
 ```
 
-### DirectLED (High-Frequency Updates)
+### DirectLED (high-frequency updates)
 
 ```c
 #include <lumyn/c/lumyn_device.h>
@@ -301,9 +301,9 @@ int main() {
 }
 ```
 
-## C SDK Reference
+## C SDK reference
 
-### Error Codes
+### Error codes
 
 | Code | Name | Description |
 |------|------|-------------|
@@ -317,7 +317,7 @@ int main() {
 | 7 | `LUMYN_ERR_NOT_SUPPORTED` | Operation not supported |
 | 8 | `LUMYN_ERR_PARSE` | Parse error |
 
-### Struct-Based Device Lifecycle
+### Struct-based device lifecycle
 
 ```c
 #include <lumyn/c/lumyn_device.h>
@@ -339,7 +339,7 @@ if (err != LUMYN_OK) {
 lumyn_DestroyConnectorX(&cx);
 ```
 
-### Version Information
+### Version information
 
 ```c
 const char* version = lumyn_GetVersion();      // e.g., "4.1.0"
@@ -348,7 +348,7 @@ int minor = lumyn_GetVersionMinor();
 int patch = lumyn_GetVersionPatch();
 ```
 
-## Complete Example (C++)
+## Complete example (C++)
 
 A complete example demonstrating multiple features:
 
@@ -414,7 +414,7 @@ int main() {
 }
 ```
 
-## Error Handling
+## Error handling
 
 ::::{tab-set}
 :::{tab-item} C++
@@ -462,18 +462,18 @@ lumyn_DestroyConnectorXAnimate(&cx);
 :::
 ::::
 
-## Next Steps
+## Next steps
 
-- [Connecting to Devices](connecting-to-devices) - USB, UART, port selection
+- [Connecting to devices](connecting-to-devices) - USB, UART, port selection
 - [LED Animations](led-animations) - Animation types, sequences, timing
-- [LED Matrices](led-matrices) - Matrix control, text, images
+- [LED matrices](led-matrices) - Matrix control, text, images
 - [DirectLED](directled) - High-frequency per-pixel control
-- [Device Configuration](device-configuration) - Configuration management
-- [Modules & Sensors](modules-and-sensors) - ConnectorX module support (C++ only)
+- [Device configuration](device-configuration) - Configuration management
+- [Modules & sensors](modules-and-sensors) - ConnectorX module support (C++ only)
 
 ## Troubleshooting
 
-### Linking Errors
+### Linking errors
 
 Make sure you're linking against the library:
 
@@ -487,13 +487,13 @@ target_link_libraries(your_target lumyn)
 g++ -o program program.cpp -I/path/to/sdk/include -L/path/to/sdk/lib -llumyn
 ```
 
-### Connection Failed
+### Connection failed
 
 - **Check port name**: Use `lsof -i :*` (macOS) or `ls /dev/tty*` (Linux) to find the port
 - **Check permissions**: On Linux, add your user to dialout: `sudo usermod -a -G dialout $USER`
 - **Reset device**: Power cycle the device and try again
 
-### Build Errors
+### Build errors
 
 - **Missing headers**: Ensure `LUMYN_SDK_PATH` is set correctly in CMakeLists.txt
 - **Library not found**: Check that the lib directory exists and contains the compiled libraries

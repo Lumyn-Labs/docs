@@ -2,13 +2,13 @@
 hide-toc: true
 ---
 
-# Connecting to Devices
+# Connecting to devices
 
 This page covers how to establish connections to Lumyn Labs devices, handle events, and manage device status across all SDKs.
 
-## Connection Methods
+## Connection methods
 
-### USB Connection
+### USB connection
 
 All devices support USB connections. This is the most common connection method.
 
@@ -107,7 +107,7 @@ if (err == LUMYN_OK) {
 :::
 ::::
 
-### UART Connection (ConnectorX Only)
+### UART connection (ConnectorX only)
 
 ::::{tab-set}
 :sync-group: language
@@ -192,7 +192,7 @@ lumyn_error_t err = lumyn_ConnectWithBaud(LUMYN_BASE_PTR(&cx), "/dev/ttyS0", 230
 :::
 ::::
 
-### Resource Cleanup
+### Resource cleanup
 
 Always close connections when done, especially in non-robot applications.
 
@@ -228,11 +228,11 @@ lumyn_DestroyConnectorX(&cx);
 :::
 ::::
 
-## Event Handling
+## Event handling
 
 Devices emit events to report state changes. Use these to respond to connections, disconnections, errors, and other conditions.
 
-### Event Types
+### Event types
 
 | Event | Description |
 |-------|-------------|
@@ -249,7 +249,7 @@ Devices emit events to report state changes. Use these to respond to connections
 | `PinInterrupt` | GPIO pin state change |
 | `HeartBeat` | Keep-alive signal |
 
-### Registering Event Handlers
+### Registering event handlers
 
 ::::{tab-set}
 :::{tab-item} Java (WPILib)
@@ -329,7 +329,7 @@ lumyn_AddEventHandler(LUMYN_BASE_PTR(&cx), my_event_handler, NULL);
 :::
 ::::
 
-### Event Polling Modes
+### Event polling modes
 
 By default, events are polled automatically in a background thread. You can control this behavior:
 
@@ -384,7 +384,7 @@ def main_loop():
 :::
 ::::
 
-### WPILib Alerts Integration
+### WPILib alerts integration
 
 ```{note}
 WPILib alerts are only available in the Java/C++ vendordep.
@@ -406,9 +406,9 @@ m_cx.SetAlertsEnabled(false);
 :::
 ::::
 
-## System Commands
+## System commands
 
-### Restart Device
+### Restart device
 
 Restart a device from code—useful for error recovery or applying configuration changes.
 

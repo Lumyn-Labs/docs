@@ -15,7 +15,7 @@ DirectLED is ideal for:
 - High-frequency updates (game-responsive lighting)
 - Minimal bandwidth usage (delta compression)
 
-## Creating a DirectLED Controller
+## Creating a DirectLED controller
 
 Create a DirectLED controller for a zone, specifying the number of LEDs:
 
@@ -67,7 +67,7 @@ direct = cx.leds.create_direct_led("strip-zone", 60)
 :::
 ::::
 
-## Updating the Buffer
+## Updating the buffer
 
 Send LED data each frame. The SDK uses delta compression to minimize bandwidth.
 
@@ -126,7 +126,7 @@ void Robot::RobotPeriodic() {
 :::
 ::::
 
-### Raw Buffer
+### Raw buffer
 
 ::::{tab-set}
 :::{tab-item} Python
@@ -208,7 +208,7 @@ lumyn_DirectLEDDestroy(direct);
 :::
 ::::
 
-## Important Behavior
+## Important behavior
 
 ```{warning}
 When DirectLED writes pixel data to a zone, the zone's built-in animation is **frozen**. The animation is not cleared, but it stops updating. To resume normal animations after using DirectLED, you must explicitly send a `SetAnimation` command.
@@ -219,7 +219,7 @@ This means:
 - Calling `SetColor` after DirectLED will **not** make anything visible — the zone is frozen.
 - To return to built-in animations, call `SetAnimation` with any animation type (e.g., `Fill` for a solid color).
 
-## Full Example
+## Full example
 
 ::::{tab-set}
 :::{tab-item} Java (WPILib)
@@ -354,7 +354,7 @@ if __name__ == "__main__":
 :::
 ::::
 
-## Forcing a Full Update
+## Forcing a full update
 
 To send the entire buffer without delta compression (useful for the first frame, or after a drastic color change):
 
@@ -386,7 +386,7 @@ lumyn_DirectLEDForceFullUpdateRaw(direct, buffer, sizeof(buffer));
 :::
 ::::
 
-## Reset and Resync
+## Reset and resync
 
 If the buffer gets out of sync (after a large change or reconnection), call `reset()` to reset the delta compression state. The next `update()` call will then send a full buffer:
 
@@ -414,7 +414,7 @@ direct.update(buffer)
 :::
 ::::
 
-## Performance Tips
+## Performance tips
 
 1. **Match buffer size to zone size** - The buffer must have exactly 3 bytes per LED.
 

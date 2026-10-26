@@ -2,11 +2,11 @@
 hide-toc: true
 ---
 
-# Zones and Zone Groups
+# Zones and zone groups
 
 Zones divide a channel into independently controllable sections; groups let you control multiple zones together.
 
-## LED Channels
+## LED channels
 
 Once your device is set up, open it from the Devices list to access its configuration. Use the **LED Channels** page in the left sidebar to configure channels, zones, and groups.
 

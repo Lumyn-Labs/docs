@@ -2,15 +2,15 @@
 hide-toc: true
 ---
 
-# LED Matrices
+# LED matrices
 
 Display text and image sequences on LED matrix zones.
 
-## Displaying Text
+## Displaying text
 
 Use the text builder API to show scrolling or static text on matrix zones.
 
-### Basic Scrolling Text
+### Basic scrolling text
 
 ::::{tab-set}
 :sync-group: language
@@ -90,7 +90,7 @@ lumyn_SetText(LUMYN_BASE_PTR(&cx), "front-matrix", "Hello World!",
 :::
 ::::
 
-### Text on Groups
+### Text on groups
 
 Display the same text across multiple matrix zones:
 
@@ -155,11 +155,11 @@ lumyn_SetGroupText(LUMYN_BASE_PTR(&cx), "all-matrices", "GO TEAM!",
 :::
 ::::
 
-## Advanced Text Options
+## Advanced text options
 
 The text builder supports many formatting options for fine-tuned control.
 
-### Available Fonts
+### Available fonts
 
 | Category | Fonts | Best For |
 |----------|-------|----------|
@@ -169,7 +169,7 @@ The text builder supports many formatting options for fine-tuned control.
 | Large (18pt) | `FREE_MONO_18`, `FREE_MONO_BOLD_18`, `FREE_SANS_18`, `FREE_SANS_BOLD_18`, `FREE_SERIF_18`, `FREE_SERIF_BOLD_18` | Large displays |
 | XL (24pt) | `FREE_MONO_24`, `FREE_MONO_BOLD_24`, `FREE_SANS_24`, `FREE_SANS_BOLD_24`, `FREE_SERIF_24`, `FREE_SERIF_BOLD_24` | Very large displays |
 
-### Text Builder Options
+### Text builder options
 
 | Method | Description |
 |--------|-------------|
@@ -188,7 +188,7 @@ The text builder supports many formatting options for fine-tuned control.
 | `WithYOffset(offset)` | Vertical offset |
 | `RunOnce(bool)` | Run once or loop |
 
-### Custom Font and Background
+### Custom font and background
 
 ::::{tab-set}
 :sync-group: language
@@ -278,7 +278,7 @@ lumyn_SetTextAdvanced(
 :::
 ::::
 
-### Static Centered Text
+### Static centered text
 
 For non-scrolling text with alignment:
 
@@ -362,11 +362,11 @@ lumyn_SetTextAdvanced(
 :::
 ::::
 
-## Image Sequences
+## Image sequences
 
 Display animated image sequences on matrix zones. Image sequences are created in Lumyn Studio and consist of numbered BMP files.
 
-### Playing an Image Sequence
+### Playing an image sequence
 
 ::::{tab-set}
 :sync-group: language
@@ -459,7 +459,7 @@ lumyn_SetGroupImageSequence(LUMYN_BASE_PTR(&cx), "all-matrices", "logo_8x32",
 :::
 ::::
 
-### Image Sequence Builder Options
+### Image sequence builder options
 
 | Method | Description |
 |--------|-------------|
@@ -469,7 +469,7 @@ lumyn_SetGroupImageSequence(LUMYN_BASE_PTR(&cx), "all-matrices", "logo_8x32",
 | `SetColor(bool)` | Apply tint (true) or use original colors (false) |
 | `RunOnce(bool)` | Run once or loop |
 
-### Creating Image Sequences
+### Creating image sequences
 
 Image sequences are created in Lumyn Studio:
 
@@ -479,9 +479,9 @@ Image sequences are created in Lumyn Studio:
 4. Configure frame timing
 5. Export to your device
 
-See [Image Sequences](../user-guide/image-sequences-matrix) in the Lumyn Studio Guide.
+See [Image sequences](../user-guide/image-sequences-matrix) in the Lumyn Studio Guide.
 
-### File Locations
+### File locations
 
 **Simulation (WPILib)**:
 - Image sequences: `deploy/connectorx/<sequenceId>/` (then falls back to `deploy/<sequenceId>/`)
@@ -491,7 +491,7 @@ See [Image Sequences](../user-guide/image-sequences-matrix) in the Lumyn Studio 
 - Place image folders at the root of the device SD card
 - Each folder contains numbered BMP files: `0.bmp`, `1.bmp`, etc.
 
-## Matrix Zone Configuration
+## Matrix zone configuration
 
 Matrix zones are configured in Lumyn Studio with:
 

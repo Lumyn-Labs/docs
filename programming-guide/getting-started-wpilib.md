@@ -2,7 +2,7 @@
 hide-toc: true
 ---
 
-# Getting Started with WPILib Vendordep
+# Getting started with WPILib Vendordep
 
 Add the Lumyn Labs vendor library to your WPILib robot project and control your first LED.
 
@@ -21,7 +21,7 @@ Before you begin, ensure you have:
 
 ## Installation
 
-### Option 1: WPILib UI (Recommended)
+### Option 1: WPILib UI (recommended)
 
 1. Open your robot project in VS Code
 2. Click the WPILib icon in the sidebar
@@ -43,7 +43,7 @@ https://packages.lumynlabs.com/LumynLabs.json
 
 5. Press Enter and build your project
 
-## Your First Program
+## Your first program
 
 ::::{tab-set}
 :::{tab-item} Java
@@ -150,9 +150,9 @@ void Robot::AutonomousInit() {
 :::
 ::::
 
-## Key Concepts
+## Key concepts
 
-### Zones and Groups
+### Zones and groups
 
 Zones are named sections of your LED strips/matrices configured in Lumyn Studio. Groups let you control multiple zones together.
 
@@ -177,7 +177,7 @@ m_leds.SetGroupColor("all-climbers", frc::Color8Bit(0, 255, 0).ToColor());
 :::
 ::::
 
-### Connection Ports
+### Connection ports
 
 For roboRIO, use the `USBPort` enum:
 
@@ -201,14 +201,14 @@ m_cx.Connect(lumyn::connection::UARTPort::kMXP, 230400);  // Custom baud rate
 :::
 ::::
 
-## Next Steps
+## Next steps
 
 Now that you're connected, explore what you can do:
 
-- [Connecting to Devices](connecting-to-devices) - USB, UART, event handling
-- [LED Strip Animations](led-animations) - Colors, animations, and sequences
-- [LED Matrices](led-matrices) - Text and image display
+- [Connecting to devices](connecting-to-devices) - USB, UART, event handling
+- [LED strip animations](led-animations) - Colors, animations, and sequences
+- [LED matrices](led-matrices) - Text and image display
 - [DirectLED](directled) - Per-pixel control with WPILib LEDPattern
-- [Modules & Sensors](modules-and-sensors) - Sensor data callbacks (ConnectorX only)
-- [Device Configuration](device-configuration) - Load and apply configurations
+- [Modules & sensors](modules-and-sensors) - Sensor data callbacks (ConnectorX only)
+- [Device configuration](device-configuration) - Load and apply configurations
 - [Simulation](simulation) - Test in the WPILib simulator

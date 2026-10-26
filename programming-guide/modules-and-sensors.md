@@ -2,7 +2,7 @@
 hide-toc: true
 ---
 
-# Modules & Sensors
+# Modules & sensors
 
 Extend ConnectorX with sensor inputs and hardware interfaces using the module system.
 
@@ -20,7 +20,7 @@ Modules provide data from I2C, SPI, UART, digital, and analog peripherals. Commo
 
 The SDK provides both typed helper classes for built-in modules and raw callbacks for custom modules.
 
-## Built-in Modules
+## Built-in modules
 
 | Module | Payload Fields | Description |
 |--------|---------------|-------------|
@@ -28,7 +28,7 @@ The SDK provides both typed helper classes for built-in modules and raw callback
 | `AnalogInputModule` | `rawValue` (int), `scaledValue` (int) | Analog voltage reading |
 | `VL53L1XModule` | `valid` (byte), `dist` (short, mm) | Time-of-flight distance |
 
-## Using Typed Helpers
+## Using typed helpers
 
 Typed helper classes handle payload parsing automatically and provide a clean API.
 
@@ -122,7 +122,7 @@ lumyn_RegisterModule(LUMYN_BASE_PTR(&cx), "digital-input", digital_callback, NUL
 :::
 ::::
 
-### VL53L1XModule (Time-of-Flight)
+### VL53L1XModule (time-of-flight)
 
 ::::{tab-set}
 :sync-group: language
@@ -280,7 +280,7 @@ lumyn_RegisterModule(LUMYN_BASE_PTR(&cx), "analog-input", analog_callback, NULL)
 :::
 ::::
 
-## Raw Module Callbacks
+## Raw module callbacks
 
 For custom modules or when you need low-level control, register raw callbacks.
 
@@ -377,7 +377,7 @@ lumyn_RegisterModule(LUMYN_BASE_PTR(&cx), "custom-module", module_callback, NULL
 :::
 ::::
 
-## Manual Polling
+## Manual polling
 
 If you prefer polling over callbacks, you can retrieve the latest module data manually.
 
@@ -447,7 +447,7 @@ while (1) {
 :::
 ::::
 
-## Module Configuration
+## Module configuration
 
 Modules are configured in Lumyn Studio or via ConfigBuilder:
 
@@ -536,7 +536,7 @@ free(config_json);
 :::
 ::::
 
-## Payload Byte Order
+## Payload byte order
 
 Module payloads use **little-endian** byte order. The typed helpers and `ExtractFromPayload` handle byte order conversion automatically.
 

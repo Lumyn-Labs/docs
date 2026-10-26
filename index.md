@@ -2,43 +2,37 @@
 hide-toc: true
 ---
 
-# Lumyn Labs Documentation
+# Lumyn Labs documentation
 
-Welcome to the official documentation for Lumyn Labs products for the 2026 FRC season. We design and manufacture high-performance, low-cost electronics that are easy to use and fast to configure.
+## Learn & configure
 
-ConnectorX and ConnectorX Animate are programmable LED and sensor controllers for FRC robots. They drive addressable LED strips and matrices, read sensors via I2C/SPI/UART/digital/analog, and are controlled from robot code or our web-based configurator, Lumyn Studio.
-
-This documentation is your guide to getting started, mastering our products, and finding solutions to common challenges.
-
-## Learn & Configure
-
-Before writing code, connect your device in Lumyn Studio and build a configuration. Start with the Quick Start Guide and Lumyn Studio Guide.
+Before writing code, connect your device in Lumyn Studio and build a configuration. Start with the quick start guide and the Lumyn Studio guide.
 
 ::::{grid} 1 2 3 3
 :gutter: 3
 
-:::{grid-item-card} Quick Start Guide
+:::{grid-item-card} Quick start guide
 :link: quick-start
 :link-type: doc
 
 New to Lumyn Labs? Set up hardware and software for the first time.
 :::
 
-:::{grid-item-card} Product Overview
+:::{grid-item-card} Product overview
 :link: product-overview
 :link-type: doc
 
 What ConnectorX devices are and how they differ.
 :::
 
-:::{grid-item-card} Lumyn Studio Guide
+:::{grid-item-card} Lumyn Studio guide
 :link: user-guide/index
 :link-type: doc
 
 Configure devices with our web application.
 :::
 
-:::{grid-item-card} What's New in 2026?
+:::{grid-item-card} What's new in 2026
 :link: whats-new
 :link-type: doc
 
@@ -47,19 +41,19 @@ Latest hardware, software features, and API changes.
 
 ::::
 
-## Reference & Support
+## Reference & support
 
 ::::{grid} 1 2 3 3
 :gutter: 3
 
-:::{grid-item-card} Drivers and Firmware
+:::{grid-item-card} Drivers and firmware
 :link: drivers-and-firmware
 :link-type: doc
 
 Windows driver installation and firmware updates.
 :::
 
-:::{grid-item-card} Programming Guide
+:::{grid-item-card} Programming guide
 :link: programming-guide/index
 :link-type: doc
 
@@ -80,14 +74,14 @@ Release notes and vendordep updates.
 Solutions to common issues and frequently asked questions.
 :::
 
-:::{grid-item-card} Third-Party Licenses
+:::{grid-item-card} Third-party licenses
 :link: third-party-licenses
 :link-type: doc
 
 Open source licenses.
 :::
 
-:::{grid-item-card} Advanced Topics
+:::{grid-item-card} Advanced topics
 :link: advanced-topics
 :link-type: doc
 

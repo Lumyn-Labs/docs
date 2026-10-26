@@ -2,7 +2,7 @@
 hide-toc: true
 ---
 
-# Device Configuration
+# Device configuration
 
 Load, build, and apply device configurations programmatically.
 
@@ -15,7 +15,7 @@ Device configurations define your LED channels, zones, groups, and modules. You 
 - Request the current configuration from a connected device
 - Apply configurations to hardware or simulation
 
-## Loading from File
+## Loading from file
 
 Load a JSON configuration from your project's deploy directory (WPILib) or any file path (Python).
 
@@ -120,7 +120,7 @@ free(config_json);
 
 Build configurations programmatically using the fluent builder API.
 
-### Basic Configuration
+### Basic configuration
 
 ::::{tab-set}
 :sync-group: language
@@ -244,7 +244,7 @@ lumyn_ApplyConfig(&cx.base, config_json, strlen(config_json));
 :::
 ::::
 
-### With Matrix Zones
+### With matrix zones
 
 ::::{tab-set}
 :sync-group: language
@@ -292,7 +292,7 @@ config = ConfigBuilder() \
 :::
 ::::
 
-### With Modules
+### With modules
 
 ::::{tab-set}
 :sync-group: language
@@ -355,7 +355,7 @@ config = ConfigBuilder() \
 :::
 ::::
 
-## Requesting from Device
+## Requesting from device
 
 Retrieve the current configuration from a connected device.
 
@@ -419,7 +419,7 @@ if (err == LUMYN_OK && config_json) {
 :::
 ::::
 
-## Applying Configuration
+## Applying configuration
 
 `ApplyConfiguration` works identically for hardware and simulation:
 
@@ -477,7 +477,7 @@ lumyn_ApplyConfig(&cx.base, config_json, strlen(config_json));
 :::
 ::::
 
-## SDK Example Config JSONs (Standalone C/C++)
+## SDK example config JSONs (standalone C/C++)
 
 These are the exact configs used by the tested standalone example programs.
 

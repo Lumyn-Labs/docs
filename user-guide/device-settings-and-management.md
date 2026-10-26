@@ -2,11 +2,11 @@
 hide-toc: true
 ---
 
-# Device Settings & Management
+# Device settings & management
 
 Use the Connected Device Panel and Studio Settings to manage your devices.
 
-## Connected Device Panel
+## Connected device panel
 
 Open via the connection icon in the top-right of the navigation bar after selecting your device.
 
@@ -26,7 +26,7 @@ Tabs include (order may vary by device capabilities):
 Configurations are stored in browser storage. Export regularly to avoid data loss.
 ```
 
-## Studio Settings
+## Studio settings
 
 Open the **Settings** tab in the main navigation bar.
 
@@ -41,11 +41,11 @@ Open the **Settings** tab in the main navigation bar.
 - **Experiments** (with debug mode on): Optional experimental toggles. Not likely to be stable.
 - **Resources**: Links to this documentation site and support.
 
-## Firmware and Drivers
+## Firmware and drivers
 
 - See [Troubleshooting & FAQ](../troubleshooting-faq) for driver setup and flashing official firmware.
 
 ## Related
 
-- [Saving & Exporting Configurations](saving-and-exporting-configurations)
+- [Saving & exporting configurations](saving-and-exporting-configurations)
 - [Troubleshooting & FAQ](../troubleshooting-faq)

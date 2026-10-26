@@ -2,7 +2,7 @@
 hide-toc: true
 ---
 
-# Getting Started with Python SDK
+# Getting started with Python SDK
 
 Control Lumyn Labs devices from Python on desktop computers, Raspberry Pi, and other host controllers. The Python SDK provides a Pythonic API for LED control, modules, and configuration.
 
@@ -42,7 +42,7 @@ To make this permanent, add it to your shell profile (`~/.bashrc`, `~/.zshrc`, e
 uv python install 3.11
 ```
 
-#### Step 3: Create a Virtual Environment
+#### Step 3: Create a virtual environment
 
 ```bash
 uv venv --python 3.11 ~/venvs/lumyn311
@@ -62,7 +62,7 @@ python -m pip install -U pip
 python -m pip install --only-binary=:all: lumyn-sdk
 ```
 
-## Choose Your Device Class
+## Choose your device class
 
 The Python SDK provides two device classes that correspond to the physical hardware you own:
 
@@ -92,9 +92,9 @@ cx_animate.connect("COM3")
 You must use the correct class for your physical device. Using the wrong class may result in unexpected behavior.
 ```
 
-## Quick Start
+## Quick start
 
-### Import and Connect
+### Import and connect
 
 ```python
 from lumyn_sdk import ConnectorX
@@ -112,7 +112,7 @@ if cx.is_connected():
     print("Connected!")
 ```
 
-### Set LED Colors
+### Set LED colors
 
 ```python
 # Change the color of the currently running animation on a zone (strip zones only)
@@ -125,7 +125,7 @@ cx.leds.set_group_color("group-id", (0, 255, 0))  # Green
 cx.leds.set_animation("strip-zone", Animation.Fill, (255, 0, 0), 0)
 ```
 
-### Play Animations
+### Play animations
 
 ```python
 from lumyn_sdk import Animation
@@ -149,7 +149,7 @@ cx.leds.set_animation(Animation.RainbowRoll) \
 cx.leds.set_animation_sequence("strip-zone", "sequence-id")
 ```
 
-### Display Text on Matrix
+### Display text on matrix
 
 ```python
 from lumyn_sdk import MatrixTextScrollDirection
@@ -170,7 +170,7 @@ cx.leds.set_text("GO!") \
     .run_once(False)
 ```
 
-### Handle Events
+### Handle events
 
 ```python
 from lumyn_sdk import EventType
@@ -192,7 +192,7 @@ cx.add_event_callback(MyEventHandler())
 cx.set_auto_poll_events(True)
 ```
 
-### DirectLED (High-Frequency Updates)
+### DirectLED (high-frequency updates)
 
 ```python
 # Create DirectLED controller for a zone
@@ -214,7 +214,7 @@ direct.update(bytes(buffer))
 direct.reset()
 ```
 
-### Load Configuration
+### Load configuration
 
 ```python
 # Load and apply configuration from file (returns True on success)
@@ -227,7 +227,7 @@ with open("device_config.json") as f:
 cx.apply_configuration_json(config_json)
 ```
 
-## Complete Example
+## Complete example
 
 Here's a complete example that demonstrates multiple features:
 
@@ -283,12 +283,12 @@ except KeyboardInterrupt:
     print("Exiting...")
 ```
 
-## Next Steps
+## Next steps
 
-- [Connecting to Devices](connecting-to-devices) - USB, UART, events, status
+- [Connecting to devices](connecting-to-devices) - USB, UART, events, status
 - [LED Animations](led-animations) - Colors, animations, sequences
-- [LED Matrices](led-matrices) - Text, fonts, image sequences
+- [LED matrices](led-matrices) - Text, fonts, image sequences
 - [DirectLED](directled) - High-frequency per-pixel control
-- [Modules & Sensors](modules-and-sensors) - Module callbacks, typed helpers
-- [Device Configuration](device-configuration) - ConfigBuilder, loading configs
+- [Modules & sensors](modules-and-sensors) - Module callbacks, typed helpers
+- [Device configuration](device-configuration) - ConfigBuilder, loading configs
 - [Troubleshooting & FAQ](../troubleshooting-faq) - Common issues and solutions

@@ -1,0 +1,86 @@
+{% extends "!page.html" %}
+
+{#- Shared top navigation; page content stays alongside the sidebar. -#}
+{% block body -%}
+<header class="lumyn-topbar">
+  <label class="lumyn-topbar__menu" for="__navigation"><span class="visually-hidden">Toggle navigation</span><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" fill="none"/></svg></label>
+  <a class="lumyn-topbar__brand" href="{{ pathto(master_doc) }}" aria-label="Lumyn Labs docs home">
+    <img src="{{ pathto('_static/img/logo-h-white.svg', 1) }}" alt="Lumyn Labs" width="144" height="32">
+  </a>
+  <form class="lumyn-topbar__search" method="get" action="{{ pathto('search') }}" role="search">
+    <input class="sidebar-search" placeholder="Search the docs" name="q" aria-label="Search the docs">
+    <input type="hidden" name="check_keywords" value="yes">
+    <input type="hidden" name="area" value="default">
+  </form>
+  <a class="lumyn-topbar__cta" href="https://studio.lumynlabs.com">Open Lumyn Studio</a>
+</header>
+
+
+{{ super() }}
+{%- endblock %}
+
+{% block left_sidebar %}
+<div class="sidebar-sticky">
+  {%- include "sidebar/navigation.html" %}
+  <a class="lumyn-drawer-cta" href="https://studio.lumynlabs.com">Open Lumyn Studio</a>
+</div>
+{% endblock left_sidebar %}
+
+{% block content %}
+{%- if pagename == master_doc %}
+<section class="lumyn-band lumyn-band--home">
+  <lumyn-pixels pattern="field" cell="8 1100, 6 750, 4 0" aria-hidden="true"></lumyn-pixels>
+  <div class="lumyn-band__wrap">
+    <div class="lumyn-band__in">
+      <h1 data-pixel-clear>Lumyn Labs docs</h1>
+      <p class="lumyn-band__lede" data-pixel-clear>ConnectorX and ConnectorX Animate are programmable LED and sensor controllers for FRC robots. Set them up in Lumyn Studio, then control them from robot code.</p>
+      <p class="lumyn-band__actions"><a class="lumyn-btn lumyn-btn--flare" href="{{ pathto('quick-start') }}" data-pixel-clear>Quick start</a><a class="lumyn-btn" href="{{ pathto('user-guide/index') }}" data-pixel-clear>Lumyn Studio guide</a><a class="lumyn-btn" href="{{ pathto('programming-guide/index') }}" data-pixel-clear>Programming guide</a></p>
+    </div>
+  </div>
+</section>
+{%- endif %}
+{%- if parents %}
+<nav class="lumyn-crumbs" aria-label="Breadcrumb">
+  <a href="{{ pathto(master_doc) }}">Docs</a>
+  {%- for p in parents %}<span aria-hidden="true">/</span><a href="{{ p.link }}">{{ p.title }}</a>{% endfor %}
+</nav>
+{%- endif %}
+{%- if toc and pagename != master_doc %}
+<details class="lumyn-mobile-toc"><summary>On this page</summary><div class="toc-tree">{{ toc }}</div></details>
+<script>document.addEventListener("DOMContentLoaded",function(){var d=document.querySelector(".lumyn-mobile-toc"),h=document.querySelector("article h1");if(d&&h)h.insertAdjacentElement("afterend",d);});</script>
+{%- endif %}
+{{ body }}
+{% endblock content %}
+
+{% block footer %}
+<div class="related-pages">
+  {% if prev -%}
+  <a class="prev-page" href="{{ prev.link }}">
+    <span class="context">Previous</span><span class="title">{{ prev.title }}</span>
+  </a>
+  {%- else -%}<span></span>{%- endif %}
+  {% if next -%}
+  <a class="next-page" href="{{ next.link }}">
+    <span class="context">Next</span><span class="title">{{ next.title }}</span>
+  </a>
+  {%- endif %}
+</div>
+<div class="bottom-of-page">
+  <span class="copyright">&#169; {{ copyright }}</span>
+  <span class="lumyn-footer-links">
+    <a href="https://lumynlabs.com">Store</a>
+    <a href="https://github.com/Lumyn-Labs">GitHub</a>
+    <a href="mailto:support@lumynlabs.com">support@lumynlabs.com</a>
+  </span>
+</div>
+{% endblock footer %}
+
+{% block right_sidebar %}
+{#- Furo hides the TOC on pages with few headings; the docs show it everywhere except the home page. -#}
+{% if toc and pagename != master_doc %}
+<div class="toc-sticky toc-scroll">
+  <div class="toc-title-container"><span class="toc-title">On this page</span></div>
+  <div class="toc-tree-container"><div class="toc-tree">{{ toc }}</div></div>
+</div>
+{% endif %}
+{% endblock right_sidebar %}

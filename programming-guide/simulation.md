@@ -10,9 +10,9 @@ The WPILib vendordep integrates with WPILib's desktop simulator, allowing you to
 Simulation requires the Java/C++ WPILib vendordep. Python and standalone C/C++ SDKs do not support simulation.
 ```
 
-## Quick Start
+## Quick start
 
-### 1. Load Configuration in robotInit
+### 1. Load configuration in robotInit
 
 ::::{tab-set}
 :sync-group: language
@@ -45,7 +45,7 @@ void Robot::RobotInit() {
 
 When you run the simulation GUI, a new window appears that visualizes your LED zones.
 
-## Simulator Tabs
+## Simulator tabs
 
 | Tab | Purpose |
 | --- | ------- |
@@ -53,7 +53,7 @@ When you run the simulation GUI, a new window appears that visualizes your LED z
 | **Modules** | Inject sensor data to test callbacks |
 | **Device** | Simulate connection state and error events |
 
-## Injecting Module Data
+## Injecting module data
 
 Test sensor-driven logic without hardware:
 
@@ -62,7 +62,7 @@ Test sensor-driven logic without hardware:
 3. Set the value and click **Inject**
 4. Your code receives the data
 
-## Image Sequences
+## Image sequences
 
 Place image folders in `deploy/connectorx/<sequenceId>/` with files named `0.bmp`, `1.bmp`, etc.
 
