@@ -421,10 +421,29 @@ if (err == LUMYN_OK && config_json) {
 
 ## Applying configuration
 
-`ApplyConfiguration` works identically for hardware and simulation:
+`ApplyConfiguration` works the same way for hardware and simulation:
 
-- **Hardware**: Sends the configuration to the connected device
-- **Simulation**: Drives the WPILib simulator UI
+- **Hardware**: sends the configuration to the connected board.
+- **Simulation**: drives the WPILib simulator.
+
+With firmware 4.4 and later, the board starts using a configuration as soon as it receives it, and saves it as the configuration it loads at the next power-up. You don't need to restart the board. Two exceptions:
+
+- If the board can't parse the configuration, it refuses it and keeps running its saved configuration. The [Configuration file reference](../config-reference.md#configurations-the-board-refuses) lists what the board refuses.
+- A change to the network transport (`network.mode`) takes effect the next time the board starts.
+
+Firmware earlier than 4.4 uses a new configuration only after the board restarts.
+
+The call to apply a configuration in each SDK:
+
+| SDK | Call |
+|---|---|
+| WPILib Java | `ApplyConfiguration(cfg)` or `applyConfiguration(cfg)` |
+| WPILib C++ | `ApplyConfiguration(cfg)` |
+| Python | `apply_configuration_json(json_text)` |
+| Standalone C++ | `ApplyConfigurationJson(json_text)` |
+| C | `lumyn_ApplyConfig(device, json, json_len)` |
+
+In a WPILib robot program, `ApplyConfiguration` returns nothing and does not report whether the board accepted the configuration. In Java on a robot, calling it while the board is disconnected logs a warning and sends nothing.
 
 ::::{tab-set}
 :sync-group: language

@@ -10,6 +10,12 @@ All notable changes to Lumyn Labs products will be documented here.
 
 ## October 27, 2026
 
+### Firmware 4.4
+
+#### Changed
+
+- **Live configuration**: A configuration sent to the board is used at once and saved for the next power-up. You no longer need to restart the board. A configuration the board can't parse is refused, and the saved one keeps running. A change to the network transport takes effect at the next boot.
+
 ### Vendordep
 
 #### Changed

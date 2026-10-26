@@ -419,7 +419,7 @@ m_cx.SetAlertsEnabled(false);
 
 ### Restart device
 
-Restart a device from code—useful for error recovery or applying configuration changes.
+Restart a device from code, for example to recover from an error. With firmware 4.4 and later, you don't need to restart after applying a configuration; see [Device configuration](device-configuration.md#applying-configuration).
 
 ::::{tab-set}
 :::{tab-item} Java (WPILib)

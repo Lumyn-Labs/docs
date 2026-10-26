@@ -22,7 +22,7 @@ Use **Download JSON/ZIP** to save the file locally. With a connected device runn
 
 ## Direct upload to device
 
-With a compatible device connected, use **Send to Device** in the **Export Configuration** dialog. A progress overlay shows phases such as preparing assets, uploading, and completion. This can avoid copying files manually when stream upload is available.
+With a compatible device connected, use **Send to Device** in the **Export Configuration** dialog. A progress overlay shows phases such as preparing assets, uploading, and completion. This can avoid copying files manually when stream upload is available. With firmware 4.4 and later, the board uses the configuration as soon as the upload finishes and keeps it for the next power-up; you don't need to restart it. If the board can't parse the configuration, it keeps the one it had.
 
 ```{note}
 For very large configurations, copying `config.json` to the microSD card can still be the most reliable approach if USB apply limits apply on your hardware. See [Troubleshooting & FAQ](../troubleshooting-faq).

@@ -393,7 +393,7 @@ for (auto& evt : events) {
 
 ### System commands
 
-Restart devices programmatically with configurable delays—useful for error recovery or applying configuration changes.
+Restart devices programmatically with configurable delays, for example to recover from an error. With firmware 4.4 and later, a new configuration takes effect without a restart.
 
 ```java
 import org.wpilib.units.Units;
