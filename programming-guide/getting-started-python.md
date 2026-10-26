@@ -130,7 +130,7 @@ from lumyn_sdk import list_available_ports
 print(list_available_ports())
 ```
 
-On macOS, each USB serial device appears twice, as `/dev/cu.usbmodem...` and `/dev/tty.usbmodem...`. Use the `/dev/cu.` name.
+On macOS, the `/dev` folder has two entries for each USB serial device, `/dev/cu.usbmodem...` and `/dev/tty.usbmodem...`. Use the `/dev/cu.` name.
 
 ### `connect()` and `connect_usb()`
 

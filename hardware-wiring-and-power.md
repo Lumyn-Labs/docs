@@ -10,13 +10,13 @@ This page describes the connectors on ConnectorX and ConnectorX Animate and how 
 
 Both boards have the same power design:
 
-- A 2-pin screw terminal (5.08 mm pitch) labeled **+12V** and **GND** takes robot power. On ConnectorX Animate it is labeled **+12V IN**.
+- A 2-pin screw terminal (5.08 mm pitch) takes robot power. On ConnectorX the terminal is labeled **+12V** and **GND**; on ConnectorX Animate it is labeled **+12V IN**.
 - A regulator on the board turns the 12 V input into 5 V for the LED connectors.
 - USB-C powers only the board's logic. With USB alone you can connect to Lumyn Studio, update firmware, and send a configuration, but the LED connectors have no power.
 
 | | ConnectorX | ConnectorX Animate |
 |---|---|---|
-| Power input | Screw terminal, **+12V** and **GND** | Screw terminal, **+12V IN** and **GND** |
+| Power input | Screw terminal, **+12V** and **GND** | Screw terminal, **+12V IN** |
 | 5 V regulator output | 3000 mA | 6000 mA |
 | LED connectors powered from USB alone | No | No |
 
@@ -30,7 +30,7 @@ The 12 V input has no fuse and no reverse-polarity protection on the board. Powe
 
 1. Turn off the robot.
 2. Run a pair of wires from a fused PDH or PDP output to the board's screw terminal.
-3. Connect the positive wire to **+12V** and the negative wire to **GND**, then tighten the terminal screws.
+3. Connect the positive wire to the +12 V terminal and the negative wire to the ground terminal, then tighten the terminal screws.
 4. Connect the board to the robot controller with a USB-C data cable.
 
 ## LED connectors
@@ -53,7 +53,7 @@ A configuration that sets a channel `length` above 320 is refused by the board. 
 
 Modules are sensors and other peripherals that the board reads and reports to your code. See [Modules and sensors](programming-guide/modules-and-sensors) for the software side.
 
-All module connectors supply 3.3 V. Neither board has I2C pull-up resistors, so I2C modules must provide their own.
+All module connectors supply 3.3 V. Neither board has I2C pull-up resistors on the circuit board.
 
 ### ConnectorX
 

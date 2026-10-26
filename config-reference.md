@@ -176,7 +176,7 @@ Each step:
 | `delay` | integer | Yes | Time between animation frames, in milliseconds. |
 | `reversed` | boolean | Yes | `true` runs the animation in the opposite direction. |
 | `color` | object | No | `{ "r": 0-255, "g": 0-255, "b": 0-255 }`. |
-| `repeat` | integer | No | Number of times to play the step, from 0 to 255. |
+| `repeat` | integer | No | Repeat count for the step, from 0 to 255. |
 
 ## Animation files
 

@@ -24,7 +24,7 @@ Both devices support:
 | LED channels | 1 | 4 |
 | Maximum LEDs | Up to 320 | Up to 1280 total (4x320) |
 | Modules | Up to 5 (I2C, SPI, UART, DIO, AIO) | Up to 2 (I2C only) |
-| Robot connection | USB, UART | USB |
+| Connection to the robot controller | USB | USB |
 | microSD | Yes | Yes |
 | 5 V regulator output | 3000 mA | 6000 mA |
 
