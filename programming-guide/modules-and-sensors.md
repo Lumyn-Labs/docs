@@ -457,7 +457,7 @@ while (1) {
 
 ## Module configuration
 
-Modules are configured in Lumyn Studio or via ConfigBuilder:
+Modules are configured in Lumyn Studio or with `ConfigBuilder`. In the configuration JSON, the list of modules is under the `sensors` key; the board ignores a `modules` key.
 
 ### Lumyn Studio
 

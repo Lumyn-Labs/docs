@@ -56,7 +56,7 @@ Create a file named `config.json` in the **root** of the microSD card with the f
   "channels": {},
   "sequences": [],
   "bitmaps": [],
-  "modules": [],
+  "sensors": [],
   "groups": []
 }
 ```
