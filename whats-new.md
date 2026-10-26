@@ -159,7 +159,11 @@ direct->Update(buffer);
 
 ### New connection options
 
-ConnectorX now supports **UART connections** with configurable baud rates, in addition to USB. This enables more flexible wiring and higher-bandwidth communication.
+ConnectorX now supports **UART connections** with configurable baud rates, in addition to USB.
+
+```{note}
+UART doesn't connect on SystemCore yet: `Connect(UARTPort...)` logs an error and returns `false`. On SystemCore, connect over USB. See [Connecting to devices](programming-guide/connecting-to-devices).
+```
 
 ::::{tab-set}
 :::{tab-item} Java (WPILib)

@@ -45,7 +45,7 @@ Modules go under `sensors`. The board does not read a `modules` key.
 | `mode` | string | `"USB"` or `"UART"`. Required. |
 | `baudRate` | integer | UART speed, from 9600 to 921600. Required when `mode` is `"UART"`. |
 
-USB is always available, whatever `mode` says. `"UART"` adds a UART connection and works on ConnectorX only.
+USB is always available, whatever `mode` says. `"UART"` adds a UART connection and works on ConnectorX only. A WPILib robot program on SystemCore can't connect over UART yet; connect over USB.
 
 The board also accepts `"I2C"` (with an `address` from 2 to 126) and `"CAN"`, but neither ConnectorX nor ConnectorX Animate has those connections.
 

@@ -38,7 +38,7 @@ Lumyn Labs provides several SDKs for different platforms and use cases:
 :::
 
 :::{note}
-This guide uses terminology from the [WPILib / FRC ecosystem](https://frcdocs.wpi.edu). Key terms: **roboRIO** (the FRC robot controller), **vendordep** (a WPILib third-party library package), **SimGUI** (WPILib's desktop simulation environment), **MXP** (the roboRIO expansion port for UART).
+This guide uses terminology from the [WPILib / FRC ecosystem](https://frcdocs.wpi.edu). Key terms: **SystemCore** (the FRC robot controller the 2027 vendordep runs on), **roboRIO** (the FRC robot controller before SystemCore), **vendordep** (a WPILib third-party library package), **SimGUI** (WPILib's desktop simulation environment), **MXP** (the roboRIO expansion port; `UARTPort.MXP` keeps the name, but UART doesn't connect on SystemCore yet).
 :::
 
 ## How Studio and code connect
@@ -110,7 +110,7 @@ Test in the WPILib desktop simulator. Java/C++ vendordep only.
 ### Connections
 
 - **Connect via USB** - See [Connecting to devices](connecting-to-devices)
-- **Connect via UART** - See [Connecting to devices](connecting-to-devices)
+- **Connect via UART** (doesn't connect on SystemCore yet) - See [Connecting to devices](connecting-to-devices)
 - **Handle events** - See [Connecting to devices](connecting-to-devices)
 - **Restart device** - See [Connecting to devices](connecting-to-devices)
 
