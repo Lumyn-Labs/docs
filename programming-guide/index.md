@@ -20,7 +20,7 @@ See [Getting started (Python)](getting-started-python) and install with uv.
 
 ### C/C++ SDK
 
-Download from [GitHub Releases](https://github.com/Lumyn-Labs/Releases)
+Download from the [Lumyn Labs releases page](https://github.com/Lumyn-Labs/Releases/releases). See [Getting started with C/C++ SDK](getting-started-c-cpp-sdk).
 
 ## SDK overview
 

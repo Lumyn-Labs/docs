@@ -15,7 +15,7 @@ Control Lumyn Labs devices using native C or C++ on Windows, Linux, macOS, and e
 Use the **standalone C/C++ SDK** when:
 
 - Building desktop applications on Windows, Linux, or macOS
-- Developing embedded Linux applications (Raspberry Pi, Jetson, etc.)
+- Developing embedded Linux applications, such as on a Raspberry Pi or Jetson
 - You need maximum performance and minimal overhead
 - You're not using the FRC/WPILib ecosystem
 
@@ -29,29 +29,50 @@ Use **WPILib C++** instead if:
 
 ### Download binary release
 
-Download the latest pre-built release from the [GitHub releases page](https://github.com/Lumyn-Labs/lumyn-c-sdk/releases):
+1. Go to the [Lumyn Labs releases page](https://github.com/Lumyn-Labs/Releases/releases) and open the latest **Lumyn SDK** release.
+2. Download the archive for your language and platform:
+   - C: `lumyn-sdk-c-v<version>-<platform>.tar.gz`
+   - C++: `lumyn-sdk-cpp-v<version>-<platform>.tar.gz`
 
-1. Navigate to the releases page
-2. Download the archive for your platform:
-   - `lumyn-c-sdk-*.zip` for Windows
-   - `lumyn-c-sdk-*.tar.gz` for Linux/macOS
-3. Extract to your desired location
+   `<platform>` is `linux-x64`, `linux-arm64`, `windows-x64`, or `macos-arm64`. Every platform, Windows included, uses a `.tar.gz` archive.
+3. Extract the archive. It has an `include` folder, a `lib` folder with the `lumyn_sdk_c` or `lumyn_sdk_cpp` library, and an `examples` folder.
 
 ### CMake integration
 
-In your `CMakeLists.txt`:
+The archives don't include a CMake package, so find the library by its path. For C, add this to your `CMakeLists.txt`:
 
 ```cmake
-# Set the SDK path
-set(LUMYN_SDK_PATH "/path/to/lumyn-c-sdk")
+cmake_minimum_required(VERSION 3.18)
+project(my_app LANGUAGES C)
 
-# Include the SDK
-include_directories(${LUMYN_SDK_PATH}/include)
-link_directories(${LUMYN_SDK_PATH}/lib)
+set(LUMYN_SDK_DIR "/path/to/lumyn-sdk-c-v<version>-<platform>")
 
-# Link against the SDK
-target_link_libraries(your_target lumyn)
+add_executable(my_app main.c)
+target_include_directories(my_app PRIVATE ${LUMYN_SDK_DIR}/include)
+
+find_library(LUMYN_SDK_C lumyn_sdk_c PATHS ${LUMYN_SDK_DIR}/lib NO_DEFAULT_PATH REQUIRED)
+target_link_libraries(my_app PRIVATE ${LUMYN_SDK_C})
 ```
+
+For C++, which needs C++20:
+
+```cmake
+cmake_minimum_required(VERSION 3.18)
+project(my_app LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(LUMYN_SDK_DIR "/path/to/lumyn-sdk-cpp-v<version>-<platform>")
+
+add_executable(my_app main.cpp)
+target_include_directories(my_app PRIVATE ${LUMYN_SDK_DIR}/include)
+
+find_library(LUMYN_SDK_CPP lumyn_sdk_cpp PATHS ${LUMYN_SDK_DIR}/lib NO_DEFAULT_PATH REQUIRED)
+target_link_libraries(my_app PRIVATE ${LUMYN_SDK_CPP})
+```
+
+On Windows, copy `lumyn_sdk_c.dll` or `lumyn_sdk_cpp.dll` from the `lib` folder next to your executable. On Linux, if the program can't find the library when it runs, add the `lib` folder to `LD_LIBRARY_PATH`.
 
 ### Include headers
 
@@ -63,7 +84,7 @@ target_link_libraries(your_target lumyn)
 // For C
 #include <lumyn/c/lumyn_device.h>
 #include <lumyn/c/lumyn_led.h>
-// Plus lumyn_direct_led.h, lumyn_events.h, lumyn_modules.h, etc. as needed
+// Add lumyn_direct_led.h, lumyn_events.h, or lumyn_modules.h as you need them
 ```
 
 ## Choosing between C and C++
@@ -342,7 +363,7 @@ lumyn_DestroyConnectorX(&cx);
 ### Version information
 
 ```c
-const char* version = lumyn_GetVersion();      // e.g., "4.1.0"
+const char* version = lumyn_GetVersion();      // For example, "4.2.0"
 int major = lumyn_GetVersionMajor();           // Protocol version
 int minor = lumyn_GetVersionMinor();
 int patch = lumyn_GetVersionPatch();
