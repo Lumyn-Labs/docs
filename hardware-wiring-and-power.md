@@ -80,7 +80,7 @@ ConnectorX Animate has no Qwiic port and no SPI, UART, DIO, or AIO headers. Conn
 - **microSD slot**: holds the configuration file and image files. Format the card as FAT32; see the [Quick start guide](quick-start).
 - **USB-C port**: connects to the robot controller or a computer.
 - **RST** button: restarts the board.
-- **BOOTSEL** button (ConnectorX Animate only): puts the board in firmware update mode; see [Drivers and firmware](drivers-and-firmware).
+- **BOOTSEL** button: puts the board in firmware update mode; see [Drivers and firmware](drivers-and-firmware).
 - Indicator LEDs:
   - **PWR**: lights when the board's 3.3 V logic supply is on.
   - **ALV**: turned on by the firmware when it starts.
