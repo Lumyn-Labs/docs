@@ -12,6 +12,10 @@ All notable changes to Lumyn Labs products will be documented here.
 
 ### Firmware 4.4
 
+#### Added
+
+- **11 animations**: Strobe, Wipe, Fireworks, Aurora, Converge, Starfield, Snake, DigitalRain, Drops, Monitor, and BouncingBalls. Starfield through BouncingBalls run on matrix zones only. See [Available animations](programming-guide/led-animations.md#available-animations).
+
 #### Changed
 
 - **Live configuration**: A configuration sent to the board is used at once and saved for the next power-up. You no longer need to restart the board. A configuration the board can't parse is refused, and the saved one keeps running. A change to the network transport takes effect at the next boot.
