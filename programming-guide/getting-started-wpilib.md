@@ -30,6 +30,15 @@ plugins {
 
 ## Installation
 
+### Install from the WPILib dependency list (recommended)
+
+1. Open your robot project in VS Code.
+2. Click the WPILib icon in the sidebar.
+3. Under **Available Dependencies**, find **Lumyn Labs**.
+4. Click **Install**.
+
+To update later, open this list and click **To Latest**.
+
 ### Install from the vendordep URL
 
 1. Press `Ctrl+Shift+P` (`Cmd+Shift+P` on macOS).
@@ -42,17 +51,6 @@ plugins {
    ```
 
 5. Build your project.
-
-### Install from the WPILib dependency list
-
-If **Lumyn Labs** is listed for your WPILib version, you can install it from the WPILib sidebar instead:
-
-1. Open your robot project in VS Code.
-2. Click the WPILib icon in the sidebar.
-3. Under **Available Dependencies**, find **Lumyn Labs**.
-4. Click **Install**.
-
-To update later, open this list and click **To Latest**.
 
 ## Your first program
 
