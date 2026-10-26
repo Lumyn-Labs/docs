@@ -45,7 +45,7 @@ Major release featuring a redesigned Lumyn Studio, OTA firmware updates, the LLA
 
 #### Added
 
-- **OTA Firmware Updates**: Devices running firmware 4.3 or newer can be updated over the air directly from Lumyn Studio. No bootloader mode or manual UF2 flashing required.
+- **OTA firmware updates**: Devices running firmware 4.3 or newer can be updated over the air directly from Lumyn Studio. No bootloader mode or manual UF2 flashing required.
 - **LLA File Support**: New Lumyn Labs Animation (`.lla`) file format for image sequences. LLA files are highly compressed compared to raw bitmap data, load faster on-device, and are portable between teams.
 - **Direct Config and Asset Uploads**: Configurations and image sequence assets can now be streamed to the device over USB from Studio, eliminating manual SD card file transfers.
 - **Module Support on ConnectorX Animate**: ConnectorX Animate now supports up to two I2C modules, bringing sensor integration to the multi-channel LED controller.
@@ -59,14 +59,14 @@ Major release featuring a redesigned Lumyn Studio, OTA firmware updates, the LLA
 #### Added
 
 - **Redesigned Interface**: Lumyn Studio has been rebuilt from the ground up with a new dark-mode-first UI. Every panel, dialog, and editor has been revisited for clarity and speed.
-- **OTA Firmware Update Prompt**: When a connected device has a newer firmware version available, Studio displays an update prompt. Users can apply the update in one click without entering bootloader mode.
+- **OTA firmware update prompt**: When a connected device has a newer firmware version available, Studio displays an update prompt. Users can apply the update in one click without entering bootloader mode.
 - **LLA Export**: The Export Configuration dialog now offers an **Export as LLA animation files** option when image sequences are included. LLA files replace raw bitmap frames with a compact, device-rendered format.
 - **Direct Upload to Device**: A new **Send to Device** button in the Export Configuration dialog streams the configuration (and assets, when applicable) directly to a connected device over USB.
 - **Redesigned Custom Module Workflow**: The custom module editor now guides users through creating modules step by step with dedicated sections for Overview, Details, README, Data (payload and configuration fields), and Source (generated firmware boilerplate).
 - **Improved Animation Sequence Editor**: Cleaner timeline, better performance, more responsive previews, and a redesigned step editor with inline controls.
 - **Image Sequence Editor 2.0 (Motion Editor)**: Completely rebuilt editor with layer support, vector shapes and text, keyframe-based animation, GIF import/export, and timeline transport controls.
 - **Redesigned LED Commander**: The testing utility now populates command targets from the device configuration and shows live animation previews. Supports Animation, Animation Sequence, Image Sequence, Lumyn Animation (LLA), Matrix Text Scroll, and Color command types.
-- **Configuration Sync**: Studio automatically reads the device configuration on connect and prompts the user to resolve conflicts when Studio and device configurations differ.
+- **Configuration sync**: Studio automatically reads the device configuration on connect and prompts the user to resolve conflicts when Studio and device configurations differ.
 - **Image Sequence Preview at Matrix Size**: Image sequences can now be previewed at the exact pixel resolution of the target LED matrix.
 
 #### Changed
@@ -102,7 +102,7 @@ This release introduces Matrix Text 2.0 with enhanced text rendering capabilitie
 **Matrix Text 2.0**: Major enhancements to matrix text functionality:
 
 - **Multiple Fonts**: Choose from optimized fonts for LED matrices (`BUILTIN`, `FREE_SANS_9`)
-- **Foreground & Background Colors**: Independent color control for text and background
+- **Foreground and background colors**: Independent color control for text and background
 - **Static Text Mode**: Display non-scrolling text with precise positioning
 - **Ping Pong Scrolling**: Text scrolls forward then reverses for smooth bouncing animation
 - **Smooth Scrolling**: Pixel-by-pixel text movement for improved readability
@@ -141,7 +141,7 @@ This release introduces Matrix Text 2.0 with enhanced text rendering capabilitie
 - **Python SDK**: Full API parity with WPILib vendordep, available on PyPI
   - LED control, module reading, configuration management
   - Screen mirroring capabilities with DirectLED
-  - Cross-platform support (desktop, Raspberry Pi, etc.)
+  - Cross-platform support, including desktop computers and Raspberry Pi
 
 - **C/C++ SDK**: Performance-optimized SDK for embedded systems
   - Complete documentation and examples
@@ -173,7 +173,7 @@ This release finalizes the 2026 API surface and adds compatibility with the WPIL
 
 ### Fixed
 
-- **ConfigBuilder channels now require a channel number** (e.g., `addChannel(1, "front", 60)`); channel keys are fixed to the numeric channel index
+- **ConfigBuilder channels now require a channel number** (for example, `addChannel(1, "front", 60)`); channel keys are fixed to the numeric channel index
 
 
 ---

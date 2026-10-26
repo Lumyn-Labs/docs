@@ -55,13 +55,13 @@ When you run the simulation GUI, a new window appears that visualizes your LED z
 Test sensor-driven logic without hardware:
 
 1. Open the **Modules** tab
-2. Find your module (e.g., `DigitalInput`)
+2. Find your module, such as `DigitalInput`
 3. Set the value and click **Inject**
 4. Your code receives the data
 
 ## Image sequences
 
-Place image folders in `deploy/connectorx/<sequenceId>/` with files named `0.bmp`, `1.bmp`, etc.
+Place image folders in `deploy/connectorx/<sequenceId>/` with files named `0.bmp`, `1.bmp`, and so on.
 
 ## Troubleshooting
 

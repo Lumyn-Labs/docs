@@ -218,6 +218,6 @@ Now that you're connected, explore what you can do:
 - [LED strip animations](led-animations) - Colors, animations, and sequences
 - [LED matrices](led-matrices) - Text and image display
 - [DirectLED](directled) - Per-pixel control with WPILib LEDPattern
-- [Modules & sensors](modules-and-sensors) - Sensor data callbacks (ConnectorX Animate supports I2C modules only)
+- [Modules and sensors](modules-and-sensors) - Sensor data callbacks (ConnectorX Animate supports I2C modules only)
 - [Device configuration](device-configuration) - Load and apply configurations
 - [Simulation](simulation) - Test in the WPILib simulator

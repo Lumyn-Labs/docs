@@ -2,7 +2,7 @@
 hide-toc: true
 ---
 
-# Modules & sensors
+# Modules and sensors
 
 Extend ConnectorX and ConnectorX Animate with sensor inputs and hardware interfaces using the module system.
 

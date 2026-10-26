@@ -12,7 +12,7 @@ This section walks through the Lumyn Studio UI and core workflows. Learn how to 
 
 ## Guide overview
 
-### Setup & configuration
+### Setup and configuration
 
 Configure hardware layout and I/O before you create animations.
 
@@ -50,17 +50,17 @@ Combine built-in animations, such as Blink, Chase, Fire, Confetti, and Plasma, i
 
 Import images or GIFs, or start from a blank canvas. Create keyframe-animated sequences with vector shapes, text, and images in the Motion Editor.
 
-### Managing & deploying
+### Managing and deploying
 
 Run the app day-to-day and get configurations onto hardware.
 
-#### [Device settings & management](device-settings-and-management)
+#### [Device settings and management](device-settings-and-management)
 
 **When to use**: Managing connections, viewing logs, sending test commands, or changing Studio settings.
 
 Use the Connected Device Panel for events, module data, LED Commander, and logs. Adjust team number, cache refresh, and optional developer settings (debug mode and experiments) from the Settings tab.
 
-#### [Saving & exporting configurations](saving-and-exporting-configurations)
+#### [Saving and exporting configurations](saving-and-exporting-configurations)
 
 **When to use**: Ready to deploy your configuration or share it with your team.
 
@@ -74,12 +74,12 @@ A quick glossary of common terms used throughout the docs and Lumyn Studio:
 - **Configuration**: The saved settings and assets for a device (channels, zones, groups, modules, sequences, images). Exported as config.json plus optional image folders.
 - **Channel**: A physical LED output on the device. ConnectorX has one; ConnectorX Animate has four.
 - **Zone**: A logical subsection of a channel you can control independently (Strip Zone or Matrix Zone).
-- **Strip Zone**: A linear sequence of LEDs.
-- **Matrix Zone**: A 2D grid of LEDs, used with image sequences and text.
+- **Strip zone**: A linear sequence of LEDs.
+- **Matrix zone**: A 2D grid of LEDs, used with image sequences and text.
 - **Group**: A collection of zones controlled together.
 - **Animation**: A built-in effect (for example Blink, Chase, Fire, Confetti, Plasma, Heartbeat). Lumyn Studio includes 26 built-in animations.
-- **Animation Sequence**: An ordered list of animations with timings and parameters.
-- **Image Sequence**: A timeline-based animation of vector shapes, text, and images, rendered as frames for a matrix zone.
+- **Animation sequence**: An ordered list of animations with timings and parameters.
+- **Image sequence**: A timeline-based animation of vector shapes, text, and images, rendered as frames for a matrix zone.
 - **LLA (Lumyn LED Animation)**: A compact animation file format (`.lla`) for matrix zones. Exported from Lumyn Studio when your configuration includes image sequences.
 - **DirectLED**: A mode for high-frequency per-pixel LED control from robot code, bypassing built-in animations. Uses compression for efficiency.
 - **Vendordep (Vendor Dependency)**: A WPILib mechanism for adding third-party libraries to FRC robot projects. The Lumyn Labs vendordep provides Java and C++ APIs for controlling ConnectorX devices.
@@ -92,11 +92,11 @@ A quick glossary of common terms used throughout the docs and Lumyn Studio:
 **Setting up a new device:**
 1. [Getting started with Lumyn Studio](getting-started-with-lumyn-studio) → Connect device and create channels/zones
 2. [Animation sequences](animation-sequences) or [Image sequences](image-sequences-matrix) → Create content
-3. [Saving & exporting configurations](saving-and-exporting-configurations) → Deploy to device
+3. [Saving and exporting configurations](saving-and-exporting-configurations) → Deploy to device
 
 **Adding sensors:**
 1. [Modules](modules) → Browse and add modules
-2. [Device settings & management](device-settings-and-management) → Monitor module data
+2. [Device settings and management](device-settings-and-management) → Monitor module data
 
 **Creating complex LED effects:**
 1. [Zones and zone groups](zones-and-zone-groups) → Organize your LEDs
@@ -104,7 +104,7 @@ A quick glossary of common terms used throughout the docs and Lumyn Studio:
 3. [Image sequences (matrix)](image-sequences-matrix) → Create matrix content
 
 ```{toctree}
-:caption: Setup & Configuration
+:caption: Setup and configuration
 :maxdepth: 1
 :hidden:
 
@@ -114,7 +114,7 @@ modules
 ```
 
 ```{toctree}
-:caption: Creating Content
+:caption: Creating content
 :maxdepth: 1
 :hidden:
 
@@ -123,7 +123,7 @@ image-sequences-matrix
 ```
 
 ```{toctree}
-:caption: Managing & Deploying
+:caption: Managing and deploying
 :maxdepth: 1
 :hidden:
 

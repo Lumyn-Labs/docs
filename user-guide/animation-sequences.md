@@ -41,4 +41,4 @@ Use the editor to add, remove, and reorder steps.
 
 - [Image sequences](image-sequences-matrix)
 - [Modules](modules)
-- [Saving & exporting configurations](saving-and-exporting-configurations)
+- [Saving and exporting configurations](saving-and-exporting-configurations)

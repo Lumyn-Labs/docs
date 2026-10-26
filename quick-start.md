@@ -15,22 +15,22 @@ Before you begin, ensure you have the following:
 - **Browser**: A modern Chromium-based browser that supports the Web Serial API.
   - Google Chrome (version 89 or newer)
   - Microsoft Edge (version 89 or newer)
-- **Operating System**: Any OS that can run the browsers listed above.
+- **Operating system**: Any OS that can run the browsers listed above.
   - Windows 10 or 11
   - macOS
   - Linux
 
 ### Hardware
 
-- **USB Cable**: A USB-A to USB-C or USB-C to USB-C cable that supports **data transfer**. Some cheaper cables are for charging only and will not work.
+- **USB cable**: A USB-A to USB-C or USB-C to USB-C cable that supports **data transfer**. Some cheaper cables are for charging only and will not work.
 - **microSD Card**:
   - **Format**: FAT32
   - **Size**: 8GB or larger recommended.
   - The card must be formatted as FAT32 to be recognized by the device. exFAT and NTFS are not supported.
-- **Power Supply**: A 12V power source, such as the FRC Power Distribution Hub (PDH) or Power Distribution Panel (PDP).
+- **Power supply**: A 12V power source, such as the FRC Power Distribution Hub (PDH) or Power Distribution Panel (PDP).
 
 ```{note}
-**Power Requirements**: The 12V power supply is only required if you want to drive LEDs. To connect to Lumyn Studio and configure your device, you can power it over USB-C alone.
+**Power requirements**: The 12V power supply is only required if you want to drive LEDs. To connect to Lumyn Studio and configure your device, you can power it over USB-C alone.
 ```
 
 ## First-time setup
@@ -82,7 +82,7 @@ Before configuring your device, ensure you're running the latest firmware. Downl
 ### Step 5: Install drivers (Windows only)
 
 ```{note}
-**Driver Installation**: You only need to install drivers if your device doesn't appear when you try to connect in Lumyn Studio. If you can see your device in the connection dialog, you can skip this step.
+**Driver installation**: You only need to install drivers if your device doesn't appear when you try to connect in Lumyn Studio. If you can see your device in the connection dialog, you can skip this step.
 ```
 
 On Windows, you may need to install a driver to allow your browser to communicate with the device. See the [Drivers and firmware](drivers-and-firmware) page for detailed instructions.
@@ -110,7 +110,7 @@ The Studio interface is organized into tabs: Devices, Modules, Animation Sequenc
 
 4. A dialog will appear listing available serial ports. Select your Lumyn Labs device from the list and click **Connect**.
 
-If you don't see your device, see the [Troubleshooting & FAQ](troubleshooting-faq) for help.
+If you don't see your device, see the [Troubleshooting and FAQ](troubleshooting-faq) for help.
 
 ### Step 8: Create your first configuration
 
@@ -134,7 +134,7 @@ In the device's LED Channels page, click an empty port and choose Configure. Set
 - Click Export Configuration on your device's overview page and download the JSON file.
 - Copy `config.json` to the root of your microSD card.
 - For configurations with images, export as a zip and copy all contents to the microSD card root.
-- Insert the microSD card into your device and power it on. See: [Saving & exporting configurations](user-guide/saving-and-exporting-configurations)
+- Insert the microSD card into your device and power it on. See: [Saving and exporting configurations](user-guide/saving-and-exporting-configurations)
 
 ## Next steps
 
@@ -147,5 +147,5 @@ Now that your device is set up, explore these resources:
 
 Having trouble? Check out:
 
-- **[Troubleshooting & FAQ](troubleshooting-faq)**: Common issues and solutions
+- **[Troubleshooting and FAQ](troubleshooting-faq)**: Common issues and solutions
 - **[Drivers and firmware](drivers-and-firmware)**: Windows driver installation and firmware updates

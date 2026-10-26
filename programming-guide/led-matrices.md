@@ -479,7 +479,7 @@ Image sequences are created in Lumyn Studio:
 4. Configure frame timing
 5. Export to your device
 
-See [Image sequences](../user-guide/image-sequences-matrix) in the Lumyn Studio Guide.
+See [Image sequences](../user-guide/image-sequences-matrix) in the Lumyn Studio guide.
 
 ### File locations
 
@@ -489,7 +489,7 @@ See [Image sequences](../user-guide/image-sequences-matrix) in the Lumyn Studio 
 
 **Hardware**:
 - Place image folders at the root of the device SD card
-- Each folder contains numbered BMP files: `0.bmp`, `1.bmp`, etc.
+- Each folder contains numbered BMP files: `0.bmp`, `1.bmp`, and so on.
 
 ## Matrix zone configuration
 

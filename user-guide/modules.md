@@ -75,5 +75,5 @@ Once you've defined the module's data structure and configuration fields, the **
 
 ## Next steps
 
-- Configure zones for module-driven effects: [Zones & zone groups](zones-and-zone-groups)
+- Configure zones for module-driven effects: [Zones and zone groups](zones-and-zone-groups)
 - Use module data in code: [Programming guide](../programming-guide/index)

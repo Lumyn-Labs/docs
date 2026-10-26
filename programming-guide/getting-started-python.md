@@ -34,7 +34,7 @@ Add uv to your PATH:
 export PATH="$HOME/.local/bin:$PATH"
 ```
 
-To make this permanent, add it to your shell profile (`~/.bashrc`, `~/.zshrc`, etc.).
+To make this permanent, add it to your shell profile, such as `~/.bashrc` or `~/.zshrc`.
 
 #### Step 2: Install Python 3.11
 
@@ -315,6 +315,6 @@ except KeyboardInterrupt:
 - [LED Animations](led-animations) - Colors, animations, sequences
 - [LED matrices](led-matrices) - Text, fonts, image sequences
 - [DirectLED](directled) - High-frequency per-pixel control
-- [Modules & sensors](modules-and-sensors) - Module callbacks, typed helpers
+- [Modules and sensors](modules-and-sensors) - Module callbacks, typed helpers
 - [Device configuration](device-configuration) - ConfigBuilder, loading configs
-- [Troubleshooting & FAQ](../troubleshooting-faq) - Common issues and solutions
+- [Troubleshooting and FAQ](../troubleshooting-faq) - Common issues and solutions

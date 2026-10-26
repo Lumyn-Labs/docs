@@ -217,7 +217,7 @@ When DirectLED writes pixel data to a zone, the zone's built-in animation is **f
 This means:
 - After you stop sending DirectLED frames, the zone will display the last frame indefinitely.
 - Calling `SetColor` after DirectLED will **not** make anything visible — the zone is frozen.
-- To return to built-in animations, call `SetAnimation` with any animation type (e.g., `Fill` for a solid color).
+- To return to built-in animations, call `SetAnimation` with any animation type, such as `Fill` for a solid color.
 
 ## Full example
 

@@ -80,7 +80,7 @@ Display text, fonts, and image sequences on matrix zones.
 High-frequency per-pixel control with WPILib LEDPattern integration.
 :::
 
-:::{grid-item-card} Modules & Sensors
+:::{grid-item-card} Modules and sensors
 :link: modules-and-sensors
 :link-type: doc
 
@@ -135,9 +135,9 @@ Test in the WPILib desktop simulator. Java/C++ vendordep only.
 
 ### Modules
 
-- **Use DigitalInputModule** - See [Modules & sensors](modules-and-sensors)
-- **Use VL53L1XModule** - See [Modules & sensors](modules-and-sensors)
-- **Raw module callback** - See [Modules & sensors](modules-and-sensors)
+- **Use DigitalInputModule** - See [Modules and sensors](modules-and-sensors)
+- **Use VL53L1XModule** - See [Modules and sensors](modules-and-sensors)
+- **Raw module callback** - See [Modules and sensors](modules-and-sensors)
 
 ### Configuration
 

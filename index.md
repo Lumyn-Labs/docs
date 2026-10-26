@@ -4,7 +4,7 @@ hide-toc: true
 
 # Lumyn Labs documentation
 
-## Learn & configure
+## Learn and configure
 
 Before writing code, connect your device in Lumyn Studio and build a configuration. Start with the quick start guide and the Lumyn Studio guide.
 
@@ -41,7 +41,7 @@ Latest hardware, software features, and API changes.
 
 ::::
 
-## Reference & support
+## Reference and support
 
 ::::{grid} 1 2 3 3
 :gutter: 3
@@ -67,7 +67,7 @@ Control devices with code. Examples for all SDKs.
 Release notes and vendordep updates.
 :::
 
-:::{grid-item-card} Troubleshooting & FAQ
+:::{grid-item-card} Troubleshooting and FAQ
 :link: troubleshooting-faq
 :link-type: doc
 

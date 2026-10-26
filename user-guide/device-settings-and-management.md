@@ -2,7 +2,7 @@
 hide-toc: true
 ---
 
-# Device settings & management
+# Device settings and management
 
 Use the Connected Device Panel and Studio Settings to manage your devices.
 
@@ -43,9 +43,9 @@ Open the **Settings** tab in the main navigation bar.
 
 ## Firmware and drivers
 
-- See [Troubleshooting & FAQ](../troubleshooting-faq) for driver setup and flashing official firmware.
+- See [Troubleshooting and FAQ](../troubleshooting-faq) for driver setup and flashing official firmware.
 
 ## Related
 
-- [Saving & exporting configurations](saving-and-exporting-configurations)
-- [Troubleshooting & FAQ](../troubleshooting-faq)
+- [Saving and exporting configurations](saving-and-exporting-configurations)
+- [Troubleshooting and FAQ](../troubleshooting-faq)

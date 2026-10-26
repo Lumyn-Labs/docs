@@ -62,5 +62,5 @@ Once added, you can preview your image sequence at the exact resolution of the t
 
 ## Next steps
 
-- Export with image assets: [Saving & exporting configurations](saving-and-exporting-configurations)
+- Export with image assets: [Saving and exporting configurations](saving-and-exporting-configurations)
 - Create strip animations: [Animation sequences](animation-sequences)

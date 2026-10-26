@@ -344,7 +344,7 @@ By default, events are polled automatically in a background thread. You can cont
 
 **Auto Polling (default)**: Events are polled automatically and handlers are called on the background thread.
 
-**Manual Polling**: Disable auto polling and call `PollEvents()` from your main loop.
+**Manual polling**: Disable auto polling and call `PollEvents()` from your main loop.
 
 ::::{tab-set}
 :::{tab-item} Java (WPILib)

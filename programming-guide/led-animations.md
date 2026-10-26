@@ -415,7 +415,7 @@ Animation sequences are typically created in Lumyn Studio:
 4. Use the preview to visualize the sequence
 5. Save and export to your device
 
-See [Animation sequences](../user-guide/animation-sequences) in the Lumyn Studio Guide for details.
+See [Animation sequences](../user-guide/animation-sequences) in the Lumyn Studio guide for details.
 
 ## Zones vs groups
 

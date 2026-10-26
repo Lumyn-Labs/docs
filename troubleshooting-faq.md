@@ -2,7 +2,7 @@
 hide-toc: true
 ---
 
-# Troubleshooting & FAQ
+# Troubleshooting and FAQ
 
 Find solutions to common issues and answers to frequent questions. This guide helps you diagnose problems and get the support you need.
 
@@ -13,7 +13,7 @@ Find solutions to common issues and answers to frequent questions. This guide he
 #### 1. Verify the device has fully booted
 
 - RGB LED should breathe blue when ready.
-- If not, power-cycle the device. If running custom firmware, try flashing official firmware (see [Flashing Official Firmware](#flashing-official-firmware) below).
+- If not, power-cycle the device. If running custom firmware, try flashing official firmware (see [Flashing official firmware](#flashing-official-firmware) below).
 
 #### 2. Check your USB cable
 
@@ -128,7 +128,7 @@ If you need to flash or update firmware, see [Entering bootloader mode](drivers-
 
 - Use a Chromium-based browser that supports Web Serial.
 - Try a different USB cable that supports data.
-- Install drivers on Windows (see [Troubleshooting Guide](#troubleshooting-guide) above).
+- Install drivers on Windows (see [Troubleshooting guide](#troubleshooting-guide) above).
 
 ### Python: ModuleNotFoundError for lumyn_sdk?
 
@@ -161,7 +161,7 @@ If you need a default empty config to start with, see [Minimal configuration](co
 ## Common issues quick reference
 
 **Device won't connect:**
-1. Check [Unable to Connect Using Lumyn Studio](#unable-to-connect-using-lumyn-studio) section above
+1. Check [Unable to connect using Lumyn Studio](#unable-to-connect-using-lumyn-studio) section above
 2. Verify USB cable supports data transfer
 3. Install drivers on Windows (see [Drivers and firmware](drivers-and-firmware))
 
@@ -175,18 +175,18 @@ If you need a default empty config to start with, see [Minimal configuration](co
 1. Verify config.json is in microSD root (not in a subfolder)
 2. Check file format is valid JSON
 3. Ensure image sequences are in correct folders if used
-4. See [Saving & exporting configurations](user-guide/saving-and-exporting-configurations)
+4. See [Saving and exporting configurations](user-guide/saving-and-exporting-configurations)
 
 **Need to update firmware:**
 1. See [Updating firmware](drivers-and-firmware.md#updating-firmware).
 
 ---
 
-## Support & contact information
+## Support and contact information
 
 Need help? Try these options:
 
-- **Documentation**: Browse this site's [User guide](user-guide/index), [Programming guide](programming-guide/index), and [Troubleshooting & FAQ](troubleshooting-faq) sections.
+- **Documentation**: Browse this site's [User guide](user-guide/index), [Programming guide](programming-guide/index), and [Troubleshooting and FAQ](troubleshooting-faq) sections.
 - **Email**: [support@lumynlabs.com](mailto:support@lumynlabs.com)
 
 For urgent hardware issues, include:

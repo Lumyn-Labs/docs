@@ -10,7 +10,7 @@ This massive free update brings a more powerful **Vendordep** for robot code, a 
 
 ---
 
-## Vendordep & simulation upgrades
+## Vendordep and simulation upgrades
 
 ### Full SimGUI integration
 
@@ -192,7 +192,7 @@ bool uartConnected = m_cx.Connect(lumyn::connection::UARTPort::kMXP, 230400);
 :::
 ::::
 
-### NetworkTables integration & persistent alerts
+### NetworkTables integration and persistent alerts
 
 All device states are automatically published to NetworkTables for easier debugging. Get clear, actionable [persistent alerts](https://frcdocs.wpi.edu/en/latest/docs/software/telemetry/persistent-alerts.html) directly in the Driver Station for connection issues, errors, and device status changes.
 
@@ -458,7 +458,7 @@ The image sequence editor for matrix zones is now upgraded with timeline-based e
 
 ## Faster firmware
 
-### Performance & stability
+### Performance and stability
 
 Our V2 firmware is our fastest and most stable firmware yet, with improved response times and reliability.
 
