@@ -18,8 +18,8 @@ Use the text builder API to show scrolling or static text on matrix zones.
 :::{tab-item} Java (WPILib)
 :sync: java
 ```java
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.units.Units;
+import org.wpilib.util.Color;
+import org.wpilib.units.Units;
 import com.lumynlabs.domain.led.MatrixTextScrollDirection;
 
 // Scrolling text with white color, scrolling left
@@ -36,15 +36,15 @@ cXAnimate.leds.SetText("Hello World!")
 :sync: cpp
 ```cpp
 #include <lumyn/device/ConnectorXAnimate.h>
-#include <frc/util/Color.h>
-#include <units/time.h>
+#include <wpi/util/Color.hpp>
+#include <wpi/units/time.hpp>
 
-using Dir = lumyn::internal::Command::LED::MatrixTextScrollDirection;
+using Dir = lumyn::led::MatrixTextScrollDirection;
 
 // Scrolling text with white color, scrolling left
 m_animate.SetText("Hello World!")
     .ForZone("front-matrix")
-    .WithColor(frc::Color{1.0, 1.0, 1.0})
+    .WithColor(wpi::util::Color{1.0, 1.0, 1.0})
     .WithDirection(Dir::LEFT)
     .WithDelay(300_ms)
     .RunOnce(false);
@@ -114,8 +114,8 @@ cXAnimate.leds.SetText("GO TEAM!")
 ```cpp
 m_animate.SetText("GO TEAM!")
     .ForGroup("all-matrices")
-    .WithColor(frc::Color{1.0, 1.0, 0})
-    .WithDirection(Dir::RIGHT)
+    .WithColor(wpi::util::Color{1.0, 1.0, 0.0})
+    .WithDirection(lumyn::led::MatrixTextScrollDirection::RIGHT)
     .WithDelay(500_ms)
     .RunOnce(false);
 ```
@@ -214,12 +214,12 @@ cXAnimate.leds.SetText("Team 9993")
 :::{tab-item} C++ (WPILib)
 :sync: cpp
 ```cpp
-using Font = lumyn::internal::Command::LED::MatrixTextFont;
+using Font = lumyn::led::MatrixTextFont;
 
 m_animate.SetText("Team 9993")
     .ForZone("front-matrix")
-    .WithColor(frc::Color{1.0, 1.0, 0})
-    .WithBackgroundColor(frc::Color{0, 0, 0.25})
+    .WithColor(wpi::util::Color{1.0, 1.0, 0.0})
+    .WithBackgroundColor(wpi::util::Color{0.0, 0.0, 0.25})
     .WithShowBackground(true)
     .WithFont(Font::FREE_SANS_9)
     .WithSmoothScroll(true)
@@ -304,12 +304,12 @@ cXAnimate.leds.SetText("READY")
 :::{tab-item} C++ (WPILib)
 :sync: cpp
 ```cpp
-using Font = lumyn::internal::Command::LED::MatrixTextFont;
-using Align = lumyn::internal::Command::LED::MatrixTextAlign;
+using Font = lumyn::led::MatrixTextFont;
+using Align = lumyn::led::MatrixTextAlign;
 
 m_animate.SetText("READY")
     .ForZone("status-matrix")
-    .WithColor(frc::Color{0, 1.0, 0})
+    .WithColor(wpi::util::Color{0.0, 1.0, 0.0})
     .WithNoScroll(true)
     .WithAlign(Align::CENTER)
     .WithFont(Font::TOM_THUMB)
@@ -396,14 +396,14 @@ cXAnimate.leds.SetImageSequence("logo_8x32")
 // Play with purple tint, looping
 m_animate.SetImageSequence("Emoji_16x16_unknown")
     .ForZone("front-matrix")
-    .WithColor(frc::Color{0.47, 0, 0.39})
+    .WithColor(wpi::util::Color{0.47, 0.0, 0.39})
     .SetColor(true)
     .RunOnce(false);
 
 // Play with original colors
 m_animate.SetImageSequence("logo_8x32")
     .ForGroup("all-matrices")
-    .WithColor(frc::Color{1.0, 1.0, 1.0})
+    .WithColor(wpi::util::Color{1.0, 1.0, 1.0})
     .SetColor(false)
     .RunOnce(true);
 ```

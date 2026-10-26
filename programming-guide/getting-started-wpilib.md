@@ -2,22 +2,31 @@
 hide-toc: true
 ---
 
-# Getting started with WPILib Vendordep
+# Getting started with the WPILib vendordep
 
 Add the Lumyn Labs vendor library to your WPILib robot project and control your first LED.
 
 ```{note}
-**Version Compatibility**: Use the 2026 vendordep with firmware versions 4.0.2 and later. The 2025 vendordep is compatible with earlier firmware versions.
+The current vendordep is for WPILib 2027.0.0-alpha-8 and the SystemCore robot controller. It does not support the roboRIO. For a roboRIO robot, use the 2026 vendordep, which works with firmware 4.0.2 and later.
 ```
 
 ## Prerequisites
 
 Before you begin, ensure you have:
 
-- A WPILib robot project (Java or C++)
-- VS Code with the WPILib extension installed
-- A Lumyn Labs device (ConnectorX or ConnectorX Animate) with updated firmware
-- A USB cable for connection
+- WPILib 2027.0.0-alpha-8 installed, with VS Code and the WPILib extension
+- A Java or C++ robot project that uses GradleRIO 2027.0.0-alpha-8. Java projects build with Java 25.
+- A SystemCore robot controller
+- A ConnectorX or ConnectorX Animate with up-to-date firmware
+- A USB cable from the board to a SystemCore USB port
+
+A 2027 project's `build.gradle` names the GradleRIO plugin like this:
+
+```groovy
+plugins {
+    id "org.wpilib.GradleRIO" version "2027.0.0-alpha-8"
+}
+```
 
 ## Installation
 
@@ -50,10 +59,10 @@ https://packages.lumynlabs.com/LumynLabs.json
 ```java
 package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj.util.Color8Bit;
-import edu.wpi.first.units.Units;
+import org.wpilib.framework.TimedRobot;
+import org.wpilib.util.Color;
+import org.wpilib.util.Color8Bit;
+import org.wpilib.units.Units;
 
 import com.lumynlabs.devices.ConnectorXAnimate;
 import com.lumynlabs.connection.usb.USBPort;
@@ -62,8 +71,7 @@ import com.lumynlabs.domain.led.Animation;
 public class Robot extends TimedRobot {
     private ConnectorXAnimate m_leds = new ConnectorXAnimate();
 
-    @Override
-    public void robotInit() {
+    public Robot() {
         // Connect to the device on USB port 1
         boolean connected = m_leds.Connect(USBPort.kUSB1);
         System.out.println("ConnectorX connected: " + connected);
@@ -97,12 +105,12 @@ public class Robot extends TimedRobot {
 // Robot.h
 #pragma once
 
-#include <frc/TimedRobot.h>
+#include <wpi/framework/TimedRobot.hpp>
 #include <lumyn/device/ConnectorXAnimate.h>
 
-class Robot : public frc::TimedRobot {
+class Robot : public wpi::TimedRobot {
 public:
-    void RobotInit() override;
+    Robot();
     void TeleopInit() override;
     void AutonomousInit() override;
 
@@ -116,13 +124,13 @@ private:
 #include "Robot.h"
 #include <lumyn/connection/USBPort.h>
 #include <lumyn/led/Animation.h>
-#include <frc/util/Color8Bit.h>
-#include <units/time.h>
+#include <wpi/util/Color8Bit.hpp>
+#include <wpi/units/time.hpp>
 #include <iostream>
 
 using lumyn::led::Animation;
 
-void Robot::RobotInit() {
+Robot::Robot() {
     // Connect to the device on USB port 1
     bool connected = m_leds.Connect(lumyn::connection::USBPort::kUSB1);
     std::cout << "ConnectorX connected: " << connected << std::endl;
@@ -132,7 +140,7 @@ void Robot::TeleopInit() {
     // Display a solid green color on the "front" zone
     m_leds.SetAnimation(Animation::Fill)
         .ForZone("front")
-        .WithColor(frc::Color8Bit(0, 255, 0).ToColor())
+        .WithColor(wpi::util::Color{0, 255, 0})
         .WithDelay(0_ms)
         .RunOnce(false);
 }
@@ -141,7 +149,7 @@ void Robot::AutonomousInit() {
     // Play a rainbow animation on the "front" zone
     m_leds.SetAnimation(Animation::RainbowRoll)
         .ForZone("front")
-        .WithColor(frc::Color8Bit(255, 255, 255).ToColor())
+        .WithColor(wpi::util::Color{255, 255, 255})
         .WithDelay(50_ms)
         .Reverse(false)
         .RunOnce(false);
@@ -169,22 +177,23 @@ m_leds.leds.SetGroupColor("all-climbers", new Color(new Color8Bit(0, 255, 0)));
 :::{tab-item} C++
 ```cpp
 // Change the color of the currently running animation on a zone
-m_leds.SetColor("left-climber", frc::Color8Bit(255, 0, 0).ToColor());
+m_leds.SetColor("left-climber", wpi::util::Color{255, 0, 0});
 
 // Change the color on a group of zones
-m_leds.SetGroupColor("all-climbers", frc::Color8Bit(0, 255, 0).ToColor());
+m_leds.SetGroupColor("all-climbers", wpi::util::Color{0, 255, 0});
 ```
 :::
 ::::
 
 ### Connection ports
 
-For roboRIO, use the `USBPort` enum:
+On SystemCore, connect over USB with the `USBPort` enum, `USBPort.kUSB1` or `USBPort.kUSB2` (`USBPort::kUSB1` or `USBPort::kUSB2` in C++):
 
-- `USBPort.kUSB1` / `USBPort::kUSB1` - First USB port
-- `USBPort.kUSB2` / `USBPort::kUSB2` - Second USB port
+- With one board plugged in, `kUSB1` and `kUSB2` both find it.
+- With two boards plugged in, each device object takes a board of its own type: a `ConnectorXAnimate` object opens the ConnectorX Animate, and a `ConnectorX` object opens the ConnectorX. When two boards are the same type, `kUSB1` and `kUSB2` follow the order of the SystemCore USB ports they are plugged into.
+- A board can be open in only one device object at a time.
 
-For ConnectorX with UART:
+ConnectorX also has a UART connection. On SystemCore, UART does not connect yet: `Connect` logs an error and returns `false`. Connect over USB instead. In simulation, a UART connection connects to the simulated board.
 
 ::::{tab-set}
 :::{tab-item} Java

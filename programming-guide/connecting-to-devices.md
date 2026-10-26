@@ -26,7 +26,7 @@ import com.lumynlabs.connection.usb.USBPort;
 ConnectorXAnimate cXAnimate = new ConnectorXAnimate();
 ConnectorX cX = new ConnectorX();
 
-// Connect to roboRIO USB ports
+// Connect over USB
 boolean animateConnected = cXAnimate.Connect(USBPort.kUSB1);
 boolean cxConnected = cX.Connect(USBPort.kUSB2);
 
@@ -47,7 +47,7 @@ if (animateConnected) {
 lumyn::device::ConnectorX m_cx;
 lumyn::device::ConnectorXAnimate m_animate;
 
-// Connect to roboRIO USB ports
+// Connect over USB
 bool animateConnected = m_animate.Connect(lumyn::connection::USBPort::kUSB1);
 bool cxConnected = m_cx.Connect(lumyn::connection::USBPort::kUSB2);
 ```
@@ -108,7 +108,15 @@ if (err == LUMYN_OK) {
 :::
 ::::
 
+### Choosing kUSB1 or kUSB2 on SystemCore
+
+With one board plugged into SystemCore, `kUSB1` and `kUSB2` both find it. With two boards, each device object takes a board of its own type, so a `ConnectorXAnimate` object opens the ConnectorX Animate even if a ConnectorX is plugged in beside it. When both boards are the same type, `kUSB1` and `kUSB2` follow the order of the USB ports they are plugged into. A board that is already open in one device object can't be opened by another.
+
 ### UART connection (ConnectorX only)
+
+```{note}
+In a WPILib robot program on SystemCore, UART does not connect yet: `Connect(UARTPort...)` logs an error and returns `false`. Connect over USB. In simulation, a UART connection connects to the simulated board. The Python and standalone C and C++ SDKs connect over UART on any serial port the computer has.
+```
 
 ::::{tab-set}
 :sync-group: language
@@ -280,15 +288,15 @@ cXAnimate.AddEventHandler((e) -> {
 #include <lumyn/device/ConnectorX.h>
 #include <iostream>
 
-m_cx.AddEventHandler([](const lumyn::internal::Eventing::Event& event) {
+m_cx.AddEventHandler([](const lumyn::event::Event& event) {
     switch (event.header.type) {
-        case lumyn::internal::Eventing::EventType::Connected:
+        case lumyn::event::EventType::Connected:
             std::cout << "Device connected!" << std::endl;
             break;
-        case lumyn::internal::Eventing::EventType::Disconnected:
+        case lumyn::event::EventType::Disconnected:
             std::cout << "Device disconnected!" << std::endl;
             break;
-        case lumyn::internal::Eventing::EventType::Error:
+        case lumyn::event::EventType::Error:
             std::cout << "Error occurred" << std::endl;
             break;
         default:
@@ -416,7 +424,7 @@ Restart a device from code—useful for error recovery or applying configuration
 ::::{tab-set}
 :::{tab-item} Java (WPILib)
 ```java
-import edu.wpi.first.units.Units;
+import org.wpilib.units.Units;
 
 // Restart immediately
 cXAnimate.RestartDevice(Units.Milliseconds.of(0));
@@ -427,7 +435,7 @@ cXAnimate.RestartDevice(Units.Seconds.of(1));
 :::
 :::{tab-item} C++ (WPILib)
 ```cpp
-#include <units/time.h>
+#include <wpi/units/time.hpp>
 
 // Restart immediately
 m_cx.RestartDevice(0_ms);

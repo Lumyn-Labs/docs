@@ -19,8 +19,8 @@ Display a solid color on a zone or group using the `Fill` animation.
 :sync: java
 
 ```java
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.units.Units;
+import org.wpilib.util.Color;
+import org.wpilib.units.Units;
 import com.lumynlabs.domain.led.Animation;
 
 cXAnimate.leds.SetAnimation(Animation.Fill)
@@ -34,14 +34,14 @@ cXAnimate.leds.SetAnimation(Animation.Fill)
 :sync: cpp
 
 ```cpp
-#include <frc/util/Color.h>
-#include <units/time.h>
+#include <wpi/util/Color.hpp>
+#include <wpi/units/time.hpp>
 #include <lumyn/led/Animation.h>
 
-// Use frc::Color8Bit(r, g, b).ToColor() for 0-255 RGB values.
+// Use wpi::util::Color{r, g, b} for 0-255 RGB values.
 m_animate.SetAnimation(lumyn::led::Animation::Fill)
     .ForZone("left-climber")
-    .WithColor(frc::Color8Bit(255, 0, 0).ToColor())
+    .WithColor(wpi::util::Color{255, 0, 0})
     .WithDelay(0_ms)
     .RunOnce(false);
 ```
@@ -107,7 +107,7 @@ cXAnimate.leds.SetAnimation(Animation.Fill)
 ```cpp
 m_animate.SetAnimation(lumyn::led::Animation::Fill)
     .ForGroup("all-climbers")
-    .WithColor(frc::Color8Bit(0, 255, 0).ToColor())
+    .WithColor(wpi::util::Color{0, 255, 0})
     .WithDelay(0_ms)
     .RunOnce(false);
 ```
@@ -206,8 +206,8 @@ In C++/Java, you can end the builder chain with either `.RunOnce(false)` or `.ex
 :sync: java
 
 ```java
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.units.Units;
+import org.wpilib.util.Color;
+import org.wpilib.units.Units;
 import com.lumynlabs.domain.led.Animation;
 
 // Gold chase animation, 40ms between frames, looping
@@ -241,15 +241,15 @@ cXAnimate.leds.SetAnimation(Animation.RainbowRoll)
 ```cpp
 #include <lumyn/device/ConnectorXAnimate.h>
 #include <lumyn/led/Animation.h>
-#include <frc/util/Color.h>
-#include <units/time.h>
+#include <wpi/util/Color.hpp>
+#include <wpi/units/time.hpp>
 
 using lumyn::led::Animation;
 
 // Gold chase animation, 40ms between frames, looping
 m_animate.SetAnimation(Animation::Chase)
     .ForZone("left-climber")
-    .WithColor(frc::Color8Bit(200, 120, 15).ToColor())
+    .WithColor(wpi::util::Color{200, 120, 15})
     .WithDelay(40_ms)
     .Reverse(false)
     .RunOnce(false);
@@ -257,7 +257,7 @@ m_animate.SetAnimation(Animation::Chase)
 // Red chase on a group, reversed, runs once
 m_animate.SetAnimation(Animation::Chase)
     .ForGroup("right-climber")
-    .WithColor(frc::Color8Bit(255, 0, 0).ToColor())
+    .WithColor(wpi::util::Color{255, 0, 0})
     .WithDelay(40_ms)
     .Reverse(true)
     .RunOnce(true);
@@ -265,7 +265,7 @@ m_animate.SetAnimation(Animation::Chase)
 // Rainbow roll animation
 m_animate.SetAnimation(Animation::RainbowRoll)
     .ForZone("front")
-    .WithColor(frc::Color8Bit(255, 255, 255).ToColor())
+    .WithColor(wpi::util::Color{255, 255, 255})
     .WithDelay(50_ms)
     .Reverse(false)
     .RunOnce(false);

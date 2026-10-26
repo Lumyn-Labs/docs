@@ -23,7 +23,7 @@ Use **WPILib C++** instead if:
 
 - You're building an FRC robot
 - Your team uses WPILib and vendor dependencies
-- You want integration with roboRIO and the FRC toolchain
+- You want integration with SystemCore and the FRC toolchain
 
 ## Installation
 

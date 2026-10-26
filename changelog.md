@@ -8,6 +8,28 @@ All notable changes to Lumyn Labs products will be documented here.
 
 ---
 
+## October 27, 2026
+
+### Vendordep
+
+#### Changed
+
+- **WPILib 2027**: The vendordep builds against WPILib 2027.0.0-alpha-8 and runs on SystemCore. Robot projects use GradleRIO 2027.0.0-alpha-8, and Java projects use Java 25. The roboRIO is no longer supported; roboRIO robots keep using the 2026 vendordep.
+- **WPILib 2027 types**: Lumyn methods take WPILib 2027's types. In Java: `org.wpilib.util.Color` and `Color8Bit`, `org.wpilib.units`, and `org.wpilib.hardware.led.AddressableLEDBuffer`. In C++: `wpi::util::Color`, `wpi::units::millisecond_t`, and `wpi::AddressableLED::LEDData`. Lumyn's own class and method names are unchanged; apply WPILib's 2027 renames in your robot code.
+- **USB on SystemCore**: With one board plugged in, `kUSB1` and `kUSB2` both find it. With two, each device object takes a board of its own type, and `kUSB1` and `kUSB2` follow USB port order. A board can be open in only one device object at a time.
+- **Alerts**: Device alerts use WPILib 2027's alert levels. Errors are `Level.HIGH` and warnings are `Level.MEDIUM`.
+
+#### Removed
+
+- `lumyn::connection::toHalSerialPort` is no longer in the public headers.
+- Names in the `lumyn::internal` namespace are removed. Use the public names, such as `lumyn::event::Event`, `lumyn::config::NetworkType`, and `lumyn::led::MatrixTextScrollDirection`.
+
+#### Known issues
+
+- UART does not connect on SystemCore: `Connect(UARTPort...)` logs an error and returns `false`. Connect over USB.
+
+---
+
 ## [2026.2.0] - April 2026
 
 Major release featuring a redesigned Lumyn Studio, OTA firmware updates, the LLA animation file format, and module support on ConnectorX Animate.

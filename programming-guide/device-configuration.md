@@ -155,7 +155,7 @@ mCx.ApplyConfiguration(cfg);
 lumyn::config::ConfigBuilder builder;
 auto cfg = builder
     .ForTeam("9993")
-    .SetNetworkType(lumyn::internal::Configuration::NetworkType::USB)
+    .SetNetworkType(lumyn::config::NetworkType::USB)
     .AddChannel(1, "main-channel", 120)
         .AddStripZone("front", 60)
         .AddStripZone("back", 60)
@@ -268,7 +268,7 @@ LumynDeviceConfig cfg = builder
 ```cpp
 auto cfg = builder
     .ForTeam("9993")
-    .SetNetworkType(lumyn::internal::Configuration::NetworkType::USB)
+    .SetNetworkType(lumyn::config::NetworkType::USB)
     .AddChannel(1, "main-channel", 316)
         .AddStripZone("strip", 60)
         .AddMatrixZone("front-matrix", 16, 16)
@@ -321,7 +321,7 @@ LumynDeviceConfig cfg = builder
 ```cpp
 auto cfg = builder
     .ForTeam("9993")
-    .SetNetworkType(lumyn::internal::Configuration::NetworkType::USB)
+    .SetNetworkType(lumyn::config::NetworkType::USB)
     .AddChannel(1, "main-channel", 60)
         .AddStripZone("strip", 60)
         .EndChannel()
@@ -378,7 +378,7 @@ config.ifPresent(cfg -> {
 ```cpp
 auto config = m_cx.RequestConfig();
 if (config) {
-    std::cout << "Channels: " << config->channels.size() << std::endl;
+    std::cout << "Channels: " << (config->channels ? config->channels->size() : 0) << std::endl;
 }
 ```
 :::

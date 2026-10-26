@@ -29,9 +29,9 @@ Say goodbye to long parameter lists! The new builder-style API makes your code m
 ::::{tab-set}
 :::{tab-item} Java (WPILib)
 ```java
-import edu.wpi.first.wpilibj.util.Color8Bit;
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.units.Units;
+import org.wpilib.util.Color8Bit;
+import org.wpilib.util.Color;
+import org.wpilib.units.Units;
 import com.lumynlabs.domain.led.Animation;
 
 // Clean, readable builder syntax
@@ -61,13 +61,13 @@ cXAnimate.leds.SetText("Hello World!")
 :::{tab-item} C++ (WPILib)
 ```cpp
 #include <lumyn/led/Animation.h>
-#include <frc/util/Color8Bit.h>
-#include <units/time.h>
+#include <wpi/util/Color8Bit.hpp>
+#include <wpi/units/time.hpp>
 
 // Clean, readable builder syntax
 m_animate.SetAnimation(lumyn::led::Animation::Chase)
     .ForZone("left-climber")
-    .WithColor(frc::Color8Bit(200, 120, 15).ToColor())
+    .WithColor(wpi::util::Color{200, 120, 15})
     .WithDelay(40_ms)
     .Reverse(false)
     .RunOnce(false);
@@ -75,15 +75,15 @@ m_animate.SetAnimation(lumyn::led::Animation::Chase)
 // Image sequences with the builder API
 m_animate.SetImageSequence("Emoji_16x16_unknown")
     .ForZone("front-matrix")
-    .WithColor(frc::Color8Bit(120, 0, 100).ToColor())
+    .WithColor(wpi::util::Color{120, 0, 100})
     .SetColor(true)
     .RunOnce(false);
 
 // Scrolling text on matrices
 m_animate.SetText("Hello World!")
     .ForZone("front-matrix")
-    .WithColor(frc::Color8Bit(255, 255, 255).ToColor())
-    .WithDirection(lumyn::internal::Command::LED::MatrixTextScrollDirection::LEFT)
+    .WithColor(wpi::util::Color{255, 255, 255})
+    .WithDirection(lumyn::led::MatrixTextScrollDirection::LEFT)
     .WithDelay(300_ms)
     .RunOnce(false);
 ```
@@ -112,11 +112,11 @@ DirectLED provides LED buffer publishing for high-rate per-pixel control with mi
 ```java
 import com.lumynlabs.devices.ConnectorX;
 import com.lumynlabs.domain.led.DirectLED;
-import edu.wpi.first.units.measure.Distance;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.LEDPattern;
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.MetersPerSecond;
+import org.wpilib.units.measure.Distance;
+import org.wpilib.hardware.led.AddressableLEDBuffer;
+import org.wpilib.hardware.led.LEDPattern;
+import static org.wpilib.units.Units.Meters;
+import static org.wpilib.units.Units.MetersPerSecond;
 
 ConnectorX cx = new ConnectorX();
 DirectLED direct = cx.createDirectLED("strip-zone", 60);
@@ -124,7 +124,7 @@ AddressableLEDBuffer buffer = new AddressableLEDBuffer(60);
 
 Distance ledSpacing = Meters.of(1.0 / 120.0); // 120 LEDs per meter
 LEDPattern rainbow = LEDPattern.rainbow(255, 128);
-LEDPattern scrolling = rainbow.scrollAtAbsoluteSpeed(MetersPerSecond.of(0.1), ledSpacing);
+LEDPattern scrolling = rainbow.scrollAtAbsoluteVelocity(MetersPerSecond.of(0.1), ledSpacing);
 
 scrolling.applyTo(buffer);
 direct.update(buffer);
@@ -134,22 +134,22 @@ direct.update(buffer);
 ```cpp
 #include <lumyn/device/ConnectorX.h>
 #include <lumyn/device/DirectLED.h>
-#include <frc/AddressableLED.h>
-#include <frc/LEDPattern.h>
-#include <units/length.h>
-#include <units/velocity.h>
+#include <wpi/hardware/led/AddressableLED.hpp>
+#include <wpi/hardware/led/LEDPattern.hpp>
+#include <wpi/units/length.hpp>
+#include <wpi/units/velocity.hpp>
 #include <memory>
 
 constexpr int kStripLength = 60;
-constexpr units::meter_t kLedSpacing{1.0 / 120.0};
+constexpr wpi::units::meter_t kLedSpacing{1.0 / 120.0};
 
 lumyn::device::ConnectorX cx;
 auto direct = std::make_unique<lumyn::device::DirectLED>(
     cx.CreateDirectLED("strip-zone", kStripLength));
 
-std::array<frc::AddressableLED::LEDData, kStripLength> buffer;
-auto rainbow = frc::LEDPattern::Rainbow(255, 128);
-auto scrolling = rainbow.ScrollAtAbsoluteSpeed(0.1_mps, kLedSpacing);
+std::array<wpi::AddressableLED::LEDData, kStripLength> buffer;
+auto rainbow = wpi::LEDPattern::Rainbow(255, 128);
+auto scrolling = rainbow.ScrollAtAbsoluteVelocity(0.1_mps, kLedSpacing);
 
 scrolling.ApplyTo(buffer);
 direct->Update(buffer);
@@ -228,10 +228,14 @@ if (dioResult.ok() && !dioResult.value().isEmpty()) {
 }
 
 // Or use the callback API for real-time updates
-cX.modules.RegisterModule("test-dio", (data) -> {
+cX.modules.RegisterModule("test-dio", (entry) -> {
     DigitalInputModule.Payload payload = new DigitalInputModule.Payload();
-    ModuleHandler.ExtractData(payload, data);
-    System.out.println("State: " + payload.state);
+    try {
+        ModuleHandler.ExtractData(payload, entry);
+        System.out.println("State: " + payload.state);
+    } catch (IllegalAccessException e) {
+        System.out.println("Parse error: " + e);
+    }
 });
 ```
 :::
@@ -293,7 +297,7 @@ mCx.ApplyConfiguration(cfg);
 
 auto cfg = lumyn::config::ConfigBuilder()
     .ForTeam("9993")
-    .SetNetworkType(lumyn::internal::Configuration::NetworkType::USB)
+    .SetNetworkType(lumyn::config::NetworkType::USB)
     .AddChannel(1, "main-channel2", 316)
         .AddStripZone("strip-zone", 60)
         .AddMatrixZone("matrix-zone", 16, 16)
@@ -334,7 +338,7 @@ deviceConfig.ifPresent(c -> {
 :::
 :::{tab-item} C++ (WPILib)
 ```cpp
-#include <lumyn/configuration/LumynDeviceConfig.h>
+#include <lumyn/device/ConnectorX.h>
 
 // Load configuration from deploy directory
 auto config = m_cx.LoadConfigurationFromDeploy("lumyn_config.json");
@@ -345,7 +349,7 @@ if (config) {
 // Request configuration from connected device
 auto deviceConfig = m_cx.RequestConfig();
 if (deviceConfig) {
-    std::cout << "Loaded " << deviceConfig->channels.size() << " channels" << std::endl;
+    std::cout << "Loaded " << (deviceConfig->channels ? deviceConfig->channels->size() : 0) << " channels" << std::endl;
 }
 ```
 :::
@@ -374,7 +378,7 @@ cXAnimate.PollEvents();  // Dispatches handlers on your thread
 :::{tab-item} C++ (WPILib)
 ```cpp
 // NEW in 2026: Callback-based events in C++ (previously polling-only)
-m_cx.AddEventHandler([](const lumyn::internal::Eventing::Event& event) {
+m_cx.AddEventHandler([](const lumyn::event::Event& event) {
     std::cout << "Event: " << static_cast<int>(event.header.type) << std::endl;
 });
 
@@ -392,7 +396,7 @@ for (auto& evt : events) {
 Restart devices programmatically with configurable delays—useful for error recovery or applying configuration changes.
 
 ```java
-import edu.wpi.first.units.Units;
+import org.wpilib.units.Units;
 
 cXAnimate.RestartDevice(Units.Milliseconds.of(0));  // Restart immediately
 cXAnimate.RestartDevice(Units.Seconds.of(1));       // Restart after 1 second

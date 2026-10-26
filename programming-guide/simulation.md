@@ -12,7 +12,9 @@ Simulation requires the Java/C++ WPILib vendordep. Python and standalone C/C++ S
 
 ## Quick start
 
-### 1. Load configuration in robotInit
+### 1. Load the configuration when the robot program starts
+
+In your `Robot` constructor, connect and apply the configuration from your project's `deploy` folder:
 
 ::::{tab-set}
 :sync-group: language
@@ -21,11 +23,8 @@ Simulation requires the Java/C++ WPILib vendordep. Python and standalone C/C++ S
 :sync: java
 
 ```java
-@Override
-public void robotInit() {
-    m_cx.Connect(USBPort.kUSB1);
-    m_cx.LoadConfigurationFromDeploy().ifPresent(m_cx::ApplyConfiguration);
-}
+m_cx.Connect(USBPort.kUSB1);
+m_cx.LoadConfigurationFromDeploy().ifPresent(m_cx::ApplyConfiguration);
 ```
 :::
 
@@ -33,11 +32,9 @@ public void robotInit() {
 :sync: cpp
 
 ```cpp
-void Robot::RobotInit() {
-    m_cx.Connect(lumyn::connection::USBPort::kUSB1);
-    if (auto cfg = m_cx.LoadConfigurationFromDeploy()) {
-        m_cx.ApplyConfiguration(*cfg);
-    }
+m_cx.Connect(lumyn::connection::USBPort::kUSB1);
+if (auto cfg = m_cx.LoadConfigurationFromDeploy()) {
+    m_cx.ApplyConfiguration(*cfg);
 }
 ```
 :::
@@ -70,6 +67,6 @@ Place image folders in `deploy/connectorx/<sequenceId>/` with files named `0.bmp
 
 | Problem | Solution |
 | ------- | -------- |
-| No zones visible | Call `ApplyConfiguration()` in `robotInit()` |
+| No zones visible | Call `ApplyConfiguration()` in the `Robot` constructor |
 | Modules tab empty | Ensure modules are in your config file |
 | Images don't display | Check folder path and file naming |

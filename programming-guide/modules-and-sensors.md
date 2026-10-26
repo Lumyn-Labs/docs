@@ -77,10 +77,10 @@ if (result.ok() && !result.value().isEmpty()) {
 lumyn::modules::DigitalInputModule dio(m_cx, "digital-input");
 
 // Callback for automatic updates
-dio.OnUpdate([](const lumyn::modules::DigitalInputPayload& payload) {
+dio.onUpdate([](const lumyn::modules::DigitalInputPayload& payload) {
     std::cout << "State: " << static_cast<int>(payload.state) << std::endl;
 });
-dio.Start();
+dio.start();
 ```
 :::
 :::{tab-item} Python
@@ -159,12 +159,12 @@ tof.start();
 
 lumyn::modules::VL53L1XModule tof(m_cx, "tof-sensor");
 
-tof.OnUpdate([](const lumyn::modules::VL53L1XPayload& payload) {
+tof.onUpdate([](const lumyn::modules::VL53L1XPayload& payload) {
     if (payload.valid) {
         std::cout << "Distance: " << payload.dist << " mm" << std::endl;
     }
 });
-tof.Start();
+tof.start();
 ```
 :::
 :::{tab-item} Python
@@ -237,11 +237,11 @@ analog.start();
 
 lumyn::modules::AnalogInputModule analog(m_cx, "analog-input");
 
-analog.OnUpdate([](const lumyn::modules::AnalogInputPayload& payload) {
+analog.onUpdate([](const lumyn::modules::AnalogInputPayload& payload) {
     std::cout << "Raw: " << payload.rawValue 
               << ", Scaled: " << payload.scaledValue << std::endl;
 });
-analog.Start();
+analog.start();
 ```
 :::
 :::{tab-item} Python
@@ -298,19 +298,19 @@ For custom modules or when you need low-level control, register raw callbacks.
 import com.lumynlabs.modules.DigitalInputModule;
 import com.lumynlabs.domain.module.ModuleHandler;
 
-cX.modules.RegisterModule("custom-module", (data) -> {
-    // Parse raw bytes
-    if (data.length > 0) {
-        System.out.println("Received " + data.length + " bytes");
-        System.out.println("First byte: " + data[0]);
+cX.modules.RegisterModule("custom-module", (entry) -> {
+    // entry.data holds the raw bytes; entry.len is how many there are
+    if (entry.len > 0) {
+        System.out.println("Received " + entry.len + " bytes");
+        System.out.println("First byte: " + entry.data[0]);
     }
 });
 
 // Or parse into a known payload type
-cX.modules.RegisterModule("digital-input", (data) -> {
+cX.modules.RegisterModule("digital-input", (entry) -> {
     DigitalInputModule.Payload payload = new DigitalInputModule.Payload();
     try {
-        ModuleHandler.ExtractData(payload, data);
+        ModuleHandler.ExtractData(payload, entry);
         System.out.println("State: " + payload.state);
     } catch (Exception e) {
         System.out.println("Parse error: " + e);

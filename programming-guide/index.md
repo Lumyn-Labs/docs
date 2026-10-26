@@ -28,8 +28,8 @@ Lumyn Labs provides several SDKs for different platforms and use cases:
 
 | SDK | Language | Platform | Use Case |
 |-----|----------|----------|----------|
-| **WPILib Vendordep** | Java | roboRIO | FRC robots using Java |
-| **WPILib Vendordep** | C++ | roboRIO | FRC robots using C++ |
+| **WPILib vendordep** | Java | SystemCore | FRC robots using Java |
+| **WPILib vendordep** | C++ | SystemCore | FRC robots using C++ |
 | **Python SDK** | Python | Desktop, Raspberry Pi | Host controllers, testing |
 | **C SDK** | C | Embedded, Desktop | Low-level integration |
 
