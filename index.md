@@ -98,6 +98,7 @@ Custom firmware, custom animations, and custom modules.
 self
 whats-new
 product-overview
+hardware-wiring-and-power
 quick-start
 drivers-and-firmware
 user-guide/index

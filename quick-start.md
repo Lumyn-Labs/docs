@@ -69,7 +69,7 @@ This is a minimal starter configuration. Once you configure your device in Lumyn
 
 1. Insert the formatted microSD card into your device.
 2. Connect your device to your computer using a USB data cable.
-3. **For LED control**: Connect your device to a 12V power source. For FRC robots, connect directly to a spare port on the PDH or PDP. **Note**: USB-C power alone is sufficient for connecting to Lumyn Studio and configuring your device.
+3. **For LED control**: Connect your device to a 12V power source. For FRC robots, connect directly to a spare port on the PDH or PDP. See [Hardware, wiring, and power](hardware-wiring-and-power) for the connectors and polarity. **Note**: USB-C power alone is sufficient for connecting to Lumyn Studio and configuring your device.
 
 ### Step 4: Update firmware
 
