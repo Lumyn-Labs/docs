@@ -31,10 +31,12 @@ All notable changes to Lumyn Labs products will be documented here.
 - **WPILib 2027 types**: Lumyn methods take WPILib 2027's types. In Java: `org.wpilib.util.Color` and `Color8Bit`, `org.wpilib.units`, and `org.wpilib.hardware.led.AddressableLEDBuffer`. In C++: `wpi::util::Color`, `wpi::units::millisecond_t`, and `wpi::AddressableLED::LEDData`. Lumyn's own class and method names are unchanged; apply WPILib's 2027 renames in your robot code.
 - **USB on SystemCore**: With one board plugged in, `kUSB1` and `kUSB2` both find it. With two, each device object takes a board of its own type, and `kUSB1` and `kUSB2` follow USB port order. A board can be open in only one device object at a time.
 - **Alerts**: Device alerts use WPILib 2027's alert levels. Errors are `Level.HIGH` and warnings are `Level.MEDIUM`.
+- **ApplyConfiguration result**: In Java and C++, `ApplyConfiguration` returns a `ConfigResult` at once and does not block the robot thread. Check it later with `isDone()` and `succeeded()`. `succeeded()` is true only when the board is running that configuration. A failure also shows a Driver Station alert.
 
 #### Removed
 
 - `lumyn::connection::toHalSerialPort` is no longer in the public headers.
+- The `SetAnimation` and `SetGroupAnimation` methods that take a zone or group ID, an animation name, and a color are removed. Use the animation builders, such as `SetAnimation(Animation.Chase).ForZone("left-climber")`.
 - Names in the `lumyn::internal` namespace are removed. Use the public names, such as `lumyn::event::Event`, `lumyn::config::NetworkType`, and `lumyn::led::MatrixTextScrollDirection`.
 
 #### Known issues
@@ -279,11 +281,6 @@ We're the **first FRC vendor** to offer a custom GUI inside of WPILib's SimGUI:
 ### Deprecated
 
 The following APIs are deprecated and will be removed in the 2027 release. Please migrate to the builder APIs:
-
-#### Legacy animation methods
-
-- `SetAnimation(zoneId, animation, color, delay, reversed, oneShot)` → Use builder API instead
-- `SetGroupAnimation(groupId, animation, color, delay, reversed, oneShot)` → Use builder API instead
 
 #### Legacy image sequence methods
 

@@ -320,7 +320,7 @@ FRAME_DELAY = 0.02  # 50 FPS
 
 def main():
     cx = ConnectorX()
-    if not cx.connect_usb("COM3"):
+    if not cx.connect("COM3"):
         print("Failed to connect")
         return
 

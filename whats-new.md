@@ -91,7 +91,7 @@ m_animate.SetText("Hello World!")
 ::::
 
 ```{note}
-The legacy direct method calls are deprecated and will be removed in 2027. Please migrate to the builder API.
+The builders are the only way to play an animation. The older `SetAnimation` and `SetGroupAnimation` methods that take a zone or group ID are removed. The other direct method calls are deprecated and will be removed in 2027. Please migrate to the builder API.
 ```
 
 ### Matrix text formatting

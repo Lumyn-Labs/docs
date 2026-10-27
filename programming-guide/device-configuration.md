@@ -443,7 +443,8 @@ The call to apply a configuration in each SDK:
 | Standalone C++ | `ApplyConfigurationJson(json_text)` |
 | C | `lumyn_ApplyConfig(device, json, json_len)` |
 
-In a WPILib robot program, `ApplyConfiguration` returns nothing and does not report whether the board accepted the configuration. In Java on a robot, calling it while the board is disconnected logs a warning and sends nothing.
+% TODO: recheck the ConfigResult method names (isDone, succeeded) against the final vendordep.
+In a WPILib robot program, `ApplyConfiguration` returns a `ConfigResult` at once and never blocks the robot thread. The vendordep sends the configuration and checks it in the background. Later, call `isDone()` on the result to see whether the check has finished, and `succeeded()` to see whether it worked. `succeeded()` is true only when the board is running that configuration. If the configuration fails, the Driver Station also shows an alert.
 
 ::::{tab-set}
 :sync-group: language

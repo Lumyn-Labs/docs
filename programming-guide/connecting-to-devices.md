@@ -324,7 +324,7 @@ class MyEventHandler(IEventCallback):
 
 cx = ConnectorX()
 cx.add_event_callback(MyEventHandler())
-cx.connect_usb("COM3")
+cx.connect("COM3")
 ```
 :::
 :::{tab-item} C
@@ -384,7 +384,7 @@ auto all = m_cx.GetEvents();
 ```python
 # Disable auto polling before connecting
 cx.set_auto_poll_events(False)
-cx.connect_usb("COM3")
+cx.connect("COM3")
 
 # In your main loop
 def main_loop():

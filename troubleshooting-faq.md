@@ -12,8 +12,8 @@ Find solutions to common issues and answers to frequent questions. This guide he
 
 #### 1. Verify the device has fully booted
 
-- RGB LED should breathe blue when ready.
-- If not, power-cycle the device. If running custom firmware, try flashing official firmware (see [Flashing official firmware](#flashing-official-firmware) below).
+- The status LED breathes blue when the board is ready. See [Status LED](hardware-wiring-and-power.md#status-led) for what the other colors mean.
+- If it doesn't, power-cycle the device. If running custom firmware, try flashing official firmware (see [Flashing official firmware](#flashing-official-firmware) below).
 
 #### 2. Check your USB cable
 
@@ -38,24 +38,6 @@ If the device is not listed, try a different USB cable.
 - **Check port name**: Use Device Manager on Windows, `ls /dev/ttyACM*` on Linux, or `ls /dev/cu.usbmodem*` on macOS. From Python, `lumyn_sdk.list_available_ports()` lists every serial port.
 - **Check permissions**: On Linux, add your user to the `dialout` group: `sudo usermod -a -G dialout $USER`
 - **Try a different port**: Some USB hubs may cause issues
-
----
-
-### Device freezes with solid teal LED on boot
-
-```{admonition} Status: Under investigation
-:class: tip
-This is a known issue. We are investigating root causes and workarounds.
-```
-
-If your device's status LED turns solid teal and freezes during boot:
-
-#### Resolution
-
-1. Unplug and replug the device, or press the `RST` button to restart.
-2. The device should boot normally and the LED will breathe blue when ready.
-
-If the issue persists after multiple restarts, please email us at [support@lumynlabs.com](mailto:support@lumynlabs.com) with your device configuration file and steps to reproduce the issue.
 
 ---
 
