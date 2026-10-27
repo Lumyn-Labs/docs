@@ -10,8 +10,8 @@ Export device configurations from Lumyn Studio and deploy them to your device.
 
 Open a device's **Configuration Overview** page, then click **Export Configuration** in the toolbar to preview and download JSON.
 
-```{image} ../assets/whats-new/config-uploads.png
-:alt: Direct Config Uploads
+```{image} ../assets/lumyn-studio/export-configuration.png
+:alt: Export configuration dialog
 ```
 
 If your configuration includes image sequences, optionally check **Include image assets in export** to download a zip containing `config.json` at the root and folders for each sequence.
