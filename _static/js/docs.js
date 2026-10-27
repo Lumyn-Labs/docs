@@ -25,27 +25,21 @@
       if (((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') || (e.key === '/' && !typing)) { e.preventDefault(); search.focus(); search.select(); }
     });
   }
-  // 3. On this page: progress readout, moving marker, actions
+  // 3. On this page: actions, and keep the current section in view
   const tocs = document.querySelector('.toc-sticky');
-  const art = document.querySelector('article');
-  if (tocs && art) {
-    const title = tocs.querySelector('.toc-title-container');
-    const pct = document.createElement('span'); pct.className = 'lumyn-toc__pct'; title.append(pct);
-    const prog = document.createElement('div'); prog.className = 'lumyn-toc__progress'; prog.innerHTML = '<i></i>'; title.after(prog);
-    const tree = tocs.querySelector('.toc-tree'); const mark = document.createElement('i'); mark.className = 'lumyn-toc__mark'; tree.append(mark);
+  if (tocs) {
     const acts = document.createElement('div'); acts.className = 'lumyn-toc__actions';
-    acts.innerHTML = '<button type="button" data-a="top">Back to top ↑</button><button type="button" data-a="link">Copy link</button><a href="https://github.com/Lumyn-Labs" rel="noopener">Report an issue ↗</a>';
+    acts.innerHTML = '<button type="button" data-a="top">Back to top</button><button type="button" data-a="link">Copy link</button><a href="https://github.com/Lumyn-Labs" rel="noopener">Report an issue ↗</a>';
     tocs.querySelector('.toc-tree-container').after(acts);
-    acts.addEventListener('click', (e) => { const a = e.target.dataset?.a; if (a === 'top') scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); if (a === 'link') { navigator.clipboard?.writeText(location.href).then(() => { e.target.textContent = 'Copied'; setTimeout(() => e.target.textContent = 'Copy link', 1600); }, () => {}); } });
-    const bar = prog.firstChild;
+    acts.addEventListener('click', (e) => { const a = e.target.dataset?.a; if (a === 'top') scrollTo({ top: 0, behavior: 'auto' }); if (a === 'link') { navigator.clipboard?.writeText(location.href).then(() => { e.target.textContent = 'Copied'; setTimeout(() => e.target.textContent = 'Copy link', 1600); }, () => {}); } });
+    const tree = tocs.querySelector('.toc-tree');
     const update = () => {
-      const max = document.documentElement.scrollHeight - innerHeight; const p = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
-      bar.style.transform = `scaleX(${p})`; pct.textContent = Math.round(p * 100) + '%';
-      const cur = tree.querySelector('li.scroll-current > a, li.current > a');
-      if (cur) { const tr = tree.getBoundingClientRect(), r = cur.getBoundingClientRect(); mark.style.transform = `translateY(${r.top - tr.top}px)`; mark.style.height = r.height + 'px'; mark.style.opacity = 1;
-        const box = tocs.getBoundingClientRect(); if (r.top < box.top + 80 || r.bottom > box.bottom - 80) cur.scrollIntoView({ block: 'center' }); }
+      const cur = tree.querySelector('li.scroll-current > a');
+      if (!cur) return;
+      const box = tocs.getBoundingClientRect(), r = cur.getBoundingClientRect();
+      if (r.top < box.top + 80 || r.bottom > box.bottom - 80) cur.scrollIntoView({ block: 'center' });
     };
     let q = 0; const tick = () => { cancelAnimationFrame(q); q = requestAnimationFrame(update); };
-    addEventListener('scroll', tick, { passive: true }); addEventListener('resize', tick); tick(); setTimeout(tick, 300);
+    addEventListener('scroll', tick, { passive: true });
   }
 })();
