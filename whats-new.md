@@ -22,7 +22,7 @@ All 26 earlier animations now play on matrix zones, sized to the zone. Before 4.
 
 ### Color accuracy
 
-LEDs now show the color you picked. Dim and middle colors aren't washed out, grays stay gray, and a dimmed color keeps its hue. Colors you tuned on firmware 4.3 look different; see [Upgrading from 2026](#upgrading-from-2026).
+LEDs now show the color you picked. Dim and middle colors aren't washed out, grays stay gray, and a dimmed color keeps its hue.
 
 ### Live config
 
@@ -147,9 +147,6 @@ A stripped-down version of Lumyn Studio that you open from the SystemCore, with 
 
 ### Before you update a board
 
-- **Put a microSD card in the board.** Without one, the board flashes magenta, three quick flashes once a second, and restarts every few seconds until a card is in. Lumyn Studio can't connect and OTA updates can't run in that state. You can still update in bootloader mode. See [Status LED](hardware-wiring-and-power.md#status-led).
-- **Copy your configuration to the card first.** Updating erases the board's internal storage. A board that ran firmware 4.3 without a microSD card loses the configuration it saved there.
-- **Expect different colors.** Middle colors are darker and more saturated, and grays are less purple. Retune RGB values you picked on 4.3. Animations also look different: each has its own default color, and all are redrawn.
 - **Check modules and delays.** A configuration with more modules than the board runs (5 on ConnectorX, 2 on ConnectorX Animate) is refused, and a saved one skips the extra modules. A looping animation can now run up to 10 times its designed speed.
 
 ### Before you update robot code
