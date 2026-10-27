@@ -86,6 +86,7 @@ If you cannot upgrade yet, or upload still fails, copy the configuration file di
 #### 1. Verify the microSD card
 
 - Format as FAT32 only. exFAT/NTFS are not supported.
+- If the status LED gives three quick magenta flashes once a second, the board can't find the card. See [Status LED](hardware-wiring-and-power.md#status-led).
 
 #### 2. Verify the configuration file
 

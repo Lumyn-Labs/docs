@@ -84,4 +84,16 @@ ConnectorX Animate has no Qwiic port and no SPI, UART, DIO, or AIO headers. Conn
 - Indicator LEDs:
   - **PWR**: lights when the board's 3.3 V logic supply is on.
   - **ALV**: turned on by the firmware when it starts.
-  - **STATUS**: an RGB LED that the firmware sets.
+  - **STATUS**: an RGB LED that shows what the firmware is doing; see [Status LED](#status-led).
+
+## Status LED
+
+| Status LED | Meaning |
+| --- | --- |
+| Green, blinking twice a second | The board is booting. |
+| Blue, breathing slowly, about every 5 seconds | The board is ready. |
+| Orange, blinking once a second | The board reported an error and keeps running. Connect in Lumyn Studio to see it. |
+| Red, blinking twice a second | The board reported a fatal error. Connect in Lumyn Studio to see it, or restart the board. |
+| Magenta, three quick flashes once a second | No microSD card. The board restarts every few seconds to look for one. |
+
+The configuration lives on the microSD card, so the board doesn't start without one. While it looks for a card, it can't connect to Lumyn Studio. Put in a FAT32 card and the board starts on its own. You can still update firmware in bootloader mode; see [Entering bootloader mode](drivers-and-firmware.md#entering-bootloader-mode).

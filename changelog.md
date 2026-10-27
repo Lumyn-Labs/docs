@@ -19,6 +19,8 @@ All notable changes to Lumyn Labs products will be documented here.
 #### Changed
 
 - **Live configuration**: A configuration sent to the board is used at once and saved for the next power-up. You no longer need to restart the board. A configuration the board can't parse is refused, and the saved one keeps running. A change to the network transport takes effect at the next boot.
+- **microSD card required**: Without a microSD card, the board no longer starts from a configuration in its internal storage. It flashes the status LED magenta, three quick flashes once a second, and restarts every few seconds until a card is in. See [Status LED](hardware-wiring-and-power.md#status-led).
+- **Internal storage repair**: At every boot, the board checks its internal storage, which holds only the screen logo. It reformats storage that's damaged or left from firmware 4.3, and restores the logo.
 - **Module limits**: The board refuses a configuration with more modules than it runs (5 on ConnectorX, 2 on ConnectorX Animate) or with a module on a connection it doesn't have. It keeps running its saved configuration. See [Configurations the board refuses](config-reference.md#configurations-the-board-refuses).
 
 ### Vendordep
