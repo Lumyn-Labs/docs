@@ -171,8 +171,9 @@ UART doesn't connect on SystemCore yet: `Connect(UARTPort...)` logs an error and
 import com.lumynlabs.connection.usb.USBPort;
 import com.lumynlabs.connection.uart.UARTPort;
 
-// USB connections (both ConnectorX and ConnectorX Animate)
-boolean connected = cXAnimate.Connect(USBPort.kUSB1);
+// USB connections (both ConnectorX and ConnectorX Animate) start in the
+// background; check IsConnected() later
+cXAnimate.Connect(USBPort.kUSB1);
 
 // UART connections with custom baud rate (ConnectorX only)
 boolean uartConnected = cX.Connect(UARTPort.MXP, 230400);
@@ -183,8 +184,8 @@ boolean uartConnected = cX.Connect(UARTPort.MXP, 230400);
 #include <lumyn/connection/USBPort.h>
 #include <lumyn/connection/UARTPort.h>
 
-// USB connections
-bool connected = m_animate.Connect(lumyn::connection::USBPort::kUSB1);
+// USB connections start in the background; check IsConnected() later
+m_animate.Connect(lumyn::connection::USBPort::kUSB1);
 
 // UART connections with custom baud rate (ConnectorX only)
 bool uartConnected = m_cx.Connect(lumyn::connection::UARTPort::kMXP, 230400);
@@ -327,15 +328,18 @@ Load configurations from deploy directory for simulation, request configurations
 :::{tab-item} Java (WPILib)
 ```java
 import com.lumynlabs.domain.config.LumynDeviceConfig;
+import com.lumynlabs.domain.config.RequestedConfig;
 import java.util.Optional;
 
 // Load configuration from deploy directory (works for sim and hardware)
 Optional<LumynDeviceConfig> cfg = mCx.LoadConfigurationFromDeploy("lumyn_config.json");
 cfg.ifPresent(mCx::ApplyConfiguration);
 
-// Request the current configuration from a connected device
-Optional<LumynDeviceConfig> deviceConfig = mCx.RequestConfig();
-deviceConfig.ifPresent(c -> {
+// Request the current configuration from a connected device; it arrives
+// in the background
+RequestedConfig requested = mCx.RequestConfig();
+// Later, in a periodic method
+requested.getConfig().ifPresent(c -> {
     System.out.println("Loaded " + c.channels.size() + " channels");
 });
 ```
@@ -350,9 +354,10 @@ if (config) {
     m_cx.ApplyConfiguration(*config);
 }
 
-// Request configuration from connected device
-auto deviceConfig = m_cx.RequestConfig();
-if (deviceConfig) {
+// Request configuration from connected device; it arrives in the background
+auto requested = m_cx.RequestConfig();
+// Later, in a periodic method
+if (auto deviceConfig = requested.GetConfig()) {
     std::cout << "Loaded " << (deviceConfig->channels ? deviceConfig->channels->size() : 0) << " channels" << std::endl;
 }
 ```

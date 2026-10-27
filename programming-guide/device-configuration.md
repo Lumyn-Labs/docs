@@ -359,26 +359,35 @@ config = ConfigBuilder() \
 
 Retrieve the current configuration from a connected device.
 
+In a WPILib robot program, `RequestConfig` returns a `RequestedConfig` at once and never blocks the robot thread. The board's answer arrives in the background. Check the result later: `isDone()` and `succeeded()` in Java, `IsDone()` and `Succeeded()` in C++. Once it succeeded, `getConfig()` (Java) or `GetConfig()` (C++) returns the configuration. If it failed, `getReason()` or `GetReason()` says why: the board isn't connected, it didn't answer, or its answer isn't a configuration.
+
 ::::{tab-set}
 :sync-group: language
 
 :::{tab-item} Java (WPILib)
 :sync: java
 ```java
-Optional<LumynDeviceConfig> config = mCx.RequestConfig();
-config.ifPresent(cfg -> {
-    System.out.println("Channels: " + cfg.channels.size());
-    // Use the config as needed
-});
+// When the robot starts:
+RequestedConfig requested = mCx.RequestConfig();
+
+// Later, in a periodic method:
+if (requested.isDone() && requested.succeeded()) {
+    requested.getConfig().ifPresent(cfg -> System.out.println("Channels: " + cfg.channels.size()));
+}
 ```
 :::
 
 :::{tab-item} C++ (WPILib)
 :sync: cpp
 ```cpp
-auto config = m_cx.RequestConfig();
-if (config) {
-    std::cout << "Channels: " << (config->channels ? config->channels->size() : 0) << std::endl;
+// When the robot starts:
+lumyn::config::RequestedConfig requested = m_cx.RequestConfig();
+
+// Later, in a periodic method:
+if (requested.IsDone() && requested.Succeeded()) {
+    if (auto config = requested.GetConfig()) {
+        std::cout << "Channels: " << (config->channels ? config->channels->size() : 0) << std::endl;
+    }
 }
 ```
 :::
@@ -443,8 +452,18 @@ The call to apply a configuration in each SDK:
 | Standalone C++ | `ApplyConfigurationJson(json_text)` |
 | C | `lumyn_ApplyConfig(device, json, json_len)` |
 
-% TODO: recheck the ConfigResult method names (isDone, succeeded) against the final vendordep.
-In a WPILib robot program, `ApplyConfiguration` returns a `ConfigResult` at once and never blocks the robot thread. The vendordep sends the configuration and checks it in the background. Later, call `isDone()` on the result to see whether the check has finished, and `succeeded()` to see whether it worked. `succeeded()` is true only when the board is running that configuration. If the configuration fails, the Driver Station also shows an alert.
+In a WPILib robot program, `ApplyConfiguration` returns a `ConfigResult` at once and never blocks the robot thread. The vendordep sends the configuration and checks it in the background. Later, check the result:
+
+| Java | C++ | Meaning |
+|---|---|---|
+| `isDone()` | `IsDone()` | The check has finished. |
+| `succeeded()` | `Succeeded()` | The board is running that configuration. |
+| `getReason()` | `GetReason()` | Why it failed: `NotConnected`, `TooLarge`, `Refused` or `NoAnswer` (`kNotConnected` and so on in C++). |
+| `getReasonText()` | `GetReasonText()` | The reason as a short sentence. |
+
+If the configuration isn't applied, the Driver Station also shows a warning: `[Lumyn] The config was not applied:` followed by the reason.
+
+A configuration applied right after `Connect` waits up to 10 seconds for that connection, so you can apply it in the `Robot` constructor. If the board hasn't connected by then, the result fails with `NotConnected`. `RequestConfig` waits the same way.
 
 ::::{tab-set}
 :sync-group: language
@@ -452,14 +471,26 @@ In a WPILib robot program, `ApplyConfiguration` returns a `ConfigResult` at once
 :::{tab-item} Java (WPILib)
 :sync: java
 ```java
-mCx.ApplyConfiguration(cfg);
+// When the robot starts:
+ConfigResult result = mCx.ApplyConfiguration(cfg);
+
+// Later, in a periodic method:
+if (result.isDone() && !result.succeeded()) {
+    System.out.println("Config not applied: " + result.getReasonText());
+}
 ```
 :::
 
 :::{tab-item} C++ (WPILib)
 :sync: cpp
 ```cpp
-m_cx.ApplyConfiguration(cfg);
+// When the robot starts:
+lumyn::config::ConfigResult result = m_cx.ApplyConfiguration(cfg);
+
+// Later, in a periodic method:
+if (result.IsDone() && !result.Succeeded()) {
+    std::cout << "Config not applied: " << result.GetReasonText() << std::endl;
+}
 ```
 :::
 

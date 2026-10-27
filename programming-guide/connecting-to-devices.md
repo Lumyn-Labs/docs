@@ -12,6 +12,10 @@ This page covers how to establish connections to Lumyn Labs devices, handle even
 
 All devices support USB connections. This is the most common connection method.
 
+In a WPILib robot program, `Connect` returns at once and never blocks the robot thread. Finding the board, opening it and the handshake happen in the background, so `Connect` returning `true` means connecting has started, not that the board is connected. Check `IsConnected()` later, for example in a periodic method. The vendordep keeps trying every second until the board answers, and connects again if the board is unplugged and plugged back in. Calling `Connect` again while it is connecting does nothing.
+
+Nothing you send before the board connects is lost. LED commands, text, sequences, DirectLED frames and module JSON sent while the board isn't connected wait, and go out in the order you sent them as soon as it connects, before anything newer. Up to 64 wait; past that the oldest are dropped, and the Driver Station shows one warning. Commands sent while the board is disconnected later wait the same way. A configuration applied, or requested, before the board connects waits for it for up to 10 seconds; if the board hasn't connected by then, the result fails as not connected.
+
 ::::{tab-set}
 :sync-group: language
 
@@ -26,12 +30,12 @@ import com.lumynlabs.connection.usb.USBPort;
 ConnectorXAnimate cXAnimate = new ConnectorXAnimate();
 ConnectorX cX = new ConnectorX();
 
-// Connect over USB
-boolean animateConnected = cXAnimate.Connect(USBPort.kUSB1);
-boolean cxConnected = cX.Connect(USBPort.kUSB2);
+// Start connecting over USB; this returns at once
+cXAnimate.Connect(USBPort.kUSB1);
+cX.Connect(USBPort.kUSB2);
 
-// Check connection status
-if (animateConnected) {
+// Later, in a periodic method
+if (cXAnimate.IsConnected()) {
     System.out.println("Device connected!");
 }
 ```
@@ -47,9 +51,14 @@ if (animateConnected) {
 lumyn::device::ConnectorX m_cx;
 lumyn::device::ConnectorXAnimate m_animate;
 
-// Connect over USB
-bool animateConnected = m_animate.Connect(lumyn::connection::USBPort::kUSB1);
-bool cxConnected = m_cx.Connect(lumyn::connection::USBPort::kUSB2);
+// Start connecting over USB; this returns at once
+m_animate.Connect(lumyn::connection::USBPort::kUSB1);
+m_cx.Connect(lumyn::connection::USBPort::kUSB2);
+
+// Later, in a periodic method
+if (m_animate.IsConnected()) {
+    std::cout << "Device connected!" << std::endl;
+}
 ```
 :::
 :::{tab-item} C++ (Standalone)

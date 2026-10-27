@@ -292,19 +292,25 @@ lumyn_RegisterModule(LUMYN_BASE_PTR(&cx), "analog-input", analog_callback, NULL)
 
 For custom modules or when you need low-level control, register raw callbacks.
 
+In a WPILib robot program, registering a callback returns a `ModuleHandle`. Pass it to `UnregisterModule` to remove just that callback; the module's other callbacks keep running. `UnregisterModule` with the module ID removes them all. Registering the same callback twice registers it once and returns the same handle. In Java that means the same object (by `equals`); in C++ it means the same function, so each lambda you pass is a registration of its own. Keep the handle if you'll remove a lambda later.
+
 ::::{tab-set}
 :::{tab-item} Java (WPILib)
 ```java
 import com.lumynlabs.modules.DigitalInputModule;
+import com.lumynlabs.modules.ModuleHandle;
 import com.lumynlabs.domain.module.ModuleHandler;
 
-cX.modules.RegisterModule("custom-module", (entry) -> {
+ModuleHandle handle = cX.modules.RegisterModule("custom-module", (entry) -> {
     // entry.data holds the raw bytes; entry.len is how many there are
     if (entry.len > 0) {
         System.out.println("Received " + entry.len + " bytes");
         System.out.println("First byte: " + entry.data[0]);
     }
 });
+
+// Later, remove just this callback
+cX.modules.UnregisterModule(handle);
 
 // Or parse into a known payload type
 cX.modules.RegisterModule("digital-input", (entry) -> {
@@ -325,13 +331,17 @@ struct CustomPayload {
     uint16_t value2;
 };
 
-m_cx.RegisterModule("custom-module", [this](uint16_t unitId, const std::vector<uint8_t>& payload) {
-    if (payload.size() >= 3) {
-        auto parsed = m_cx.ExtractFromPayload<CustomPayload>(payload);
-        std::cout << "Value1: " << static_cast<int>(parsed.value1) 
-                  << ", Value2: " << parsed.value2 << std::endl;
-    }
-});
+lumyn::device::ModuleHandle handle =
+    m_cx.RegisterModule("custom-module", [this](uint16_t unitId, const std::vector<uint8_t>& payload) {
+        if (payload.size() >= 3) {
+            auto parsed = m_cx.ExtractFromPayload<CustomPayload>(payload);
+            std::cout << "Value1: " << static_cast<int>(parsed.value1)
+                      << ", Value2: " << parsed.value2 << std::endl;
+        }
+    });
+
+// Later, remove just this callback
+m_cx.UnregisterModule(handle);
 ```
 :::
 :::{tab-item} C++ (Standalone)
