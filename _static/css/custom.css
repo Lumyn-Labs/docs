@@ -144,8 +144,8 @@ article { padding-top: 2.5rem; }
 /* ---------- 6. On this page ---------- */
 /* A quiet list on one hairline. The section being read is white with the page's one Arc Flare mark. */
 .toc-sticky { padding: 2.5rem 1.5rem 3rem 1rem; }
-.toc-title-container { margin: 0 0 .875rem; }
-.toc-title { font: 600 .875rem/1.4 var(--font-stack--headings); color: var(--fg); text-transform: none; letter-spacing: 0; }
+.toc-title-container { margin: 0 0 .875rem; padding: 0; }
+.toc-title { padding: 0; font: 600 .875rem/1.4 var(--font-stack--headings); color: var(--fg); text-transform: none; letter-spacing: 0; }
 .toc-tree { border-left: 1px solid var(--rule); margin: 0; padding: 0; font-size: .8125rem; }
 .toc-tree ul { list-style: none; margin: 0; padding: 0; }
 .toc-tree li { margin: 0; }
@@ -155,7 +155,7 @@ article { padding-top: 2.5rem; }
 /* The page title is the first entry; its sections sit at the same depth */
 .toc-tree > ul > li > a { display: none; }
 .toc-tree > ul > li > ul { margin: 0; }
-.toc-tree ul ul ul a { padding-left: 1.75rem; }
+.toc-tree ul ul ul a.reference { padding-left: 1.75rem; }
 .toc-tree li.scroll-current > a.reference { color: #fff; font-weight: 600; }
 .toc-tree li.scroll-current > a.reference::before { content: ""; position: absolute; left: -1px; top: 0; bottom: 0; width: 2px; background: var(--flare); }
 /* Deeper steps open only under the section being read */
