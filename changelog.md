@@ -8,6 +8,47 @@ All notable changes to Lumyn Labs products will be documented here.
 
 ---
 
+## October 27, 2026
+
+### Firmware 4.4
+
+#### Added
+
+- **11 animations**: Strobe, Wipe, Fireworks, Aurora, Converge, Starfield, Snake, DigitalRain, Drops, Monitor, and BouncingBalls. Starfield through BouncingBalls run on matrix zones only. See [Available animations](programming-guide/led-animations.md#available-animations).
+
+#### Changed
+
+- **Live configuration**: A configuration sent to the board is used at once and saved for the next power-up. You no longer need to restart the board. A configuration the board can't parse is refused, and the saved one keeps running. A change to the network transport takes effect at the next boot.
+- **microSD card required**: Without a microSD card, the board no longer starts from a configuration in its internal storage. It flashes the status LED magenta, three quick flashes once a second, and restarts every few seconds until a card is in. See [Status LED](hardware-wiring-and-power.md#status-led).
+- **Internal storage repair**: At every boot, the board checks its internal storage, which holds only the screen logo. It reformats storage that's damaged or left from firmware 4.3, and restores the logo.
+- **Module limits**: The board refuses a configuration with more modules than it runs (5 on ConnectorX, 2 on ConnectorX Animate) or with a module on a connection it doesn't have. It keeps running its saved configuration. See [Configurations the board refuses](config-reference.md#configurations-the-board-refuses).
+
+### Vendordep
+
+#### Changed
+
+- **WPILib 2027**: The vendordep builds against WPILib 2027.0.0-alpha-8 and runs on SystemCore. Robot projects use GradleRIO 2027.0.0-alpha-8, and Java projects use Java 25. The roboRIO is no longer supported; roboRIO robots keep using the 2026 vendordep.
+- **WPILib 2027 types**: Lumyn methods take WPILib 2027's types. In Java: `org.wpilib.util.Color` and `Color8Bit`, `org.wpilib.units`, and `org.wpilib.hardware.led.AddressableLEDBuffer`. In C++: `wpi::util::Color`, `wpi::units::millisecond_t`, and `wpi::AddressableLED::LEDData`. Lumyn's own class and method names are unchanged; apply WPILib's 2027 renames in your robot code.
+- **USB on SystemCore**: With one board plugged in, `kUSB1` and `kUSB2` both find it. With two, each device object takes a board of its own type, and `kUSB1` and `kUSB2` follow USB port order. A board can be open in only one device object at a time.
+- **Alerts**: Device alerts use WPILib 2027's alert levels. Errors are `Level.HIGH` and warnings are `Level.MEDIUM`.
+- **ApplyConfiguration result**: In Java and C++, `ApplyConfiguration` returns a `ConfigResult` at once and does not block the robot thread. Check it later with `isDone()`, `succeeded()`, `getReason()` and `getReasonText()` in Java, or `IsDone()`, `Succeeded()`, `GetReason()` and `GetReasonText()` in C++. `succeeded()` is true only when the board is running that configuration. A configuration that isn't applied also shows a Driver Station warning.
+- **Connect doesn't block**: In Java and C++, `Connect(USBPort)` (and C++ `Connect(ISerialIO*)`) returns at once. The board is found, opened and greeted in the background; `true` means connecting has started. Check `IsConnected()` later. The vendordep keeps trying every second, and connects again if the board is unplugged and plugged back in. A configuration applied or requested right after `Connect` waits up to 10 seconds for the connection.
+- **Nothing sent before the connection is lost**: Commands sent while the board isn't connected (LED commands, text, sequences, DirectLED frames, module JSON) wait and go out in order once it connects. Up to 64 wait; past that the oldest are dropped with one Driver Station warning. The Python and standalone C and C++ SDKs do the same, and log the drop.
+- **Module callback handles**: In Java and C++, registering a module callback (`RegisterModule`, or `registerListener` on the module dispatcher) returns a `ModuleHandle`; `UnregisterModule(handle)` removes just that callback, and the module's others keep running. Unregistering by module ID still removes them all. In C++, a typed module helper's `onUpdate` now adds a callback, as in Java, and its `stop()` removes only its own.
+- **RequestConfig result**: In Java and C++, `RequestConfig()` returns a `RequestedConfig` at once instead of the configuration, and does not block the robot thread. Once `succeeded()` (`Succeeded()` in C++), `getConfig()` (`GetConfig()`) returns the configuration.
+
+#### Removed
+
+- `lumyn::connection::toHalSerialPort` is no longer in the public headers.
+- The `SetAnimation` and `SetGroupAnimation` methods that take a zone or group ID, an animation name, and a color are removed. Use the animation builders, such as `SetAnimation(Animation.Chase).ForZone("left-climber")`.
+- Names in the `lumyn::internal` namespace are removed. Use the public names, such as `lumyn::event::Event`, `lumyn::config::NetworkType`, and `lumyn::led::MatrixTextScrollDirection`.
+
+#### Known issues
+
+- UART does not connect on SystemCore: `Connect(UARTPort...)` logs an error and returns `false`. Connect over USB.
+
+---
+
 ## [2026.2.0] - April 2026
 
 Major release featuring a redesigned Lumyn Studio, OTA firmware updates, the LLA animation file format, and module support on ConnectorX Animate.
@@ -16,7 +57,7 @@ Major release featuring a redesigned Lumyn Studio, OTA firmware updates, the LLA
 
 #### Added
 
-- **OTA Firmware Updates**: Devices running firmware 4.3 or newer can be updated over the air directly from Lumyn Studio. No bootloader mode or manual UF2 flashing required.
+- **OTA firmware updates**: Devices running firmware 4.3 or newer can be updated over the air directly from Lumyn Studio. No bootloader mode or manual UF2 flashing required.
 - **LLA File Support**: New Lumyn Labs Animation (`.lla`) file format for image sequences. LLA files are highly compressed compared to raw bitmap data, load faster on-device, and are portable between teams.
 - **Direct Config and Asset Uploads**: Configurations and image sequence assets can now be streamed to the device over USB from Studio, eliminating manual SD card file transfers.
 - **Module Support on ConnectorX Animate**: ConnectorX Animate now supports up to two I2C modules, bringing sensor integration to the multi-channel LED controller.
@@ -30,14 +71,14 @@ Major release featuring a redesigned Lumyn Studio, OTA firmware updates, the LLA
 #### Added
 
 - **Redesigned Interface**: Lumyn Studio has been rebuilt from the ground up with a new dark-mode-first UI. Every panel, dialog, and editor has been revisited for clarity and speed.
-- **OTA Firmware Update Prompt**: When a connected device has a newer firmware version available, Studio displays an update prompt. Users can apply the update in one click without entering bootloader mode.
+- **OTA firmware update prompt**: When a connected device has a newer firmware version available, Studio displays an update prompt. Users can apply the update in one click without entering bootloader mode.
 - **LLA Export**: The Export Configuration dialog now offers an **Export as LLA animation files** option when image sequences are included. LLA files replace raw bitmap frames with a compact, device-rendered format.
 - **Direct Upload to Device**: A new **Send to Device** button in the Export Configuration dialog streams the configuration (and assets, when applicable) directly to a connected device over USB.
 - **Redesigned Custom Module Workflow**: The custom module editor now guides users through creating modules step by step with dedicated sections for Overview, Details, README, Data (payload and configuration fields), and Source (generated firmware boilerplate).
 - **Improved Animation Sequence Editor**: Cleaner timeline, better performance, more responsive previews, and a redesigned step editor with inline controls.
 - **Image Sequence Editor 2.0 (Motion Editor)**: Completely rebuilt editor with layer support, vector shapes and text, keyframe-based animation, GIF import/export, and timeline transport controls.
 - **Redesigned LED Commander**: The testing utility now populates command targets from the device configuration and shows live animation previews. Supports Animation, Animation Sequence, Image Sequence, Lumyn Animation (LLA), Matrix Text Scroll, and Color command types.
-- **Configuration Sync**: Studio automatically reads the device configuration on connect and prompts the user to resolve conflicts when Studio and device configurations differ.
+- **Configuration sync**: Studio automatically reads the device configuration on connect and prompts the user to resolve conflicts when Studio and device configurations differ.
 - **Image Sequence Preview at Matrix Size**: Image sequences can now be previewed at the exact pixel resolution of the target LED matrix.
 
 #### Changed
@@ -50,7 +91,7 @@ Major release featuring a redesigned Lumyn Studio, OTA firmware updates, the LLA
 
 #### Added
 
-- **Module support on ConnectorX Animate**: `ConnectorXAnimate` now supports I2C modules (up to two). Module typed helpers (`DigitalInputModule`, `AnalogInputModule`, `VL53L1XModule`) and raw callbacks work on both device types.
+- **Module support on ConnectorX Animate**: `ConnectorXAnimate` now supports I2C modules (up to two). `VL53L1XModule` and raw callbacks work on both device types. `DigitalInputModule` and `AnalogInputModule` read DIO and AIO pins, which only ConnectorX has.
 
 #### Changed
 
@@ -73,7 +114,7 @@ This release introduces Matrix Text 2.0 with enhanced text rendering capabilitie
 **Matrix Text 2.0**: Major enhancements to matrix text functionality:
 
 - **Multiple Fonts**: Choose from optimized fonts for LED matrices (`BUILTIN`, `FREE_SANS_9`)
-- **Foreground & Background Colors**: Independent color control for text and background
+- **Foreground and background colors**: Independent color control for text and background
 - **Static Text Mode**: Display non-scrolling text with precise positioning
 - **Ping Pong Scrolling**: Text scrolls forward then reverses for smooth bouncing animation
 - **Smooth Scrolling**: Pixel-by-pixel text movement for improved readability
@@ -112,7 +153,7 @@ This release introduces Matrix Text 2.0 with enhanced text rendering capabilitie
 - **Python SDK**: Full API parity with WPILib vendordep, available on PyPI
   - LED control, module reading, configuration management
   - Screen mirroring capabilities with DirectLED
-  - Cross-platform support (desktop, Raspberry Pi, etc.)
+  - Cross-platform support, including desktop computers and Raspberry Pi
 
 - **C/C++ SDK**: Performance-optimized SDK for embedded systems
   - Complete documentation and examples
@@ -144,7 +185,7 @@ This release finalizes the 2026 API surface and adds compatibility with the WPIL
 
 ### Fixed
 
-- **ConfigBuilder channels now require a channel number** (e.g., `addChannel(1, "front", 60)`); channel keys are fixed to the numeric channel index
+- **ConfigBuilder channels now require a channel number** (for example, `addChannel(1, "front", 60)`); channel keys are fixed to the numeric channel index
 
 
 ---
@@ -155,7 +196,7 @@ This release includes significant API improvements, enhanced simulation capabili
 
 ### Added
 
-#### Builder-Style LED APIs
+#### Builder-style LED APIs
 
 Introducing fluent builder APIs for LED control, providing improved readability and ease of use:
 
@@ -164,7 +205,7 @@ Introducing fluent builder APIs for LED control, providing improved readability 
 - **Matrix text builder**: `SetText("text").ForZone("zone").WithColor(...).WithDirection(...).WithDelay(...).RunOnce(false)`
 - All builders support both zone and group targeting via `ForZone()` and `ForGroup()` methods
 
-#### Group LED Commands
+#### Group LED commands
 
 Apply effects to multiple zones simultaneously with new group control methods:
 
@@ -173,7 +214,7 @@ Apply effects to multiple zones simultaneously with new group control methods:
 - `SetGroupAnimationSequence()` - Apply an animation sequence to all zones in a group
 - `SetGroupText()` - Display text on all matrix zones in a group
 
-#### Configuration System
+#### Configuration system
 
 New programmatic configuration APIs for both Java and C++:
 
@@ -182,7 +223,7 @@ New programmatic configuration APIs for both Java and C++:
 - `ApplyConfiguration()` - Apply configurations to both hardware devices and simulation environments
 - `RequestConfig()` - Retrieve the current configuration from a connected device
 
-#### Event Handling Improvements
+#### Event handling improvements
 
 Enhanced event system with more control over how events are processed:
 
@@ -194,7 +235,7 @@ Enhanced event system with more control over how events are processed:
 - C++ now supports callback-based event handlers matching Java semantics via `AddEventHandler()`
 - WPILib Alerts integration for automatic error and warning reporting to the Driver Station
 
-#### Connection Enhancements
+#### Connection enhancements
 
 Improved connection APIs with better feedback:
 
@@ -203,7 +244,7 @@ Improved connection APIs with better feedback:
 - Connect methods now return a boolean indicating connection success
 - UART connections support optional custom baud rate parameter (default: 115200)
 
-#### Module System Enhancements
+#### Module system enhancements
 
 Typed module helpers for easier sensor integration:
 
@@ -211,11 +252,11 @@ Typed module helpers for easier sensor integration:
 - Module helpers provide automatic payload parsing and type-safe access to sensor data
 - `ModuleBase` base class for creating your own custom module helpers
 
-#### System Commands
+#### System commands
 
 - `RestartDevice()` - Restart the device with configurable delay using WPILib units
 
-#### Desktop Simulation Environment
+#### Desktop simulation environment
 
 We're the **first FRC vendor** to offer a custom GUI inside of WPILib's SimGUI:
 
@@ -232,12 +273,12 @@ We're the **first FRC vendor** to offer a custom GUI inside of WPILib's SimGUI:
 - Java: Changed from `edu.wpi.first.wpilibj.SerialPort.Port` to `com.lumynlabs.connection.usb.USBPort`
 - C++: Changed from `HAL_SerialPort` to `lumyn::connection::USBPort`
 
-#### C++ Color Specification
+#### C++ color specification
 
 - Colors now use `frc::Color8Bit(...).ToColor()` instead of brace-initialized structs
 - Example: Changed from `{255, 0, 0}` to `frc::Color8Bit(255, 0, 0).ToColor()`
 
-#### C++ Event Structure
+#### C++ event structure
 
 - Event type is now accessed via `evt->header.type` instead of `evt->type`
 
@@ -245,17 +286,12 @@ We're the **first FRC vendor** to offer a custom GUI inside of WPILib's SimGUI:
 
 The following APIs are deprecated and will be removed in the 2027 release. Please migrate to the builder APIs:
 
-#### Legacy Animation Methods
-
-- `SetAnimation(zoneId, animation, color, delay, reversed, oneShot)` → Use builder API instead
-- `SetGroupAnimation(groupId, animation, color, delay, reversed, oneShot)` → Use builder API instead
-
-#### Legacy Image Sequence Methods
+#### Legacy image sequence methods
 
 - `SetImageSequence(zoneId, sequenceId, color, setColor, oneShot)` → Use builder API instead
 - `SetGroupImageSequence(groupId, sequenceId, color, setColor, oneShot)` → Use builder API instead
 
-#### Legacy Text Methods
+#### Legacy text methods
 
 - `SetText(zoneId, text, color, direction, delay, oneShot)` → Use builder API instead
 - `SetGroupText(groupId, text, color, direction, delay, oneShot)` → Use builder API instead

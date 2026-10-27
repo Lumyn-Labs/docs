@@ -15,7 +15,7 @@ DirectLED is ideal for:
 - High-frequency updates (game-responsive lighting)
 - Minimal bandwidth usage (delta compression)
 
-## Creating a DirectLED Controller
+## Creating a DirectLED controller
 
 Create a DirectLED controller for a zone, specifying the number of LEDs:
 
@@ -67,7 +67,7 @@ direct = cx.leds.create_direct_led("strip-zone", 60)
 :::
 ::::
 
-## Updating the Buffer
+## Updating the buffer
 
 Send LED data each frame. The SDK uses delta compression to minimize bandwidth.
 
@@ -76,11 +76,11 @@ Send LED data each frame. The SDK uses delta compression to minimize bandwidth.
 ::::{tab-set}
 :::{tab-item} Java (WPILib)
 ```java
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.LEDPattern;
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.MetersPerSecond;
-import edu.wpi.first.units.measure.Distance;
+import org.wpilib.hardware.led.AddressableLEDBuffer;
+import org.wpilib.hardware.led.LEDPattern;
+import static org.wpilib.units.Units.Meters;
+import static org.wpilib.units.Units.MetersPerSecond;
+import org.wpilib.units.measure.Distance;
 
 // Create buffer matching zone size
 AddressableLEDBuffer buffer = new AddressableLEDBuffer(60);
@@ -90,7 +90,7 @@ Distance ledSpacing = Meters.of(1.0 / 120.0);
 
 // Create a scrolling rainbow pattern
 LEDPattern rainbow = LEDPattern.rainbow(255, 128);
-LEDPattern scrolling = rainbow.scrollAtAbsoluteSpeed(MetersPerSecond.of(0.1), ledSpacing);
+LEDPattern scrolling = rainbow.scrollAtAbsoluteVelocity(MetersPerSecond.of(0.1), ledSpacing);
 
 // In robotPeriodic
 @Override
@@ -103,19 +103,19 @@ public void robotPeriodic() {
 :::{tab-item} C++ (WPILib)
 ```cpp
 #include <array>
-#include <frc/AddressableLED.h>
-#include <frc/LEDPattern.h>
-#include <units/length.h>
-#include <units/velocity.h>
+#include <wpi/hardware/led/AddressableLED.hpp>
+#include <wpi/hardware/led/LEDPattern.hpp>
+#include <wpi/units/length.hpp>
+#include <wpi/units/velocity.hpp>
 
 constexpr int kStripLength = 60;
-constexpr units::meter_t kLedSpacing{1.0 / 120.0};
+constexpr wpi::units::meter_t kLedSpacing{1.0 / 120.0};
 
-std::array<frc::AddressableLED::LEDData, kStripLength> buffer;
+std::array<wpi::AddressableLED::LEDData, kStripLength> buffer;
 
 // Create a scrolling rainbow pattern
-auto rainbow = frc::LEDPattern::Rainbow(255, 128);
-auto scrolling = rainbow.ScrollAtAbsoluteSpeed(0.1_mps, kLedSpacing);
+auto rainbow = wpi::LEDPattern::Rainbow(255, 128);
+auto scrolling = rainbow.ScrollAtAbsoluteVelocity(0.1_mps, kLedSpacing);
 
 // In RobotPeriodic
 void Robot::RobotPeriodic() {
@@ -126,7 +126,7 @@ void Robot::RobotPeriodic() {
 :::
 ::::
 
-### Raw Buffer
+### Raw buffer
 
 ::::{tab-set}
 :::{tab-item} Python
@@ -208,7 +208,7 @@ lumyn_DirectLEDDestroy(direct);
 :::
 ::::
 
-## Important Behavior
+## Important behavior
 
 ```{warning}
 When DirectLED writes pixel data to a zone, the zone's built-in animation is **frozen**. The animation is not cleared, but it stops updating. To resume normal animations after using DirectLED, you must explicitly send a `SetAnimation` command.
@@ -217,20 +217,20 @@ When DirectLED writes pixel data to a zone, the zone's built-in animation is **f
 This means:
 - After you stop sending DirectLED frames, the zone will display the last frame indefinitely.
 - Calling `SetColor` after DirectLED will **not** make anything visible — the zone is frozen.
-- To return to built-in animations, call `SetAnimation` with any animation type (e.g., `Fill` for a solid color).
+- To return to built-in animations, call `SetAnimation` with any animation type, such as `Fill` for a solid color.
 
-## Full Example
+## Full example
 
 ::::{tab-set}
 :::{tab-item} Java (WPILib)
 ```java
 package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.LEDPattern;
-import static edu.wpi.first.units.Units.*;
-import edu.wpi.first.units.measure.Distance;
+import org.wpilib.framework.TimedRobot;
+import org.wpilib.hardware.led.AddressableLEDBuffer;
+import org.wpilib.hardware.led.LEDPattern;
+import static org.wpilib.units.Units.*;
+import org.wpilib.units.measure.Distance;
 
 import com.lumynlabs.devices.ConnectorXAnimate;
 import com.lumynlabs.connection.usb.USBPort;
@@ -245,14 +245,13 @@ public class Robot extends TimedRobot {
     private AddressableLEDBuffer m_buffer = new AddressableLEDBuffer(STRIP_LENGTH);
     private LEDPattern m_pattern;
 
-    @Override
-    public void robotInit() {
+    public Robot() {
         m_leds.Connect(USBPort.kUSB1);
         m_direct = m_leds.leds.createDirectLED("front", STRIP_LENGTH);
         
         // Scrolling rainbow
         m_pattern = LEDPattern.rainbow(255, 128)
-            .scrollAtAbsoluteSpeed(MetersPerSecond.of(0.5), LED_SPACING);
+            .scrollAtAbsoluteVelocity(MetersPerSecond.of(0.5), LED_SPACING);
     }
 
     @Override
@@ -268,28 +267,28 @@ public class Robot extends TimedRobot {
 // Robot.h
 #pragma once
 
-#include <frc/TimedRobot.h>
-#include <frc/AddressableLED.h>
-#include <frc/LEDPattern.h>
+#include <wpi/framework/TimedRobot.hpp>
+#include <wpi/hardware/led/AddressableLED.hpp>
+#include <wpi/hardware/led/LEDPattern.hpp>
 #include <lumyn/device/ConnectorXAnimate.h>
 #include <lumyn/device/DirectLED.h>
 #include <array>
 #include <memory>
 
-class Robot : public frc::TimedRobot {
+class Robot : public wpi::TimedRobot {
 public:
-    void RobotInit() override;
+    Robot();
     void RobotPeriodic() override;
 
 private:
     static constexpr int kStripLength = 60;
-    static constexpr units::meter_t kLedSpacing{1.0 / 120.0};
+    static constexpr wpi::units::meter_t kLedSpacing{1.0 / 120.0};
 
     lumyn::device::ConnectorXAnimate m_leds;
     std::unique_ptr<lumyn::device::DirectLED> m_direct;
-    std::array<frc::AddressableLED::LEDData, kStripLength> m_buffer;
-    frc::LEDPattern m_pattern = frc::LEDPattern::Rainbow(255, 128)
-        .ScrollAtAbsoluteSpeed(0.5_mps, kLedSpacing);
+    std::array<wpi::AddressableLED::LEDData, kStripLength> m_buffer;
+    wpi::LEDPattern m_pattern = wpi::LEDPattern::Rainbow(255, 128)
+        .ScrollAtAbsoluteVelocity(0.5_mps, kLedSpacing);
 };
 ```
 
@@ -298,7 +297,7 @@ private:
 #include "Robot.h"
 #include <lumyn/connection/USBPort.h>
 
-void Robot::RobotInit() {
+Robot::Robot() {
     m_leds.Connect(lumyn::connection::USBPort::kUSB1);
     m_direct = std::make_unique<lumyn::device::DirectLED>(
         m_leds.CreateDirectLED("front", kStripLength));
@@ -321,7 +320,7 @@ FRAME_DELAY = 0.02  # 50 FPS
 
 def main():
     cx = ConnectorX()
-    if not cx.connect_usb("COM3"):
+    if not cx.connect("COM3"):
         print("Failed to connect")
         return
 
@@ -354,7 +353,7 @@ if __name__ == "__main__":
 :::
 ::::
 
-## Forcing a Full Update
+## Forcing a full update
 
 To send the entire buffer without delta compression (useful for the first frame, or after a drastic color change):
 
@@ -386,7 +385,7 @@ lumyn_DirectLEDForceFullUpdateRaw(direct, buffer, sizeof(buffer));
 :::
 ::::
 
-## Reset and Resync
+## Reset and resync
 
 If the buffer gets out of sync (after a large change or reconnection), call `reset()` to reset the delta compression state. The next `update()` call will then send a full buffer:
 
@@ -414,7 +413,7 @@ direct.update(buffer)
 :::
 ::::
 
-## Performance Tips
+## Performance tips
 
 1. **Match buffer size to zone size** - The buffer must have exactly 3 bytes per LED.
 

@@ -2,13 +2,21 @@
 hide-toc: true
 ---
 
-# Modules & Sensors
+# Modules and sensors
 
-Extend ConnectorX with sensor inputs and hardware interfaces using the module system.
+Extend ConnectorX and ConnectorX Animate with sensor inputs and hardware interfaces using the module system.
 
-```{important}
-Modules are only supported on **ConnectorX**, not **ConnectorX Animate**.
-```
+## Device support
+
+| | ConnectorX | ConnectorX Animate |
+|---|---|---|
+| Modules at once | Up to 5 | Up to 2 |
+| Connection types | I2C, SPI, UART, DIO, AIO | I2C only |
+| `DigitalInputModule` (DIO) | Yes | No |
+| `AnalogInputModule` (AIO) | Yes | No |
+| `VL53L1XModule` (I2C) | Yes | Yes |
+
+Lumyn Studio offers only the connection types each device supports. In the WPILib vendordep and the C and C++ SDKs, both device types have the same module API. In the Python SDK, only `ConnectorX` has a `modules` handler; `ConnectorXAnimate` has none.
 
 ## Overview
 
@@ -20,7 +28,7 @@ Modules provide data from I2C, SPI, UART, digital, and analog peripherals. Commo
 
 The SDK provides both typed helper classes for built-in modules and raw callbacks for custom modules.
 
-## Built-in Modules
+## Built-in modules
 
 | Module | Payload Fields | Description |
 |--------|---------------|-------------|
@@ -28,7 +36,7 @@ The SDK provides both typed helper classes for built-in modules and raw callback
 | `AnalogInputModule` | `rawValue` (int), `scaledValue` (int) | Analog voltage reading |
 | `VL53L1XModule` | `valid` (byte), `dist` (short, mm) | Time-of-flight distance |
 
-## Using Typed Helpers
+## Using typed helpers
 
 Typed helper classes handle payload parsing automatically and provide a clean API.
 
@@ -69,10 +77,10 @@ if (result.ok() && !result.value().isEmpty()) {
 lumyn::modules::DigitalInputModule dio(m_cx, "digital-input");
 
 // Callback for automatic updates
-dio.OnUpdate([](const lumyn::modules::DigitalInputPayload& payload) {
+dio.onUpdate([](const lumyn::modules::DigitalInputPayload& payload) {
     std::cout << "State: " << static_cast<int>(payload.state) << std::endl;
 });
-dio.Start();
+dio.start();
 ```
 :::
 :::{tab-item} Python
@@ -122,7 +130,7 @@ lumyn_RegisterModule(LUMYN_BASE_PTR(&cx), "digital-input", digital_callback, NUL
 :::
 ::::
 
-### VL53L1XModule (Time-of-Flight)
+### VL53L1XModule (time-of-flight)
 
 ::::{tab-set}
 :sync-group: language
@@ -151,12 +159,12 @@ tof.start();
 
 lumyn::modules::VL53L1XModule tof(m_cx, "tof-sensor");
 
-tof.OnUpdate([](const lumyn::modules::VL53L1XPayload& payload) {
+tof.onUpdate([](const lumyn::modules::VL53L1XPayload& payload) {
     if (payload.valid) {
         std::cout << "Distance: " << payload.dist << " mm" << std::endl;
     }
 });
-tof.Start();
+tof.start();
 ```
 :::
 :::{tab-item} Python
@@ -229,11 +237,11 @@ analog.start();
 
 lumyn::modules::AnalogInputModule analog(m_cx, "analog-input");
 
-analog.OnUpdate([](const lumyn::modules::AnalogInputPayload& payload) {
+analog.onUpdate([](const lumyn::modules::AnalogInputPayload& payload) {
     std::cout << "Raw: " << payload.rawValue 
               << ", Scaled: " << payload.scaledValue << std::endl;
 });
-analog.Start();
+analog.start();
 ```
 :::
 :::{tab-item} Python
@@ -280,29 +288,35 @@ lumyn_RegisterModule(LUMYN_BASE_PTR(&cx), "analog-input", analog_callback, NULL)
 :::
 ::::
 
-## Raw Module Callbacks
+## Raw module callbacks
 
 For custom modules or when you need low-level control, register raw callbacks.
+
+In a WPILib robot program, registering a callback returns a `ModuleHandle`. Pass it to `UnregisterModule` to remove just that callback; the module's other callbacks keep running. `UnregisterModule` with the module ID removes them all. Registering the same callback twice registers it once and returns the same handle. In Java that means the same object (by `equals`); in C++ it means the same function, so each lambda you pass is a registration of its own. Keep the handle if you'll remove a lambda later.
 
 ::::{tab-set}
 :::{tab-item} Java (WPILib)
 ```java
 import com.lumynlabs.modules.DigitalInputModule;
+import com.lumynlabs.modules.ModuleHandle;
 import com.lumynlabs.domain.module.ModuleHandler;
 
-cX.modules.RegisterModule("custom-module", (data) -> {
-    // Parse raw bytes
-    if (data.length > 0) {
-        System.out.println("Received " + data.length + " bytes");
-        System.out.println("First byte: " + data[0]);
+ModuleHandle handle = cX.modules.RegisterModule("custom-module", (entry) -> {
+    // entry.data holds the raw bytes; entry.len is how many there are
+    if (entry.len > 0) {
+        System.out.println("Received " + entry.len + " bytes");
+        System.out.println("First byte: " + entry.data[0]);
     }
 });
 
+// Later, remove just this callback
+cX.modules.UnregisterModule(handle);
+
 // Or parse into a known payload type
-cX.modules.RegisterModule("digital-input", (data) -> {
+cX.modules.RegisterModule("digital-input", (entry) -> {
     DigitalInputModule.Payload payload = new DigitalInputModule.Payload();
     try {
-        ModuleHandler.ExtractData(payload, data);
+        ModuleHandler.ExtractData(payload, entry);
         System.out.println("State: " + payload.state);
     } catch (Exception e) {
         System.out.println("Parse error: " + e);
@@ -317,13 +331,17 @@ struct CustomPayload {
     uint16_t value2;
 };
 
-m_cx.RegisterModule("custom-module", [this](uint16_t unitId, const std::vector<uint8_t>& payload) {
-    if (payload.size() >= 3) {
-        auto parsed = m_cx.ExtractFromPayload<CustomPayload>(payload);
-        std::cout << "Value1: " << static_cast<int>(parsed.value1) 
-                  << ", Value2: " << parsed.value2 << std::endl;
-    }
-});
+lumyn::device::ModuleHandle handle =
+    m_cx.RegisterModule("custom-module", [this](uint16_t unitId, const std::vector<uint8_t>& payload) {
+        if (payload.size() >= 3) {
+            auto parsed = m_cx.ExtractFromPayload<CustomPayload>(payload);
+            std::cout << "Value1: " << static_cast<int>(parsed.value1)
+                      << ", Value2: " << parsed.value2 << std::endl;
+        }
+    });
+
+// Later, remove just this callback
+m_cx.UnregisterModule(handle);
 ```
 :::
 :::{tab-item} C++ (Standalone)
@@ -377,7 +395,7 @@ lumyn_RegisterModule(LUMYN_BASE_PTR(&cx), "custom-module", module_callback, NULL
 :::
 ::::
 
-## Manual Polling
+## Manual polling
 
 If you prefer polling over callbacks, you can retrieve the latest module data manually.
 
@@ -447,9 +465,9 @@ while (1) {
 :::
 ::::
 
-## Module Configuration
+## Module configuration
 
-Modules are configured in Lumyn Studio or via ConfigBuilder:
+Modules are configured in Lumyn Studio or with `ConfigBuilder`. In the configuration JSON, the list of modules is under the `sensors` key; the board ignores a `modules` key.
 
 ### Lumyn Studio
 
@@ -536,7 +554,7 @@ free(config_json);
 :::
 ::::
 
-## Payload Byte Order
+## Payload byte order
 
 Module payloads use **little-endian** byte order. The typed helpers and `ExtractFromPayload` handle byte order conversion automatically.
 

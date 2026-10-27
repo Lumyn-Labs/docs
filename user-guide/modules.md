@@ -20,7 +20,7 @@ Click a module to open its detail page. Every module specifies its category, sup
 :alt: Module Preview
 ```
 
-## Add a Module to a Device
+## Add a module to a device
 
 From a module's detail view, click **Add to Device**. The form is organized into:
 
@@ -34,7 +34,7 @@ Connection type options are filtered by the selected device's supported interfac
 :alt: Add a Module
 ```
 
-## Creating a Custom Module
+## Creating a custom module
 
 To create a custom module, navigate to the Modules page and click **Create Module**.
 
@@ -61,7 +61,7 @@ Studio provides two detail experiences:
 
 For custom modules, **Add to Device** is available from preview mode after saving changes (it is hidden while editing or when there are unsaved edits).
 
-### Module Data
+### Module data
 
 The **Data** page is where you define the module's data structure and configuration fields. The data structure defines what information the module reports each time it is polled, such as a distance reading or a pin state. Each field maps to a value in the binary payload the firmware sends to your host application (robot code or SDK), while configuration fields allow users to customize module behavior when adding it to a device.
 
@@ -69,11 +69,11 @@ Each time the module polls, it sends a payload of data to the SDK with the struc
 
 The configuration fields allow you to specify the parameters needed to set up the module on a device such as pin numbers, thresholds, or modes. When a user adds the module to a device, they will be prompted to fill in these fields, and the values will be passed to the module's code to configure its behavior.
 
-### Generated Source
+### Generated source
 
 Once you've defined the module's data structure and configuration fields, the **Source** page generates boilerplate source artifacts that you can use in your custom firmware to read module data and register the module.
 
-## Next Steps
+## Next steps
 
-- Configure zones for module-driven effects: [Zones & Zone Groups](zones-and-zone-groups)
-- Use module data in code: [Programming Guide](../programming-guide/index)
+- Configure zones for module-driven effects: [Zones and zone groups](zones-and-zone-groups)
+- Use module data in code: [Programming guide](../programming-guide/index)

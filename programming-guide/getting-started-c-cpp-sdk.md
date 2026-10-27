@@ -2,7 +2,7 @@
 hide-toc: true
 ---
 
-# Getting Started with C/C++ SDK (Standalone)
+# Getting started with C/C++ SDK (standalone)
 
 Control Lumyn Labs devices using native C or C++ on Windows, Linux, macOS, and embedded systems. The standalone C/C++ SDK provides a low-level API for maximum performance and control.
 
@@ -10,12 +10,12 @@ Control Lumyn Labs devices using native C or C++ on Windows, Linux, macOS, and e
 **Beta Software**: The standalone C/C++ SDK is currently in beta and may be unstable. APIs and functionality are subject to change. Please report any issues to [support@lumynlabs.com](mailto:support@lumynlabs.com).
 ```
 
-## When to Use This SDK
+## When to use this SDK
 
 Use the **standalone C/C++ SDK** when:
 
 - Building desktop applications on Windows, Linux, or macOS
-- Developing embedded Linux applications (Raspberry Pi, Jetson, etc.)
+- Developing embedded Linux applications, such as on a Raspberry Pi or Jetson
 - You need maximum performance and minimal overhead
 - You're not using the FRC/WPILib ecosystem
 
@@ -23,37 +23,58 @@ Use **WPILib C++** instead if:
 
 - You're building an FRC robot
 - Your team uses WPILib and vendor dependencies
-- You want integration with roboRIO and the FRC toolchain
+- You want integration with SystemCore and the FRC toolchain
 
 ## Installation
 
-### Download Binary Release
+### Download binary release
 
-Download the latest pre-built release from the [GitHub releases page](https://github.com/Lumyn-Labs/lumyn-c-sdk/releases):
+1. Go to the [Lumyn Labs releases page](https://github.com/Lumyn-Labs/Releases/releases) and open the latest **Lumyn SDK** release.
+2. Download the archive for your language and platform:
+   - C: `lumyn-sdk-c-v<version>-<platform>.tar.gz`
+   - C++: `lumyn-sdk-cpp-v<version>-<platform>.tar.gz`
 
-1. Navigate to the releases page
-2. Download the archive for your platform:
-   - `lumyn-c-sdk-*.zip` for Windows
-   - `lumyn-c-sdk-*.tar.gz` for Linux/macOS
-3. Extract to your desired location
+   `<platform>` is `linux-x64`, `linux-arm64`, `windows-x64`, or `macos-arm64`. Every platform, Windows included, uses a `.tar.gz` archive.
+3. Extract the archive. It has an `include` folder, a `lib` folder with the `lumyn_sdk_c` or `lumyn_sdk_cpp` library, and an `examples` folder.
 
-### CMake Integration
+### CMake integration
 
-In your `CMakeLists.txt`:
+The archives don't include a CMake package, so find the library by its path. For C, add this to your `CMakeLists.txt`:
 
 ```cmake
-# Set the SDK path
-set(LUMYN_SDK_PATH "/path/to/lumyn-c-sdk")
+cmake_minimum_required(VERSION 3.18)
+project(my_app LANGUAGES C)
 
-# Include the SDK
-include_directories(${LUMYN_SDK_PATH}/include)
-link_directories(${LUMYN_SDK_PATH}/lib)
+set(LUMYN_SDK_DIR "/path/to/lumyn-sdk-c-v<version>-<platform>")
 
-# Link against the SDK
-target_link_libraries(your_target lumyn)
+add_executable(my_app main.c)
+target_include_directories(my_app PRIVATE ${LUMYN_SDK_DIR}/include)
+
+find_library(LUMYN_SDK_C lumyn_sdk_c PATHS ${LUMYN_SDK_DIR}/lib NO_DEFAULT_PATH REQUIRED)
+target_link_libraries(my_app PRIVATE ${LUMYN_SDK_C})
 ```
 
-### Include Headers
+For C++, which needs C++20:
+
+```cmake
+cmake_minimum_required(VERSION 3.18)
+project(my_app LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(LUMYN_SDK_DIR "/path/to/lumyn-sdk-cpp-v<version>-<platform>")
+
+add_executable(my_app main.cpp)
+target_include_directories(my_app PRIVATE ${LUMYN_SDK_DIR}/include)
+
+find_library(LUMYN_SDK_CPP lumyn_sdk_cpp PATHS ${LUMYN_SDK_DIR}/lib NO_DEFAULT_PATH REQUIRED)
+target_link_libraries(my_app PRIVATE ${LUMYN_SDK_CPP})
+```
+
+On Windows, copy `lumyn_sdk_c.dll` or `lumyn_sdk_cpp.dll` from the `lib` folder next to your executable. On Linux, if the program can't find the library when it runs, add the `lib` folder to `LD_LIBRARY_PATH`.
+
+### Include headers
 
 ```cpp
 // For C++
@@ -63,10 +84,10 @@ target_link_libraries(your_target lumyn)
 // For C
 #include <lumyn/c/lumyn_device.h>
 #include <lumyn/c/lumyn_led.h>
-// Plus lumyn_direct_led.h, lumyn_events.h, lumyn_modules.h, etc. as needed
+// Add lumyn_direct_led.h, lumyn_events.h, or lumyn_modules.h as you need them
 ```
 
-## Choosing Between C and C++
+## Choosing between C and C++
 
 ::::{tab-set}
 :::{tab-item} C++
@@ -110,9 +131,9 @@ int main() {
 :::
 ::::
 
-## Quick Start: C++
+## Quick start: C++
 
-### Basic Connection and LED Control
+### Basic connection and LED control
 
 ```cpp
 #include <lumyn/cpp/connectorXVariant/ConnectorXAnimate.hpp>
@@ -141,7 +162,7 @@ int main() {
 }
 ```
 
-### Playing Animations
+### Playing animations
 
 ```cpp
 #include <lumyn/cpp/connectorXVariant/ConnectorXAnimate.hpp>
@@ -168,7 +189,7 @@ int main() {
 }
 ```
 
-### DirectLED (High-Frequency Updates)
+### DirectLED (high-frequency updates)
 
 ```cpp
 #include <lumyn/cpp/connectorXVariant/ConnectorXAnimate.hpp>
@@ -202,9 +223,9 @@ int main() {
 }
 ```
 
-## Quick Start: C
+## Quick start: C
 
-### Basic Connection and LED Control
+### Basic connection and LED control
 
 ```c
 #include <lumyn/c/lumyn_device.h>
@@ -236,7 +257,7 @@ int main() {
 }
 ```
 
-### Playing Animations
+### Playing animations
 
 ```c
 #include <lumyn/c/lumyn_device.h>
@@ -262,7 +283,7 @@ int main() {
 }
 ```
 
-### DirectLED (High-Frequency Updates)
+### DirectLED (high-frequency updates)
 
 ```c
 #include <lumyn/c/lumyn_device.h>
@@ -301,9 +322,9 @@ int main() {
 }
 ```
 
-## C SDK Reference
+## C SDK reference
 
-### Error Codes
+### Error codes
 
 | Code | Name | Description |
 |------|------|-------------|
@@ -317,7 +338,7 @@ int main() {
 | 7 | `LUMYN_ERR_NOT_SUPPORTED` | Operation not supported |
 | 8 | `LUMYN_ERR_PARSE` | Parse error |
 
-### Struct-Based Device Lifecycle
+### Struct-based device lifecycle
 
 ```c
 #include <lumyn/c/lumyn_device.h>
@@ -339,16 +360,16 @@ if (err != LUMYN_OK) {
 lumyn_DestroyConnectorX(&cx);
 ```
 
-### Version Information
+### Version information
 
 ```c
-const char* version = lumyn_GetVersion();      // e.g., "4.1.0"
+const char* version = lumyn_GetVersion();      // For example, "4.2.0"
 int major = lumyn_GetVersionMajor();           // Protocol version
 int minor = lumyn_GetVersionMinor();
 int patch = lumyn_GetVersionPatch();
 ```
 
-## Complete Example (C++)
+## Complete example (C++)
 
 A complete example demonstrating multiple features:
 
@@ -414,7 +435,7 @@ int main() {
 }
 ```
 
-## Error Handling
+## Error handling
 
 ::::{tab-set}
 :::{tab-item} C++
@@ -462,18 +483,18 @@ lumyn_DestroyConnectorXAnimate(&cx);
 :::
 ::::
 
-## Next Steps
+## Next steps
 
-- [Connecting to Devices](connecting-to-devices) - USB, UART, port selection
+- [Connecting to devices](connecting-to-devices) - USB, UART, port selection
 - [LED Animations](led-animations) - Animation types, sequences, timing
-- [LED Matrices](led-matrices) - Matrix control, text, images
+- [LED matrices](led-matrices) - Matrix control, text, images
 - [DirectLED](directled) - High-frequency per-pixel control
-- [Device Configuration](device-configuration) - Configuration management
-- [Modules & Sensors](modules-and-sensors) - ConnectorX module support (C++ only)
+- [Device configuration](device-configuration) - Configuration management
+- [Modules and sensors](modules-and-sensors) - Module callbacks and typed helpers
 
 ## Troubleshooting
 
-### Linking Errors
+### Linking errors
 
 Make sure you're linking against the library:
 
@@ -487,13 +508,13 @@ target_link_libraries(your_target lumyn)
 g++ -o program program.cpp -I/path/to/sdk/include -L/path/to/sdk/lib -llumyn
 ```
 
-### Connection Failed
+### Connection failed
 
 - **Check port name**: Use `lsof -i :*` (macOS) or `ls /dev/tty*` (Linux) to find the port
 - **Check permissions**: On Linux, add your user to dialout: `sudo usermod -a -G dialout $USER`
 - **Reset device**: Power cycle the device and try again
 
-### Build Errors
+### Build errors
 
 - **Missing headers**: Ensure `LUMYN_SDK_PATH` is set correctly in CMakeLists.txt
 - **Library not found**: Check that the lib directory exists and contains the compiled libraries

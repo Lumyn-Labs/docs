@@ -2,11 +2,11 @@
 hide-toc: true
 ---
 
-# Drivers and Firmware
+# Drivers and firmware
 
 This page covers installing drivers on Windows and updating device firmware.
 
-## Installing Drivers (Windows)
+## Installing drivers (Windows)
 
 On Windows, you may need to install a specific driver to allow Lumyn Studio to communicate with the ConnectorX device over USB.
 
@@ -20,34 +20,37 @@ If your device doesn't appear in Device Manager, use the [Zadig](https://zadig.a
 4. **Install the USB CDC driver** for this device.
 5. **Reconnect your device** and try again.
 
-## Updating Firmware
+## Updating firmware
 
 Firmware updates are performed by putting your device into bootloader mode and copying a UF2 file to the USB mass storage device that appears.
 
-### Downloading Firmware
+### Downloading firmware
 
-Download the latest firmware UF2 file for your device from our [GitHub Releases page](https://github.com/Lumyn-Labs/Releases/releases).
+1. Go to the [Lumyn Labs releases page](https://github.com/Lumyn-Labs/Releases/releases) and open the latest **ConnectorX Firmware** release. The page also lists SDK releases; skip those.
+2. Download the file for your board:
+   - ConnectorX: `connectorx-v<version>.uf2`
+   - ConnectorX Animate: `connectorx-animate-v<version>.uf2`
 
-Download the `firmware.uf2` file for your device from the latest release.
+   Each file is built for one board. Flash the one that matches your board.
 
-### Entering Bootloader Mode
+### Entering bootloader mode
 
-1. **Connect Your Device**: Plug your ConnectorX or ConnectorX Animate into your computer via USB.
-2. **Enter Bootloader Mode**:
-    1. Wait for the device to fully boot (the LED will be breathing blue).
-    2. Press and hold the `BOOT` or `BOOTSEL` button on the device.
-    3. While still holding `BOOT`, press and release the `RESET` button.
-    4. Release the `BOOT` button.
-    
-    The device will now appear to your computer as a removable drive called `RPI-RP2`.
+Both boards have two buttons, labeled `BOOTSEL` and `RST`. This works whatever firmware the board runs, including firmware that doesn't start.
 
-### Flashing Firmware
+1. Connect the board to your computer with a USB cable.
+2. Press and hold `BOOTSEL`.
+3. While you hold `BOOTSEL`, press and release `RST`.
+4. Release `BOOTSEL`.
 
-1. **Copy the UF2 File**: Simply drag and drop the downloaded UF2 firmware file onto the `RPI-RP2` drive.
-2. **Wait for Completion**: The device will automatically flash the firmware and restart. The `RPI-RP2` drive will disappear when the update is complete.
+The board appears on your computer as a removable drive named `RPI-RP2`.
+
+### Flashing firmware
+
+1. **Copy the UF2 file**: Drag the downloaded UF2 firmware file onto the `RPI-RP2` drive.
+2. **Wait for completion**: The device will automatically flash the firmware and restart. The `RPI-RP2` drive will disappear when the update is complete.
 3. **Verify**: The device should boot normally with the new firmware version.
 
-### Firmware Notifications in Lumyn Studio
+### Firmware notifications in Lumyn Studio
 
 When you connect a device, Lumyn Studio notifies you if a newer firmware version is available.
 
@@ -55,7 +58,7 @@ When you connect a device, Lumyn Studio notifies you if a newer firmware version
 :alt: OTA update available prompt in Lumyn Studio
 ```
 
-#### OTA Update Flow (Firmware 4.3+)
+#### OTA update flow (firmware 4.3+)
 
 On devices running firmware **4.3** or newer, you can apply firmware updates **over the air (OTA)** directly from Studio:
 

@@ -2,11 +2,11 @@
 hide-toc: true
 ---
 
-# Image Sequences (Matrix)
+# Image sequences (matrix)
 
 Create and manage image sequences for LED matrices.
 
-## Create a New Image Sequence
+## Create a new image sequence
 
 Open the Image Sequences page. If none exist, the page is empty. Click **Create sequence** and pick a source:
 
@@ -24,7 +24,7 @@ The creation flow (**Project setup**) walks through:
 :alt: Image Sequence Creation Dialog Page 2
 ```
 
-## Edit an Image Sequence
+## Edit an image sequence
 
 The **Motion Editor** includes:
 
@@ -46,7 +46,7 @@ Add shapes or images from the sidebar. Use keyframes on the timeline to animate 
 
 Click **Save** in the toolbar to persist your project. Use **Preview** to generate a GIF preview, or **Download** to export a GIF file.
 
-## Add to a Device Configuration
+## Add to a device configuration
 
 From the Image Sequences page or the editor, use **Add to Device**.
 
@@ -60,7 +60,7 @@ From the Image Sequences page or the editor, use **Add to Device**.
 
 Once added, you can preview your image sequence at the exact resolution of the target matrix zone.
 
-## Next Steps
+## Next steps
 
-- Export with image assets: [Saving & Exporting Configurations](saving-and-exporting-configurations)
-- Create strip animations: [Animation Sequences](animation-sequences)
+- Export with image assets: [Saving and exporting configurations](saving-and-exporting-configurations)
+- Create strip animations: [Animation sequences](animation-sequences)

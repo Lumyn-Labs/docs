@@ -2,11 +2,11 @@
 hide-toc: true
 ---
 
-# Advanced Topics
+# Advanced topics
 
 Deeper customization and development workflows for extending Lumyn Labs devices beyond their standard capabilities.
 
-## Custom Firmware Development
+## Custom firmware development
 
 At Lumyn Labs, we believe in empowering everyone to truly "connect anything", which also means letting you use your device in the way you want. Whether it's creating a new Animation for use in a Sequence or adding a Custom Module to read from a favorite sensor, custom firmware allows for it all. By using our firmware starter repositories, you can leverage the existing ConnectorX infrastructure and libraries to do incredible things.
 
@@ -15,7 +15,7 @@ Start from our firmware starter repositories and follow each repo's README for e
 - **ConnectorX**: [ConnectorX Firmware Starter](https://github.com/Lumyn-Labs/ConnectorX-Firmware-Starter)
 - **ConnectorX Animate**: [ConnectorX Animate Firmware Starter](https://github.com/Lumyn-Labs/ConnectorX-Animate-Firmware-Starter)
 
-### When to Use Custom Firmware
+### When to use custom firmware
 
 Custom firmware development is typically only necessary if you need:
 
@@ -35,7 +35,7 @@ After cloning the repository and opening in VS Code, [install the PlatformIO ext
 
 Re-open the repository in VS Code after rebooting and watch as PlatformIO installs the necessary toolchains, libraries, and board files automatically. Do note that this step can take several minutes, so be patient.
 
-#### main.cpp Structure
+#### main.cpp structure
 
 Open `main.cpp` in the firmware starter and notice the registration section between the two system init calls. Ordering here is important:
 
@@ -45,15 +45,15 @@ Open `main.cpp` in the firmware starter and notice the registration section betw
 
 This ensures custom types are registered before services load your configuration.
 
-### Register Custom Animations
+### Register custom animations
 
-#### What is an Animation?
+#### What is an animation?
 
 LED Animations revolve around the core concept of "states". If an LED blinks on or off, it has 2 states ('on' and 'off'). If an LED breathes (gradually moves to full brightness and then back to off), it has 512 states: 256 when going up (0 to 255) and 256 more when going back down (256 to 511). Your Animations must follow this same model.
 
 Because some Animations depend on the number of LEDs in addition to a set number of states (think Chase or one where the LEDs 'grow' along the entire strip), we have the concept of a `StateMode` which can be either `Constant` (number of states never changes) or `LedCount` (number of states is related to the number of LEDs). If it's `LedCount`, then the number of states is: `# of LEDs + the state count`.
 
-#### Animation::AnimationInstance Structure
+#### Animation::AnimationInstance structure
 
 The core building block of every Animation is the `Animation::AnimationInstance` struct:
 
@@ -79,7 +79,7 @@ This function is called every time the state changes. The signature is: `std::fu
 
 The callback **must** return a `bool`. Return `true` if the Channel should be updated for this Animation's state or `false` to not update.
 
-#### Creating a Custom Animation
+#### Creating a custom animation
 
 To create a custom Animation, it is recommended to create a new header file (`.h`) inside the `animations` folder with the name of your custom Animation. It must be of the type `Animation::AnimationInstance` and have a name that does not conflict with any existing Animations. After creating your Animation, include the header file in `main.cpp` and then register it.
 
@@ -91,7 +91,7 @@ Simply call `LumynLabs::registerAnimation(MyAnimationStruct);` where `MyAnimatio
 Built-in animations are registered **automatically** by the SDK and should not need to be re-registered.
 ```
 
-### Register Custom Modules
+### Register custom modules
 
 Custom modules should inherit from `LumynLabs::Module<T>`, where `T` is your module payload struct.
 
@@ -119,7 +119,7 @@ When implementing module code:
 `config().customConfig` is a raw byte blob and is module-defined. In the current SDK headers, `customConfigSize` is limited to 32 bytes.
 ```
 
-### Flashing Custom Firmware
+### Flashing custom firmware
 
 On the left pane in VS Code, click the PlatformIO icon (the ant), then open the folder labeled `pico` and click `General > Upload` after ensuring your board is available for flashing (see [Recovery](#recovery) and follow through step 3).
 
@@ -131,19 +131,15 @@ PlatformIO gives the option to **Upload Filesystem Image**. DO NOT CLICK THIS be
 
 If you or your device get stuck, you can recover by flashing a default UF2 file. The firmware starter repositories contain a default UF2 file that is identical in function to the image that shipped on your device (no custom Modules or Animations), although be aware that future releases of the firmware will also be reflected in it, such as bug fixes or new features.
 
-With the board plugged into your computer:
+1. Put the board in bootloader mode. Follow the steps in [Entering bootloader mode](drivers-and-firmware.md#entering-bootloader-mode).
+2. Drag the UF2 file from the repository's `firmware` folder onto the `RPI-RP2` drive, and wait for it to copy.
+3. The board restarts with the default firmware.
 
-1. Hold down the `BOOT`/`BOOTSEL` button near the USB-C port
-2. While holding the button, click `RST`/`RESET` and _continue_ holding the `BOOT`/`BOOTSEL` button
-3. Release the `BOOT`/`BOOTSEL` button when a drive mounts to your computer
-4. Drag-n-drop the UF2 file found in the `firmware` folder of the repository and wait for it to upload
-5. Watch as your ConnectorX reboots
-
-This process will work regardless of the software running on the ConnectorX, so if you accidentally created an infinite loop - no worries!
+This works whatever firmware the board runs, including firmware stuck in an infinite loop.
 
 Alternatively, you can follow the setup instructions above to compile the default firmware locally and then flash via PlatformIO.
 
-### Available Classes and Methods
+### Available classes and methods
 
 #### System APIs
 
@@ -161,7 +157,7 @@ Use `SerialLogger` to log messages via the secondary serial port in a thread-saf
 
 Use the event service APIs provided by your selected firmware starter version for asynchronous events. If you're working from interrupt context, use the ISR-safe variant documented in that starter's README/source comments.
 
-## Creating Custom Modules (Studio-Based)
+## Creating custom modules (Studio-based)
 
 Custom modules in Studio define metadata, payload shape, and configuration inputs, then generate source templates you can copy into firmware. You still need to implement, build, and flash firmware for the module to run on hardware.
 
@@ -175,7 +171,7 @@ Custom modules in Studio define metadata, payload shape, and configuration input
    - the module registration snippet for `main.cpp`
 5. **Implement + Flash**: Complete TODOs in the generated template, build with PlatformIO, and flash your device.
 
-### Module Development Tips
+### Module development tips
 
 - Keep payload sizes small for best performance and compatibility
 - Use clear, descriptive names for your modules

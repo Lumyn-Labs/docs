@@ -53,23 +53,39 @@ myst_fence_as_directive = [
 html_theme = 'furo'
 html_theme_options = {
     "sidebar_hide_name": True,
+    "light_logo": "img/logo-h-white.svg",
+    "dark_logo": "img/logo-h-white.svg",
     "source_repository": "https://github.com/Lumyn-Labs/docs/",
     "source_branch": "main",
     "source_directory": "./",
 }
 html_static_path = ['_static', 'assets']
+html_favicon = '_static/img/monogram.svg'
 # Add our custom CSS to override theme variables
 html_css_files = [
     'css/custom.css',
 ]
-# Force dark theme only
 html_js_files = [
-    'js/force-dark.js',
+    'js/lumyn-pixels.js', 'js/docs.js',
 ]
 
 # GitHub Pages specific settings
+html_title = 'Lumyn Labs docs'
 html_baseurl = 'https://docs.lumynlabs.com/'
 
 # Ensure proper navigation
 html_show_sourcelink = True
 html_show_sphinx = False
+
+
+# :studio:`Devices <devices>` links straight into Lumyn Studio (hash-routed SPA).
+from docutils import nodes as _n
+STUDIO = 'https://studio.lumynlabs.com/#/'
+def _studio_role(name, rawtext, text, lineno, inliner, options=None, content=None):
+    import re as _re
+    m = _re.match(r'^(.*?)\s*<([^>]+)>$', text)
+    label, route = (m.group(1), m.group(2)) if m else (text, text)
+    node = _n.reference(rawtext, label, refuri=STUDIO + route.lstrip('/'), classes=['studio-link'])
+    return [node], []
+def setup(app):
+    app.add_role('studio', _studio_role)

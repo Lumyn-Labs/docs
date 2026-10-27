@@ -2,13 +2,13 @@
 hide-toc: true
 ---
 
-# Programming Guide
+# Programming guide
 
 Control Lumyn Labs devices with code. This guide covers all features across Java, C++, Python, and C SDKs.
 
 ## Installation
 
-Before writing code, connect your device in Lumyn Studio and build a configuration. See the [Quick Start Guide](../quick-start) and [Lumyn Studio Guide](../user-guide/index).
+Before writing code, connect your device in Lumyn Studio and build a configuration. See the [Quick start guide](../quick-start) and [Lumyn Studio guide](../user-guide/index).
 
 ### WPILib Vendordep (Java/C++)
 
@@ -16,20 +16,20 @@ For FRC robots using WPILib, see [Installing the Library (vendordep)](getting-st
 
 ### Python SDK
 
-See [Getting Started (Python)](getting-started-python) and install with uv.
+See [Getting started (Python)](getting-started-python) and install with uv.
 
 ### C/C++ SDK
 
-Download from [GitHub Releases](https://github.com/Lumyn-Labs/Releases)
+Download from the [Lumyn Labs releases page](https://github.com/Lumyn-Labs/Releases/releases). See [Getting started with C/C++ SDK](getting-started-c-cpp-sdk).
 
-## SDK Overview
+## SDK overview
 
 Lumyn Labs provides several SDKs for different platforms and use cases:
 
 | SDK | Language | Platform | Use Case |
 |-----|----------|----------|----------|
-| **WPILib Vendordep** | Java | roboRIO | FRC robots using Java |
-| **WPILib Vendordep** | C++ | roboRIO | FRC robots using C++ |
+| **WPILib vendordep** | Java | SystemCore | FRC robots using Java |
+| **WPILib vendordep** | C++ | SystemCore | FRC robots using C++ |
 | **Python SDK** | Python | Desktop, Raspberry Pi | Host controllers, testing |
 | **C SDK** | C | Embedded, Desktop | Low-level integration |
 
@@ -38,14 +38,14 @@ Lumyn Labs provides several SDKs for different platforms and use cases:
 :::
 
 :::{note}
-This guide uses terminology from the [WPILib / FRC ecosystem](https://frcdocs.wpi.edu). Key terms: **roboRIO** (the FRC robot controller), **vendordep** (a WPILib third-party library package), **SimGUI** (WPILib's desktop simulation environment), **MXP** (the roboRIO expansion port for UART).
+This guide uses terminology from the [WPILib / FRC ecosystem](https://frcdocs.wpi.edu). Key terms: **SystemCore** (the FRC robot controller the 2027 vendordep runs on), **roboRIO** (the FRC robot controller before SystemCore), **vendordep** (a WPILib third-party library package), **SimGUI** (WPILib's desktop simulation environment), **MXP** (the roboRIO expansion port; `UARTPort.MXP` keeps the name, but UART doesn't connect on SystemCore yet).
 :::
 
-## How Studio and Code Connect
+## How Studio and code connect
 
 The zone IDs, group IDs, module IDs, and sequence IDs you create in Lumyn Studio are the exact strings you use in your robot code. For example, if you create a strip zone called `left-climber` in Studio, you reference it as `"left-climber"` in `SetAnimation(...).ForZone("left-climber")`. Keep IDs short, lowercase-with-hyphens, and consistent between Studio and code.
 
-## Task Guide
+## Task guide
 
 Find what you want to do:
 
@@ -80,11 +80,11 @@ Display text, fonts, and image sequences on matrix zones.
 High-frequency per-pixel control with WPILib LEDPattern integration.
 :::
 
-:::{grid-item-card} Modules & Sensors
+:::{grid-item-card} Modules and sensors
 :link: modules-and-sensors
 :link-type: doc
 
-Read sensor data with typed helpers and raw callbacks. ConnectorX only.
+Read sensor data with typed helpers and raw callbacks. ConnectorX Animate supports I2C modules only.
 :::
 
 :::{grid-item-card} Device Configuration
@@ -103,29 +103,29 @@ Test in the WPILib desktop simulator. Java/C++ vendordep only.
 
 ::::
 
-## Quick Reference
+## Quick reference
 
 **Common tasks by topic:**
 
 ### Connections
 
-- **Connect via USB** - See [Connecting to Devices](connecting-to-devices)
-- **Connect via UART** - See [Connecting to Devices](connecting-to-devices)
-- **Handle events** - See [Connecting to Devices](connecting-to-devices)
-- **Restart device** - See [Connecting to Devices](connecting-to-devices)
+- **Connect via USB** - See [Connecting to devices](connecting-to-devices)
+- **Connect via UART** (doesn't connect on SystemCore yet) - See [Connecting to devices](connecting-to-devices)
+- **Handle events** - See [Connecting to devices](connecting-to-devices)
+- **Restart device** - See [Connecting to devices](connecting-to-devices)
 
-### LED Strips
+### LED strips
 
 - **Set solid color** - See [LED Animations](led-animations)
 - **Play animation** - See [LED Animations](led-animations)
 - **Use animation sequence** - See [LED Animations](led-animations)
 
-### LED Matrices
+### LED matrices
 
-- **Display scrolling text** - See [LED Matrices](led-matrices)
-- **Static centered text** - See [LED Matrices](led-matrices)
-- **Play image sequence** - See [LED Matrices](led-matrices)
-- **Choose font** - See [LED Matrices](led-matrices)
+- **Display scrolling text** - See [LED matrices](led-matrices)
+- **Static centered text** - See [LED matrices](led-matrices)
+- **Play image sequence** - See [LED matrices](led-matrices)
+- **Choose font** - See [LED matrices](led-matrices)
 
 ### DirectLED
 
@@ -133,17 +133,17 @@ Test in the WPILib desktop simulator. Java/C++ vendordep only.
 - **Use WPILib LEDPattern** - See [DirectLED](directled)
 - **Raw buffer updates** - See [DirectLED](directled)
 
-### Modules (ConnectorX Only)
+### Modules
 
-- **Use DigitalInputModule** - See [Modules & Sensors](modules-and-sensors)
-- **Use VL53L1XModule** - See [Modules & Sensors](modules-and-sensors)
-- **Raw module callback** - See [Modules & Sensors](modules-and-sensors)
+- **Use DigitalInputModule** - See [Modules and sensors](modules-and-sensors)
+- **Use VL53L1XModule** - See [Modules and sensors](modules-and-sensors)
+- **Raw module callback** - See [Modules and sensors](modules-and-sensors)
 
 ### Configuration
 
-- **Load from file** - See [Device Configuration](device-configuration)
-- **Build with ConfigBuilder** - See [Device Configuration](device-configuration)
-- **Request from device** - See [Device Configuration](device-configuration)
+- **Load from file** - See [Device configuration](device-configuration)
+- **Build with ConfigBuilder** - See [Device configuration](device-configuration)
+- **Request from device** - See [Device configuration](device-configuration)
 
 ```{toctree}
 :maxdepth: 1

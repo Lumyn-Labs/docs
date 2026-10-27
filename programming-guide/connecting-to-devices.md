@@ -2,15 +2,19 @@
 hide-toc: true
 ---
 
-# Connecting to Devices
+# Connecting to devices
 
 This page covers how to establish connections to Lumyn Labs devices, handle events, and manage device status across all SDKs.
 
-## Connection Methods
+## Connection methods
 
-### USB Connection
+### USB connection
 
 All devices support USB connections. This is the most common connection method.
+
+In a WPILib robot program, `Connect` returns at once and never blocks the robot thread. Finding the board, opening it and the handshake happen in the background, so `Connect` returning `true` means connecting has started, not that the board is connected. Check `IsConnected()` later, for example in a periodic method. The vendordep keeps trying every second until the board answers, and connects again if the board is unplugged and plugged back in. Calling `Connect` again while it is connecting does nothing.
+
+Nothing you send before the board connects is lost. LED commands, text, sequences, DirectLED frames and module JSON sent while the board isn't connected wait, and go out in the order you sent them as soon as it connects, before anything newer. Up to 64 wait; past that the oldest are dropped, and the Driver Station shows one warning. Commands sent while the board is disconnected later wait the same way. A configuration applied, or requested, before the board connects waits for it for up to 10 seconds; if the board hasn't connected by then, the result fails as not connected.
 
 ::::{tab-set}
 :sync-group: language
@@ -26,12 +30,12 @@ import com.lumynlabs.connection.usb.USBPort;
 ConnectorXAnimate cXAnimate = new ConnectorXAnimate();
 ConnectorX cX = new ConnectorX();
 
-// Connect to roboRIO USB ports
-boolean animateConnected = cXAnimate.Connect(USBPort.kUSB1);
-boolean cxConnected = cX.Connect(USBPort.kUSB2);
+// Start connecting over USB; this returns at once
+cXAnimate.Connect(USBPort.kUSB1);
+cX.Connect(USBPort.kUSB2);
 
-// Check connection status
-if (animateConnected) {
+// Later, in a periodic method
+if (cXAnimate.IsConnected()) {
     System.out.println("Device connected!");
 }
 ```
@@ -47,9 +51,14 @@ if (animateConnected) {
 lumyn::device::ConnectorX m_cx;
 lumyn::device::ConnectorXAnimate m_animate;
 
-// Connect to roboRIO USB ports
-bool animateConnected = m_animate.Connect(lumyn::connection::USBPort::kUSB1);
-bool cxConnected = m_cx.Connect(lumyn::connection::USBPort::kUSB2);
+// Start connecting over USB; this returns at once
+m_animate.Connect(lumyn::connection::USBPort::kUSB1);
+m_cx.Connect(lumyn::connection::USBPort::kUSB2);
+
+// Later, in a periodic method
+if (m_animate.IsConnected()) {
+    std::cout << "Device connected!" << std::endl;
+}
 ```
 :::
 :::{tab-item} C++ (Standalone)
@@ -84,6 +93,7 @@ cx = ConnectorX()
 # Connect by port name
 animate_connected = cx_animate.connect("COM3")      # Windows
 cx_connected = cx.connect("/dev/ttyACM0")           # Linux
+# On macOS, use a name such as "/dev/cu.usbmodem1101"
 
 if animate_connected:
     print("Device connected!")
@@ -107,7 +117,15 @@ if (err == LUMYN_OK) {
 :::
 ::::
 
-### UART Connection (ConnectorX Only)
+### Choosing kUSB1 or kUSB2 on SystemCore
+
+With one board plugged into SystemCore, `kUSB1` and `kUSB2` both find it. With two boards, each device object takes a board of its own type, so a `ConnectorXAnimate` object opens the ConnectorX Animate even if a ConnectorX is plugged in beside it. When both boards are the same type, `kUSB1` and `kUSB2` follow the order of the USB ports they are plugged into. A board that is already open in one device object can't be opened by another.
+
+### UART connection (ConnectorX only)
+
+```{note}
+In a WPILib robot program on SystemCore, UART does not connect yet: `Connect(UARTPort...)` logs an error and returns `false`. Connect over USB. In simulation, a UART connection connects to the simulated board. The Python and standalone C and C++ SDKs connect over UART on any serial port the computer has.
+```
 
 ::::{tab-set}
 :sync-group: language
@@ -192,7 +210,7 @@ lumyn_error_t err = lumyn_ConnectWithBaud(LUMYN_BASE_PTR(&cx), "/dev/ttyS0", 230
 :::
 ::::
 
-### Resource Cleanup
+### Resource cleanup
 
 Always close connections when done, especially in non-robot applications.
 
@@ -228,11 +246,11 @@ lumyn_DestroyConnectorX(&cx);
 :::
 ::::
 
-## Event Handling
+## Event handling
 
 Devices emit events to report state changes. Use these to respond to connections, disconnections, errors, and other conditions.
 
-### Event Types
+### Event types
 
 | Event | Description |
 |-------|-------------|
@@ -249,7 +267,7 @@ Devices emit events to report state changes. Use these to respond to connections
 | `PinInterrupt` | GPIO pin state change |
 | `HeartBeat` | Keep-alive signal |
 
-### Registering Event Handlers
+### Registering event handlers
 
 ::::{tab-set}
 :::{tab-item} Java (WPILib)
@@ -279,15 +297,15 @@ cXAnimate.AddEventHandler((e) -> {
 #include <lumyn/device/ConnectorX.h>
 #include <iostream>
 
-m_cx.AddEventHandler([](const lumyn::internal::Eventing::Event& event) {
+m_cx.AddEventHandler([](const lumyn::event::Event& event) {
     switch (event.header.type) {
-        case lumyn::internal::Eventing::EventType::Connected:
+        case lumyn::event::EventType::Connected:
             std::cout << "Device connected!" << std::endl;
             break;
-        case lumyn::internal::Eventing::EventType::Disconnected:
+        case lumyn::event::EventType::Disconnected:
             std::cout << "Device disconnected!" << std::endl;
             break;
-        case lumyn::internal::Eventing::EventType::Error:
+        case lumyn::event::EventType::Error:
             std::cout << "Error occurred" << std::endl;
             break;
         default:
@@ -315,7 +333,7 @@ class MyEventHandler(IEventCallback):
 
 cx = ConnectorX()
 cx.add_event_callback(MyEventHandler())
-cx.connect_usb("COM3")
+cx.connect("COM3")
 ```
 :::
 :::{tab-item} C
@@ -329,13 +347,13 @@ lumyn_AddEventHandler(LUMYN_BASE_PTR(&cx), my_event_handler, NULL);
 :::
 ::::
 
-### Event Polling Modes
+### Event polling modes
 
 By default, events are polled automatically in a background thread. You can control this behavior:
 
 **Auto Polling (default)**: Events are polled automatically and handlers are called on the background thread.
 
-**Manual Polling**: Disable auto polling and call `PollEvents()` from your main loop.
+**Manual polling**: Disable auto polling and call `PollEvents()` from your main loop.
 
 ::::{tab-set}
 :::{tab-item} Java (WPILib)
@@ -375,7 +393,7 @@ auto all = m_cx.GetEvents();
 ```python
 # Disable auto polling before connecting
 cx.set_auto_poll_events(False)
-cx.connect_usb("COM3")
+cx.connect("COM3")
 
 # In your main loop
 def main_loop():
@@ -384,7 +402,7 @@ def main_loop():
 :::
 ::::
 
-### WPILib Alerts Integration
+### WPILib alerts integration
 
 ```{note}
 WPILib alerts are only available in the Java/C++ vendordep.
@@ -406,16 +424,16 @@ m_cx.SetAlertsEnabled(false);
 :::
 ::::
 
-## System Commands
+## System commands
 
-### Restart Device
+### Restart device
 
-Restart a device from code—useful for error recovery or applying configuration changes.
+Restart a device from code, for example to recover from an error. With firmware 4.4 and later, you don't need to restart after applying a configuration; see [Device configuration](device-configuration.md#applying-configuration).
 
 ::::{tab-set}
 :::{tab-item} Java (WPILib)
 ```java
-import edu.wpi.first.units.Units;
+import org.wpilib.units.Units;
 
 // Restart immediately
 cXAnimate.RestartDevice(Units.Milliseconds.of(0));
@@ -426,7 +444,7 @@ cXAnimate.RestartDevice(Units.Seconds.of(1));
 :::
 :::{tab-item} C++ (WPILib)
 ```cpp
-#include <units/time.h>
+#include <wpi/units/time.hpp>
 
 // Restart immediately
 m_cx.RestartDevice(0_ms);

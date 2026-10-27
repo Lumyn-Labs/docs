@@ -2,15 +2,15 @@
 hide-toc: true
 ---
 
-# LED Strip Animations
+# LED strip animations
 
 Control LED strips with solid colors, built-in animations, and animation sequences.
 
-## Setting Colors
+## Setting colors
 
 Display a solid color on a zone or group using the `Fill` animation.
 
-### Single Zone
+### Single zone
 
 ::::{tab-set}
 :sync-group: language
@@ -19,8 +19,8 @@ Display a solid color on a zone or group using the `Fill` animation.
 :sync: java
 
 ```java
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.units.Units;
+import org.wpilib.util.Color;
+import org.wpilib.units.Units;
 import com.lumynlabs.domain.led.Animation;
 
 cXAnimate.leds.SetAnimation(Animation.Fill)
@@ -34,14 +34,14 @@ cXAnimate.leds.SetAnimation(Animation.Fill)
 :sync: cpp
 
 ```cpp
-#include <frc/util/Color.h>
-#include <units/time.h>
+#include <wpi/util/Color.hpp>
+#include <wpi/units/time.hpp>
 #include <lumyn/led/Animation.h>
 
-// Use frc::Color8Bit(r, g, b).ToColor() for 0-255 RGB values.
+// Use wpi::util::Color{r, g, b} for 0-255 RGB values.
 m_animate.SetAnimation(lumyn::led::Animation::Fill)
     .ForZone("left-climber")
-    .WithColor(frc::Color8Bit(255, 0, 0).ToColor())
+    .WithColor(wpi::util::Color{255, 0, 0})
     .WithDelay(0_ms)
     .RunOnce(false);
 ```
@@ -83,7 +83,7 @@ lumyn_SetAnimation(LUMYN_BASE_PTR(&cx), "left-climber",
 :::
 ::::
 
-### Zone Groups
+### Zone groups
 
 Display a solid color on multiple zones:
 
@@ -107,7 +107,7 @@ cXAnimate.leds.SetAnimation(Animation.Fill)
 ```cpp
 m_animate.SetAnimation(lumyn::led::Animation::Fill)
     .ForGroup("all-climbers")
-    .WithColor(frc::Color8Bit(0, 255, 0).ToColor())
+    .WithColor(wpi::util::Color{0, 255, 0})
     .WithDelay(0_ms)
     .RunOnce(false);
 ```
@@ -149,11 +149,13 @@ lumyn_SetGroupAnimation(LUMYN_BASE_PTR(&cx), "all-climbers",
 :::
 ::::
 
-## Built-in Animations
+## Built-in animations
 
 Use the builder API to configure and play animations. The builder pattern provides a fluent interface for setting animation parameters.
 
-### Available Animations
+### Available animations
+
+There are 37 built-in animations, plus `None`. The last 11 in the table, from `Strobe` on, need firmware 4.4 or later. The six marked *Matrix only* run only on a matrix zone; a strip zone refuses them.
 
 | Animation | Description |
 |-----------|-------------|
@@ -183,8 +185,19 @@ Use the builder API to configure and play animations. The builder pattern provid
 | `Lava` | Lava lamp effect |
 | `Plasma` | Plasma effect |
 | `Heartbeat` | Heartbeat pattern |
+| `Strobe` | Short hard flashes in bursts of three, with a pause between bursts |
+| `Wipe` | Fills along the zone, holds, then clears in the same direction |
+| `Fireworks` | Rockets climb and burst into sparks that fall and fade |
+| `Aurora` | Northern lights: bright rays that sway and shift toward purple |
+| `Converge` | Two bars glide in from the ends, flash when they meet, and start over |
+| `Starfield` | Stars stream out of the center as streaks. *Matrix only* |
+| `Snake` | A snake that plays itself, chasing an apple. *Matrix only* |
+| `DigitalRain` | Streams fall down the columns with bright heads and fading tails. *Matrix only* |
+| `Drops` | Raindrops on a pond: rings start at random points and fade as they spread. *Matrix only* |
+| `Monitor` | A heart monitor's trace sweeps across the matrix. *Matrix only* |
+| `BouncingBalls` | Balls drop, bounce off the walls and each other, and slow down. *Matrix only* |
 
-### Animation Builder
+### Animation builder
 
 The builder API follows this pattern:
 
@@ -206,8 +219,8 @@ In C++/Java, you can end the builder chain with either `.RunOnce(false)` or `.ex
 :sync: java
 
 ```java
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.units.Units;
+import org.wpilib.util.Color;
+import org.wpilib.units.Units;
 import com.lumynlabs.domain.led.Animation;
 
 // Gold chase animation, 40ms between frames, looping
@@ -241,15 +254,15 @@ cXAnimate.leds.SetAnimation(Animation.RainbowRoll)
 ```cpp
 #include <lumyn/device/ConnectorXAnimate.h>
 #include <lumyn/led/Animation.h>
-#include <frc/util/Color.h>
-#include <units/time.h>
+#include <wpi/util/Color.hpp>
+#include <wpi/units/time.hpp>
 
 using lumyn::led::Animation;
 
 // Gold chase animation, 40ms between frames, looping
 m_animate.SetAnimation(Animation::Chase)
     .ForZone("left-climber")
-    .WithColor(frc::Color8Bit(200, 120, 15).ToColor())
+    .WithColor(wpi::util::Color{200, 120, 15})
     .WithDelay(40_ms)
     .Reverse(false)
     .RunOnce(false);
@@ -257,7 +270,7 @@ m_animate.SetAnimation(Animation::Chase)
 // Red chase on a group, reversed, runs once
 m_animate.SetAnimation(Animation::Chase)
     .ForGroup("right-climber")
-    .WithColor(frc::Color8Bit(255, 0, 0).ToColor())
+    .WithColor(wpi::util::Color{255, 0, 0})
     .WithDelay(40_ms)
     .Reverse(true)
     .RunOnce(true);
@@ -265,7 +278,7 @@ m_animate.SetAnimation(Animation::Chase)
 // Rainbow roll animation
 m_animate.SetAnimation(Animation::RainbowRoll)
     .ForZone("front")
-    .WithColor(frc::Color8Bit(255, 255, 255).ToColor())
+    .WithColor(wpi::util::Color{255, 255, 255})
     .WithDelay(50_ms)
     .Reverse(false)
     .RunOnce(false);
@@ -335,7 +348,7 @@ lumyn_SetAnimation(LUMYN_BASE_PTR(&cx), "right-climber",
 :::
 ::::
 
-## Animation Sequences
+## Animation sequences
 
 Animation sequences are predefined patterns configured on the device (via Lumyn Studio or configuration files). They chain multiple animations together with timing. Each step in a sequence has its own animation type, color, delay, direction, and optional repeat count.
 
@@ -347,7 +360,7 @@ Animation sequences **play once** and stop. They do not loop. After the last ste
 Starting a new animation with `SetAnimation` while a sequence is playing will **cancel the sequence** and replace it with the new animation.
 ```
 
-### Playing a Sequence
+### Playing a sequence
 
 ::::{tab-set}
 :::{tab-item} Java (WPILib)
@@ -392,7 +405,7 @@ lumyn_SetGroupAnimationSequence(LUMYN_BASE_PTR(&cx), "all-intake", "intake-seque
 :::
 ::::
 
-### Creating Sequences
+### Creating sequences
 
 Animation sequences are typically created in Lumyn Studio:
 
@@ -402,9 +415,9 @@ Animation sequences are typically created in Lumyn Studio:
 4. Use the preview to visualize the sequence
 5. Save and export to your device
 
-See [Animation Sequences](../user-guide/animation-sequences) in the Lumyn Studio Guide for details.
+See [Animation sequences](../user-guide/animation-sequences) in the Lumyn Studio guide for details.
 
-## Zones vs Groups
+## Zones vs groups
 
 Understanding zones and groups is key to effective LED control:
 

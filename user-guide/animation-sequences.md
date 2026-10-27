@@ -2,7 +2,7 @@
 hide-toc: true
 ---
 
-# Animation Sequences
+# Animation sequences
 
 Create and edit animation sequences, then add them to a device configuration.
 
@@ -24,7 +24,7 @@ Studio includes 26 built-in animations: Fill, Blink, Breathe, RainbowRoll, SineR
 :alt: Creating a new animation sequence
 ```
 
-## Editing a Sequence
+## Editing a sequence
 
 Use the editor to add, remove, and reorder steps.
 
@@ -37,8 +37,8 @@ Use the editor to add, remove, and reorder steps.
 - **Left column — Animations**: Search box, sort (Name, Speed, Complexity), and a grid of animation preview cards. Click a card to add or edit a step.
 - **Right column — Sequence steps**: Play/stop for the whole sequence, a step navigation slider with previous/next, and an expandable list of steps. Each step shows the animation name, delay, iterations, reversed state, and color. Expand a step to edit delay (ms), iterations (1–20), reversed, and color. Use **Add Step**, **Duplicate**, **Move Up**, **Move Down**, and **Remove** to manage steps.
 
-## Next Steps
+## Next steps
 
-- [Image Sequences](image-sequences-matrix)
+- [Image sequences](image-sequences-matrix)
 - [Modules](modules)
-- [Saving & Exporting Configurations](saving-and-exporting-configurations)
+- [Saving and exporting configurations](saving-and-exporting-configurations)

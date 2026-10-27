@@ -2,7 +2,7 @@
 hide-toc: true
 ---
 
-# Device Configuration
+# Device configuration
 
 Load, build, and apply device configurations programmatically.
 
@@ -15,7 +15,7 @@ Device configurations define your LED channels, zones, groups, and modules. You 
 - Request the current configuration from a connected device
 - Apply configurations to hardware or simulation
 
-## Loading from File
+## Loading from file
 
 Load a JSON configuration from your project's deploy directory (WPILib) or any file path (Python).
 
@@ -120,7 +120,7 @@ free(config_json);
 
 Build configurations programmatically using the fluent builder API.
 
-### Basic Configuration
+### Basic configuration
 
 ::::{tab-set}
 :sync-group: language
@@ -155,7 +155,7 @@ mCx.ApplyConfiguration(cfg);
 lumyn::config::ConfigBuilder builder;
 auto cfg = builder
     .ForTeam("9993")
-    .SetNetworkType(lumyn::internal::Configuration::NetworkType::USB)
+    .SetNetworkType(lumyn::config::NetworkType::USB)
     .AddChannel(1, "main-channel", 120)
         .AddStripZone("front", 60)
         .AddStripZone("back", 60)
@@ -244,7 +244,7 @@ lumyn_ApplyConfig(&cx.base, config_json, strlen(config_json));
 :::
 ::::
 
-### With Matrix Zones
+### With matrix zones
 
 ::::{tab-set}
 :sync-group: language
@@ -268,7 +268,7 @@ LumynDeviceConfig cfg = builder
 ```cpp
 auto cfg = builder
     .ForTeam("9993")
-    .SetNetworkType(lumyn::internal::Configuration::NetworkType::USB)
+    .SetNetworkType(lumyn::config::NetworkType::USB)
     .AddChannel(1, "main-channel", 316)
         .AddStripZone("strip", 60)
         .AddMatrixZone("front-matrix", 16, 16)
@@ -292,7 +292,7 @@ config = ConfigBuilder() \
 :::
 ::::
 
-### With Modules
+### With modules
 
 ::::{tab-set}
 :sync-group: language
@@ -321,7 +321,7 @@ LumynDeviceConfig cfg = builder
 ```cpp
 auto cfg = builder
     .ForTeam("9993")
-    .SetNetworkType(lumyn::internal::Configuration::NetworkType::USB)
+    .SetNetworkType(lumyn::config::NetworkType::USB)
     .AddChannel(1, "main-channel", 60)
         .AddStripZone("strip", 60)
         .EndChannel()
@@ -355,9 +355,11 @@ config = ConfigBuilder() \
 :::
 ::::
 
-## Requesting from Device
+## Requesting from device
 
 Retrieve the current configuration from a connected device.
+
+In a WPILib robot program, `RequestConfig` returns a `RequestedConfig` at once and never blocks the robot thread. The board's answer arrives in the background. Check the result later: `isDone()` and `succeeded()` in Java, `IsDone()` and `Succeeded()` in C++. Once it succeeded, `getConfig()` (Java) or `GetConfig()` (C++) returns the configuration. If it failed, `getReason()` or `GetReason()` says why: the board isn't connected, it didn't answer, or its answer isn't a configuration.
 
 ::::{tab-set}
 :sync-group: language
@@ -365,20 +367,27 @@ Retrieve the current configuration from a connected device.
 :::{tab-item} Java (WPILib)
 :sync: java
 ```java
-Optional<LumynDeviceConfig> config = mCx.RequestConfig();
-config.ifPresent(cfg -> {
-    System.out.println("Channels: " + cfg.channels.size());
-    // Use the config as needed
-});
+// When the robot starts:
+RequestedConfig requested = mCx.RequestConfig();
+
+// Later, in a periodic method:
+if (requested.isDone() && requested.succeeded()) {
+    requested.getConfig().ifPresent(cfg -> System.out.println("Channels: " + cfg.channels.size()));
+}
 ```
 :::
 
 :::{tab-item} C++ (WPILib)
 :sync: cpp
 ```cpp
-auto config = m_cx.RequestConfig();
-if (config) {
-    std::cout << "Channels: " << config->channels.size() << std::endl;
+// When the robot starts:
+lumyn::config::RequestedConfig requested = m_cx.RequestConfig();
+
+// Later, in a periodic method:
+if (requested.IsDone() && requested.Succeeded()) {
+    if (auto config = requested.GetConfig()) {
+        std::cout << "Channels: " << (config->channels ? config->channels->size() : 0) << std::endl;
+    }
 }
 ```
 :::
@@ -419,12 +428,42 @@ if (err == LUMYN_OK && config_json) {
 :::
 ::::
 
-## Applying Configuration
+## Applying configuration
 
-`ApplyConfiguration` works identically for hardware and simulation:
+`ApplyConfiguration` works the same way for hardware and simulation:
 
-- **Hardware**: Sends the configuration to the connected device
-- **Simulation**: Drives the WPILib simulator UI
+- **Hardware**: sends the configuration to the connected board.
+- **Simulation**: drives the WPILib simulator.
+
+With firmware 4.4 and later, the board starts using a configuration as soon as it receives it, and saves it as the configuration it loads at the next power-up. You don't need to restart the board. Two exceptions:
+
+- If the board can't parse the configuration, it refuses it and keeps running its saved configuration. The [Configuration file reference](../config-reference.md#configurations-the-board-refuses) lists what the board refuses.
+- A change to the network transport (`network.mode`) takes effect the next time the board starts.
+
+Firmware earlier than 4.4 uses a new configuration only after the board restarts.
+
+The call to apply a configuration in each SDK:
+
+| SDK | Call |
+|---|---|
+| WPILib Java | `ApplyConfiguration(cfg)` or `applyConfiguration(cfg)` |
+| WPILib C++ | `ApplyConfiguration(cfg)` |
+| Python | `apply_configuration_json(json_text)` |
+| Standalone C++ | `ApplyConfigurationJson(json_text)` |
+| C | `lumyn_ApplyConfig(device, json, json_len)` |
+
+In a WPILib robot program, `ApplyConfiguration` returns a `ConfigResult` at once and never blocks the robot thread. The vendordep sends the configuration and checks it in the background. Later, check the result:
+
+| Java | C++ | Meaning |
+|---|---|---|
+| `isDone()` | `IsDone()` | The check has finished. |
+| `succeeded()` | `Succeeded()` | The board is running that configuration. |
+| `getReason()` | `GetReason()` | Why it failed: `NotConnected`, `TooLarge`, `Refused` or `NoAnswer` (`kNotConnected` and so on in C++). |
+| `getReasonText()` | `GetReasonText()` | The reason as a short sentence. |
+
+If the configuration isn't applied, the Driver Station also shows a warning: `[Lumyn] The config was not applied:` followed by the reason.
+
+A configuration applied right after `Connect` waits up to 10 seconds for that connection, so you can apply it in the `Robot` constructor. If the board hasn't connected by then, the result fails with `NotConnected`. `RequestConfig` waits the same way.
 
 ::::{tab-set}
 :sync-group: language
@@ -432,14 +471,26 @@ if (err == LUMYN_OK && config_json) {
 :::{tab-item} Java (WPILib)
 :sync: java
 ```java
-mCx.ApplyConfiguration(cfg);
+// When the robot starts:
+ConfigResult result = mCx.ApplyConfiguration(cfg);
+
+// Later, in a periodic method:
+if (result.isDone() && !result.succeeded()) {
+    System.out.println("Config not applied: " + result.getReasonText());
+}
 ```
 :::
 
 :::{tab-item} C++ (WPILib)
 :sync: cpp
 ```cpp
-m_cx.ApplyConfiguration(cfg);
+// When the robot starts:
+lumyn::config::ConfigResult result = m_cx.ApplyConfiguration(cfg);
+
+// Later, in a periodic method:
+if (result.IsDone() && !result.Succeeded()) {
+    std::cout << "Config not applied: " << result.GetReasonText() << std::endl;
+}
 ```
 :::
 
@@ -477,7 +528,7 @@ lumyn_ApplyConfig(&cx.base, config_json, strlen(config_json));
 :::
 ::::
 
-## SDK Example Config JSONs (Standalone C/C++)
+## SDK example config JSONs (standalone C/C++)
 
 These are the exact configs used by the tested standalone example programs.
 
