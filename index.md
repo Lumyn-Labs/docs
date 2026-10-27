@@ -32,11 +32,11 @@ What ConnectorX devices are and how they differ.
 Configure devices with our web application.
 :::
 
-:::{grid-item-card} What's new in 2026
+:::{grid-item-card} What's new in 2027
 :link: whats-new
 :link-type: doc
 
-Latest hardware, software features, and API changes.
+Firmware 4.4, the refreshed Lumyn Studio, WPILib 2027, and how to upgrade.
 :::
 
 ::::

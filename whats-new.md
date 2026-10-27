@@ -2,491 +2,162 @@
 hide-toc: true
 ---
 
-# What's new in 2026
+# What's new in 2027
 
-Welcome to the next generation of the Lumyn Labs software ecosystem! For 2026, we've rebuilt our entire software stack from the ground up based on your feedback to be faster, more powerful, and easier to use.
-
-This massive free update brings a more powerful **Vendordep** for robot code, a smarter **Lumyn Studio** for configuration (including stream uploads, OTA firmware updates, and the Motion Editor), faster **Firmware**, and **standalone SDKs** for Python, C, and C++ outside the WPILib ecosystem.
+This release brings firmware 4.4, a refreshed Lumyn Studio, and a vendordep for WPILib 2027 on SystemCore. Read [Upgrading from 2026](#upgrading-from-2026) before you update a board or a robot project.
 
 ---
 
-## Vendordep and simulation upgrades
+## Firmware 4.4
 
-### Full SimGUI integration
+### 37 animations
 
-We are the **first FRC vendor** to offer a custom GUI inside of WPILib's SimGUI. Our simulation environment provides three powerful tabs:
+Eleven animations are new: Strobe, Wipe, Fireworks, Aurora, Converge, Starfield, Snake, DigitalRain, Drops, Monitor, and BouncingBalls. Six of them run on matrix zones only: Starfield, Snake, DigitalRain, Drops, Monitor, and BouncingBalls. The other five run on strips and matrices. That makes 37 animations in all. See [Available animations](programming-guide/led-animations.md#available-animations).
 
-- **LEDs Tab**: Real-time visualization of LED strips and matrices with responsive multi-row layouts, live animation playback, matrix text scrolling, and image sequence rendering
-- **Modules Tab**: Interactive controls for testing module data—compose payloads, inject data, and trigger callbacks without hardware
-- **Device Tab**: Simulate connection states, device status, SKU variants, and inject custom events to test your error handling
+Every built-in animation has its own default color, and each one is redrawn so the board, the simulator, and Lumyn Studio show the same thing.
 
-Test animations, validate module callbacks, and inject fake sensor data—all without a physical robot.
+### Animations on matrices
 
-### Modern "builder" API
+All 26 earlier animations now play on matrix zones, sized to the zone. Before 4.4, matrix zones refused them. See [LED matrices](programming-guide/led-matrices.md).
 
-Say goodbye to long parameter lists! The new builder-style API makes your code more readable and self-documenting. Every LED command now supports the fluent builder pattern.
+### Color accuracy
+
+LEDs now show the color you picked. Dim and middle colors aren't washed out, grays stay gray, and a dimmed color keeps its hue. Colors you tuned on firmware 4.3 look different; see [Upgrading from 2026](#upgrading-from-2026).
+
+### Live config
+
+A configuration you upload is used at once, with no restart, and is saved for the next power-up. Zones that didn't change keep playing. A configuration the board can't parse is refused, and the saved one keeps running. See [Configurations the board refuses](config-reference.md#configurations-the-board-refuses).
+
+### Reliability
+
+If the firmware crashes, the board reboots and reports what failed instead of freezing with USB dead. Errors found before a host connects are sent when one does.
+
+---
+
+## Lumyn Studio
+
+Lumyn Studio has a new look, new navigation, and redesigned device, module, sequence, and image pages. See the [Lumyn Studio guide](user-guide/index).
+
+- **Live LED preview**: The preview shows what the selected zone is displaying, read from the board. It needs firmware 4.4.
+- **Animation previews**: Studio previews all 37 animations, on strips and on matrices, with the same animation code as the board.
+- **Code page**: Each device has a Code page with Java and C++ snippets for its zones, groups, and sequences. The snippets are for WPILib 2027 on SystemCore.
+- **Live config**: With firmware 4.4, an uploaded configuration is used at once. Studio reads it back to confirm, and tells you if the board refused it and kept its saved one.
+
+---
+
+## WPILib 2027 and SystemCore
+
+The vendordep builds against WPILib 2027 and runs on SystemCore. Robot projects use GradleRIO 2027.0.0-alpha-8 and Java 25. See [Getting started with the WPILib vendordep](programming-guide/getting-started-wpilib).
+
+### ApplyConfiguration returns a ConfigResult
+
+`ApplyConfiguration` returns a `ConfigResult` at once and never blocks the robot thread. Check it later to see whether the board is running the configuration. See [Applying configuration](programming-guide/device-configuration.md#applying-configuration).
 
 ::::{tab-set}
+:sync-group: language
+
 :::{tab-item} Java (WPILib)
+:sync: java
 ```java
-import org.wpilib.util.Color8Bit;
+// When the robot starts:
+ConfigResult result = mCx.ApplyConfiguration(cfg);
+
+// Later, in a periodic method:
+if (result.isDone() && !result.succeeded()) {
+    System.out.println("Config not applied: " + result.getReasonText());
+}
+```
+:::
+
+:::{tab-item} C++ (WPILib)
+:sync: cpp
+```cpp
+// When the robot starts:
+lumyn::config::ConfigResult result = m_cx.ApplyConfiguration(cfg);
+
+// Later, in a periodic method:
+if (result.IsDone() && !result.Succeeded()) {
+    std::cout << "Config not applied: " << result.GetReasonText() << std::endl;
+}
+```
+:::
+::::
+
+### Robot code never blocks
+
+`Connect(USBPort)` returns at once. The vendordep finds, opens, and greets the board in the background, and connects again if the board is unplugged and plugged back in. Check `IsConnected()` later. `RequestConfig()` also returns at once. See [Connecting to devices](programming-guide/connecting-to-devices).
+
+Commands you send while the board isn't connected wait and go out in order once it connects.
+
+### Send JSON to a custom module
+
+Robot code can send JSON to a custom module with `SendModuleJson(moduleId, json)`, up to about 4 KB per send. See [Modules and sensors](programming-guide/modules-and-sensors).
+
+### Animation builders
+
+Builders are the way to play an animation, a text scroll, or an image sequence.
+
+::::{tab-set}
+:sync-group: language
+
+:::{tab-item} Java (WPILib)
+:sync: java
+```java
 import org.wpilib.util.Color;
 import org.wpilib.units.Units;
 import com.lumynlabs.domain.led.Animation;
 
-// Clean, readable builder syntax
 cXAnimate.leds.SetAnimation(Animation.Chase)
-  .ForZone("left-climber")
-  .WithColor(new Color(new Color8Bit(200, 120, 15)))
-  .WithDelay(Units.Milliseconds.of(40))
-  .Reverse(false)
-  .RunOnce(false);
-
-// Image sequences with the builder API
-cXAnimate.leds.SetImageSequence("Emoji_16x16_unknown")
-  .ForZone("front-matrix")
-  .WithColor(new Color(new Color8Bit(120, 0, 100)))
-  .SetColor(true)
-  .RunOnce(false);
-
-// Scrolling text on matrices
-cXAnimate.leds.SetText("Hello World!")
-  .ForZone("front-matrix")
-  .WithColor(new Color(new Color8Bit(255, 255, 255)))
-  .WithDirection(MatrixTextScrollDirection.Left)
-  .WithDelay(Units.Milliseconds.of(300))
-  .RunOnce(false);
+    .ForZone("left-climber")
+    .WithColor(new Color(0.78, 0.47, 0.06))
+    .WithDelay(Units.Milliseconds.of(40))
+    .Reverse(false)
+    .RunOnce(false);
 ```
 :::
+
 :::{tab-item} C++ (WPILib)
+:sync: cpp
 ```cpp
 #include <lumyn/led/Animation.h>
-#include <wpi/util/Color8Bit.hpp>
+#include <wpi/util/Color.hpp>
 #include <wpi/units/time.hpp>
 
-// Clean, readable builder syntax
 m_animate.SetAnimation(lumyn::led::Animation::Chase)
     .ForZone("left-climber")
     .WithColor(wpi::util::Color{200, 120, 15})
     .WithDelay(40_ms)
     .Reverse(false)
     .RunOnce(false);
-
-// Image sequences with the builder API
-m_animate.SetImageSequence("Emoji_16x16_unknown")
-    .ForZone("front-matrix")
-    .WithColor(wpi::util::Color{120, 0, 100})
-    .SetColor(true)
-    .RunOnce(false);
-
-// Scrolling text on matrices
-m_animate.SetText("Hello World!")
-    .ForZone("front-matrix")
-    .WithColor(wpi::util::Color{255, 255, 255})
-    .WithDirection(lumyn::led::MatrixTextScrollDirection::LEFT)
-    .WithDelay(300_ms)
-    .RunOnce(false);
 ```
 :::
 ::::
 
-```{note}
-The builders are the only way to play an animation. The older `SetAnimation` and `SetGroupAnimation` methods that take a zone or group ID are removed. The other direct method calls are deprecated and will be removed in 2027. Please migrate to the builder API.
-```
-
-### Matrix text formatting
-
-Matrix text gained formatting controls for cleaner layouts and better readability:
-
-- Alignment, no-scroll/static text, and vertical offsets
-- Background colors with optional background rendering
-- Smooth scrolling and ping-pong behavior
-- Expanded font choices for different matrix sizes
-
-### DirectLED: Efficient LED buffer publishing
-
-DirectLED provides LED buffer publishing for high-rate per-pixel control with minimal bandwidth. Use it to bring animations written with the WPILib LED animation API to the ConnectorX. It is available on ConnectorX and ConnectorX Animate (Java: `cXAnimate.leds.createDirectLED(...)`).
-
-::::{tab-set}
-:::{tab-item} Java (WPILib)
-```java
-import com.lumynlabs.devices.ConnectorX;
-import com.lumynlabs.domain.led.DirectLED;
-import org.wpilib.units.measure.Distance;
-import org.wpilib.hardware.led.AddressableLEDBuffer;
-import org.wpilib.hardware.led.LEDPattern;
-import static org.wpilib.units.Units.Meters;
-import static org.wpilib.units.Units.MetersPerSecond;
-
-ConnectorX cx = new ConnectorX();
-DirectLED direct = cx.createDirectLED("strip-zone", 60);
-AddressableLEDBuffer buffer = new AddressableLEDBuffer(60);
-
-Distance ledSpacing = Meters.of(1.0 / 120.0); // 120 LEDs per meter
-LEDPattern rainbow = LEDPattern.rainbow(255, 128);
-LEDPattern scrolling = rainbow.scrollAtAbsoluteVelocity(MetersPerSecond.of(0.1), ledSpacing);
-
-scrolling.applyTo(buffer);
-direct.update(buffer);
-```
-:::
-:::{tab-item} C++ (WPILib)
-```cpp
-#include <lumyn/device/ConnectorX.h>
-#include <lumyn/device/DirectLED.h>
-#include <wpi/hardware/led/AddressableLED.hpp>
-#include <wpi/hardware/led/LEDPattern.hpp>
-#include <wpi/units/length.hpp>
-#include <wpi/units/velocity.hpp>
-#include <memory>
-
-constexpr int kStripLength = 60;
-constexpr wpi::units::meter_t kLedSpacing{1.0 / 120.0};
-
-lumyn::device::ConnectorX cx;
-auto direct = std::make_unique<lumyn::device::DirectLED>(
-    cx.CreateDirectLED("strip-zone", kStripLength));
-
-std::array<wpi::AddressableLED::LEDData, kStripLength> buffer;
-auto rainbow = wpi::LEDPattern::Rainbow(255, 128);
-auto scrolling = rainbow.ScrollAtAbsoluteVelocity(0.1_mps, kLedSpacing);
-
-scrolling.ApplyTo(buffer);
-direct->Update(buffer);
-```
-:::
-::::
-
-### New connection options
-
-ConnectorX now supports **UART connections** with configurable baud rates, in addition to USB.
-
-```{note}
-UART doesn't connect on SystemCore yet: `Connect(UARTPort...)` logs an error and returns `false`. On SystemCore, connect over USB. See [Connecting to devices](programming-guide/connecting-to-devices).
-```
-
-::::{tab-set}
-:::{tab-item} Java (WPILib)
-```java
-import com.lumynlabs.connection.usb.USBPort;
-import com.lumynlabs.connection.uart.UARTPort;
-
-// USB connections (both ConnectorX and ConnectorX Animate) start in the
-// background; check IsConnected() later
-cXAnimate.Connect(USBPort.kUSB1);
-
-// UART connections with custom baud rate (ConnectorX only)
-boolean uartConnected = cX.Connect(UARTPort.MXP, 230400);
-```
-:::
-:::{tab-item} C++ (WPILib)
-```cpp
-#include <lumyn/connection/USBPort.h>
-#include <lumyn/connection/UARTPort.h>
-
-// USB connections start in the background; check IsConnected() later
-m_animate.Connect(lumyn::connection::USBPort::kUSB1);
-
-// UART connections with custom baud rate (ConnectorX only)
-bool uartConnected = m_cx.Connect(lumyn::connection::UARTPort::kMXP, 230400);
-```
-:::
-::::
-
-### NetworkTables integration and persistent alerts
-
-All device states are automatically published to NetworkTables for easier debugging. Get clear, actionable [persistent alerts](https://frcdocs.wpi.edu/en/latest/docs/software/telemetry/persistent-alerts.html) directly in the Driver Station for connection issues, errors, and device status changes.
-
-```java
-// Alerts are enabled by default - disable if you prefer manual control
-cXAnimate.SetAlertsEnabled(false);
-```
-
-### Modules V2: Push-pull architecture
-
-The new module system features automatic background polling with support for arbitrary-length data payloads. No more manual polling loops!
-
-**New Features:**
-- Automatic background data polling (independent of event polling)
-- Support for arbitrary-length payloads
-- Typed module helpers with automatic payload parsing
-- Built-in modules: `DigitalInput`, `AnalogInput` (with scaling/mapping), `VL53L1X` (ToF sensor)
-
-::::{tab-set}
-:::{tab-item} Java (WPILib)
-```java
-import com.lumynlabs.modules.DigitalInputModule;
-import com.lumynlabs.modules.AnalogInputModule;
-import com.lumynlabs.modules.VL53L1XModule;
-
-// Create typed module helpers - they handle parsing automatically
-DigitalInputModule dioModule = new DigitalInputModule(cX, "digital-input");
-AnalogInputModule analogModule = new AnalogInputModule(cX, "analog-input");
-VL53L1XModule tofModule = new VL53L1XModule(cX, "tof-sensor");
-
-// Poll for data with automatic type conversion
-var dioResult = dioModule.get();
-if (dioResult.ok() && !dioResult.value().isEmpty()) {
-  for (var payload : dioResult.value()) {
-    System.out.printf("[DIO] state=%d%n", payload.state);
-  }
-}
-
-// Or use the callback API for real-time updates
-cX.modules.RegisterModule("test-dio", (entry) -> {
-    DigitalInputModule.Payload payload = new DigitalInputModule.Payload();
-    try {
-        ModuleHandler.ExtractData(payload, entry);
-        System.out.println("State: " + payload.state);
-    } catch (IllegalAccessException e) {
-        System.out.println("Parse error: " + e);
-    }
-});
-```
-:::
-:::{tab-item} C++ (WPILib)
-```cpp
-#include <lumyn/modules/DigitalInputModule.h>
-
-// Register a callback for automatic background updates
-struct DigitalInputPayload { uint8_t state; };
-m_cx.RegisterModule("test-dio", [this](uint16_t unitId, const std::vector<uint8_t>& payload) {
-    auto parsed = m_cx.ExtractFromPayload<DigitalInputPayload>(payload);
-    std::cout << "Module " << unitId << " state: " << static_cast<int>(parsed.state) << std::endl;
-});
-
-// Or poll manually when you prefer
-std::vector<std::pair<uint16_t, std::vector<uint8_t>>> latest;
-if (m_cx.GetLatestModuleData("test-dio", latest)) {
-    for (const auto& [unitId, payload] : latest) {
-        auto parsed = m_cx.ExtractFromPayload<DigitalInputPayload>(payload);
-        // Process data...
-    }
-}
-```
-:::
-::::
-
-### ConfigBuilder: Build configurations in code
-
-New fluent `ConfigBuilder` API lets you construct device configurations programmatically—perfect for dynamic setups or teams who prefer code over JSON files.
-
-::::{tab-set}
-:::{tab-item} Java (WPILib)
-```java
-import com.lumynlabs.domain.config.ConfigBuilder;
-import com.lumynlabs.domain.config.NetworkType;
-
-LumynDeviceConfig cfg = new ConfigBuilder()
-    .forTeam("9993")
-    .setNetworkType(NetworkType.USB)
-    .addChannel(1, "main-channel2", 316)
-        .addStripZone("strip-zone", 60)
-        .addMatrixZone("matrix-zone", 16, 16)
-        .endChannel()
-    .addModule("digital-input", "DigitalInput", 50, "DIO")
-        .withConfig("pin", "DIO0")
-        .endModule()
-    .addModule("analog-input", "AnalogInput", 50, "AIO")
-        .withConfig("pin", "AIO0")
-        .endModule()
-    .build();
-
-mCx.ApplyConfiguration(cfg);
-```
-:::
-:::{tab-item} C++ (WPILib)
-```cpp
-#include <lumyn/configuration/ConfigBuilder.h>
-#include <string>
-
-auto cfg = lumyn::config::ConfigBuilder()
-    .ForTeam("9993")
-    .SetNetworkType(lumyn::config::NetworkType::USB)
-    .AddChannel(1, "main-channel2", 316)
-        .AddStripZone("strip-zone", 60)
-        .AddMatrixZone("matrix-zone", 16, 16)
-        .EndChannel()
-    .AddModule("digital-input", "DigitalInput", 50, "DIO")
-        .WithConfig("pin", std::string("DIO0"))
-        .EndModule()
-    .AddModule("analog-input", "AnalogInput", 50, "AIO")
-        .WithConfig("pin", std::string("AIO0"))
-        .EndModule()
-    .Build();
-
-m_cx.ApplyConfiguration(cfg);
-```
-:::
-::::
-
-### Device configuration API
-
-Load configurations from deploy directory for simulation, request configurations from connected devices, and seamlessly switch between hardware and desktop testing.
-
-::::{tab-set}
-:::{tab-item} Java (WPILib)
-```java
-import com.lumynlabs.domain.config.LumynDeviceConfig;
-import com.lumynlabs.domain.config.RequestedConfig;
-import java.util.Optional;
-
-// Load configuration from deploy directory (works for sim and hardware)
-Optional<LumynDeviceConfig> cfg = mCx.LoadConfigurationFromDeploy("lumyn_config.json");
-cfg.ifPresent(mCx::ApplyConfiguration);
-
-// Request the current configuration from a connected device; it arrives
-// in the background
-RequestedConfig requested = mCx.RequestConfig();
-// Later, in a periodic method
-requested.getConfig().ifPresent(c -> {
-    System.out.println("Loaded " + c.channels.size() + " channels");
-});
-```
-:::
-:::{tab-item} C++ (WPILib)
-```cpp
-#include <lumyn/device/ConnectorX.h>
-
-// Load configuration from deploy directory
-auto config = m_cx.LoadConfigurationFromDeploy("lumyn_config.json");
-if (config) {
-    m_cx.ApplyConfiguration(*config);
-}
-
-// Request configuration from connected device; it arrives in the background
-auto requested = m_cx.RequestConfig();
-// Later, in a periodic method
-if (auto deviceConfig = requested.GetConfig()) {
-    std::cout << "Loaded " << (deviceConfig->channels ? deviceConfig->channels->size() : 0) << " channels" << std::endl;
-}
-```
-:::
-::::
-
-### Unified event system
-
-C++ now supports callback-based event handling, matching Java's API. Both languages also support manual polling with `GetLatestEvent()` and `GetEvents()`. Control whether events are polled automatically in a background thread or manually in your robot loop.
-
-::::{tab-set}
-:::{tab-item} Java (WPILib)
-```java
-// Add event handlers (called by background thread or during polling)
-cXAnimate.AddEventHandler((e) -> {
-    System.out.printf("Event: %d%n", e.type.value);
-});
-
-// Manual polling mode
-cXAnimate.SetAutoPollEvents(false);
-cXAnimate.Connect(USBPort.kUSB1);
-
-// In robotPeriodic
-cXAnimate.PollEvents();  // Dispatches handlers on your thread
-```
-:::
-:::{tab-item} C++ (WPILib)
-```cpp
-// NEW in 2026: Callback-based events in C++ (previously polling-only)
-m_cx.AddEventHandler([](const lumyn::event::Event& event) {
-    std::cout << "Event: " << static_cast<int>(event.header.type) << std::endl;
-});
-
-// Or use polling API
-auto events = m_cx.GetEvents();
-for (auto& evt : events) {
-    // Process events...
-}
-```
-:::
-::::
-
-### System commands
-
-Restart devices programmatically with configurable delays, for example to recover from an error. With firmware 4.4 and later, a new configuration takes effect without a restart.
-
-```java
-import org.wpilib.units.Units;
-
-cXAnimate.RestartDevice(Units.Milliseconds.of(0));  // Restart immediately
-cXAnimate.RestartDevice(Units.Seconds.of(1));       // Restart after 1 second
-```
+See [Animation builder](programming-guide/led-animations.md#animation-builder).
 
 ---
 
-## A smarter Lumyn Studio
+## Coming soon: Lumyn Studio for SystemCore
 
-Our web-based configuration tool has received a major overhaul with a snappier communications stack and powerful new features.
-
-### Configuration sync
-
-When you connect a device, Studio now automatically syncs the configuration from the device. If a different configuration for that device is already saved in Studio, you'll be prompted to choose which version to keep.
-
-```{image} assets/whats-new/new-config.png
-:alt: New Studio Configuration Sync
-```
-
-### Direct config uploads
-
-Upload your configuration JSON directly to any connected device from within Studio—no more manual file transfers!
-
-```{image} assets/whats-new/config-uploads.png
-:alt: Direct Config Uploads
-```
-
-### Redesigned LED Commander
-
-The LED testing utility now uses the configuration on your device to populate its options. Choose from command types including **Animation**, **Animation Sequence**, **Image Sequence**, **Lumyn Animation** (LLA-compatible animations), **Matrix Text Scroll**, and **Color**, with targets filtered for compatibility. It shows a **live preview** of your animations, animation sequences, and image sequences as you send them.
-
-```{image} assets/whats-new/led-commander.png
-:alt: LED Commander
-```
-
-### Preview image sequences at size
-
-Preview your image sequences at the exact resolution of the LED Matrix they will display on.
-
-```{image} assets/whats-new/bing-chilling.png
-:alt: Preview Image Sequences at Size
-```
-
-### OTA firmware updates
-
-Devices running firmware **4.3** and newer support **over-the-air (OTA) firmware updates** from Lumyn Studio. When you connect the device, if a newer firmware version is available, Studio shows a prompt so you can update without entering bootloader mode or copying a UF2 file manually. Follow the on-screen steps in that flow. You can still flash via UF2 from [GitHub Releases](https://github.com/Lumyn-Labs/Releases/releases) if you prefer the bootloader path described in [Drivers and firmware](drivers-and-firmware).
+A stripped-down version of Lumyn Studio that you open from the SystemCore, with no USB cable to your laptop, is coming soon. It will inspect a board's configuration, send LED commands, and show module data. It can't change a configuration or update firmware. We don't have a date yet.
 
 ---
 
-## Motion Editor for image sequences
+## Upgrading from 2026
 
-The image sequence editor for matrix zones is now upgraded with timeline-based editing, vector shapes and text, layers, keyframes, GIF preview, and more. See [Image sequences (matrix)](user-guide/image-sequences-matrix) in the User Guide for how to create and deploy sequences.
+### Before you update a board
 
----
+- **Put a microSD card in the board.** Without one, the board flashes magenta, three quick flashes once a second, and restarts every few seconds until a card is in. Lumyn Studio can't connect and OTA updates can't run in that state. You can still update in bootloader mode. See [Status LED](hardware-wiring-and-power.md#status-led).
+- **Copy your configuration to the card first.** Updating erases the board's internal storage. A board that ran firmware 4.3 without a microSD card loses the configuration it saved there.
+- **Expect different colors.** Middle colors are darker and more saturated, and grays are less purple. Retune RGB values you picked on 4.3. Animations also look different: each has its own default color, and all are redrawn.
+- **Check modules and delays.** A configuration with more modules than the board runs (5 on ConnectorX, 2 on ConnectorX Animate) is refused, and a saved one skips the extra modules. A looping animation can now run up to 10 times its designed speed.
 
-## Faster firmware
+### Before you update robot code
 
-### Performance and stability
+- **Use WPILib 2027 and SystemCore.** The vendordep needs WPILib 2027.0.0-alpha-8 and Java 25. roboRIO robots stay on the 2026 vendordep. Apply WPILib's own 2027 renames: `org.wpilib.util.Color`, `org.wpilib.units`, and `org.wpilib.hardware.led.AddressableLEDBuffer` in Java, and `wpi::util::Color` and `wpi::units::millisecond_t` in C++.
+- **Use builders.** The direct calls that take a zone or group ID are removed: `SetAnimation`, `SetGroupAnimation`, `SetText`, `SetGroupText`, `SetImageSequence`, and `SetGroupImageSequence`. Use `SetAnimation(Animation.Chase).ForZone("front")`, `SetText("HI").ForZone("matrix")`, or `SetImageSequence("id").ForZone("matrix")`. Use `ForGroup(...)` for groups. `SetColor` and `SetAnimationSequence` stay.
+- **Handle the ConfigResult.** Code that ignores it still compiles. With a board older than firmware 4.4, `ApplyConfiguration` restarts the board first.
+- **Use public C++ names.** Names in `lumyn::internal` are removed. Use `lumyn::event::Event`, `lumyn::config::NetworkType`, and `lumyn::led::MatrixTextScrollDirection`. In Java, use `ConfigBuilder` instead of `LumynDeviceConfig.Builder`.
+- **Don't expect UART on SystemCore yet.** `Connect(UARTPort...)` logs an error and returns `false`. Connect over USB. See [UART connection](programming-guide/connecting-to-devices.md#uart-connection-connectorx-only).
 
-Our V2 firmware is our fastest and most stable firmware yet, with improved response times and reliability.
-
-### 13 new stunning animations
-
-Express your robot's personality with 13 brand-new animations, including **Fire**, **Plasma**, **Confetti**, and more! Use the interactive widget below to try them out:
-
-<iframe src="https://widgets.lumynlabs.com/animations-widget?default=fire" height="330" width="100%" frameborder="0" loading="lazy"></iframe>
-
----
-
-## Python SDK
-
-The **Python SDK** is available on PyPI for desktop, Raspberry Pi, and other hosts. It offers a Pythonic API for LED control, modules, events, DirectLED, and configuration—with parity to the capabilities you get from the WPILib vendordep, outside the FRC robot stack. Install with **uv**, connect over USB or UART, and follow [Getting started with Python SDK](programming-guide/getting-started-python). The SDK remains under active development; report issues to [support@lumynlabs.com](mailto:support@lumynlabs.com).
-
----
-
-## C SDK
-
-The **standalone C SDK** ships as pre-built releases for Windows, Linux, and macOS (and supports embedded Linux targets). Use it for custom applications, tooling, and embedded hosts where you want a native C API and maximum control. Download binaries and walk through examples in [Getting started with C/C++ SDK](programming-guide/getting-started-c-cpp-sdk).
-
----
-
-## C++ SDK
-
-The **standalone C++ SDK** shares packaging and documentation with the C SDK and targets the same platforms. Use it for C++ applications outside WPILib—desktop tools, services, or embedded Linux—while keeping the same wire protocol as other Lumyn clients. See [Getting started with C/C++ SDK](programming-guide/getting-started-c-cpp-sdk) for C++-specific examples and error handling.
+The [changelog](changelog) lists every change in this release. If you hit a problem, see the [troubleshooting FAQ](troubleshooting-faq) or write to [support@lumynlabs.com](mailto:support@lumynlabs.com).
