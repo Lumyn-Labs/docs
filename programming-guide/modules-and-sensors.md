@@ -395,6 +395,68 @@ lumyn_RegisterModule(LUMYN_BASE_PTR(&cx), "custom-module", module_callback, NULL
 :::
 ::::
 
+## Send JSON to a module
+
+Robot code can send JSON to a module on the device. A custom module receives it in its `handleReceivedJson()` (see the [firmware starters](../advanced-topics.md)). Each send holds about 4 KB of JSON. Name the module by its ID in the device's config.
+
+A send made before the device is connected waits for the connection, as LED commands do. JSON that's empty, or too large to send while connected, is refused at once. The device reports JSON it can't parse with an error event.
+
+Send JSON to a custom module only; the built-in modules don't take any.
+
+::::{tab-set}
+:::{tab-item} Java (WPILib)
+:sync: java
+```java
+// Returns false if the JSON is empty, or too large to send while connected.
+boolean sent = cX.SendModuleJson("screen", "{\"text\":\"Hello\",\"size\":2}");
+```
+:::
+:::{tab-item} C++ (WPILib)
+:sync: cpp
+```cpp
+// Returns false if the JSON is empty, or too large to send while connected.
+bool sent = m_cx.SendModuleJson("screen", R"({"text":"Hello","size":2})");
+```
+:::
+:::{tab-item} Python
+:sync: python
+```python
+# A dict is encoded as JSON; a str is sent as it is.
+# Raises ValueError if the JSON is empty, or too large to send while connected.
+cx.send_module_json("screen", {"text": "Hello", "size": 2})
+```
+:::
+:::{tab-item} C++ (Standalone)
+:sync: cpp-standalone
+```cpp
+lumyn_error_t err = cx.SendModuleJson("screen", R"({"text":"Hello","size":2})");
+if (err != LUMYN_OK) {
+    // LUMYN_ERR_INVALID_ARGUMENT: empty, or too large to send while connected
+}
+```
+:::
+:::{tab-item} C
+:sync: c
+```c
+const char *json = "{\"text\":\"Hello\",\"size\":2}";
+lumyn_error_t err = lumyn_SendModuleJson(LUMYN_BASE_PTR(&cx), "screen", json, strlen(json));
+```
+:::
+::::
+
+On the device, the module handles it in `handleReceivedJson()`. Return `true` when the JSON was understood:
+
+```cpp
+bool handleReceivedJson(ArduinoJson::JsonVariantConst json) override {
+    const char *text = json["text"] | "";
+    int size = json["size"] | 1;
+    // ...draw `text` at `size`...
+    return true;
+}
+```
+
+The ConnectorX Animate starter's `OledModule` is a complete example: it shows text sent from robot code on a 0.96" OLED.
+
 ## Manual polling
 
 If you prefer polling over callbacks, you can retrieve the latest module data manually.
