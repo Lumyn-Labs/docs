@@ -91,7 +91,7 @@ Commands you send while the board isn't connected wait and go out in order once 
 
 ### Send JSON to a custom module
 
-Robot code can send JSON to a custom module with `SendModuleJson(moduleId, json)`, up to about 4 KB per send. See [Modules and sensors](programming-guide/modules-and-sensors).
+Robot code can send JSON to a custom module with `SendModuleJson(moduleId, json)`, up to about 4 KB per send. See [Send JSON to a module](programming-guide/modules-and-sensors.md#send-json-to-a-module).
 
 ### Animation builders
 

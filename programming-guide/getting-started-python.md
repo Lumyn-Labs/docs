@@ -161,7 +161,7 @@ cx.leds.set_animation("strip-zone", Animation.Chase, (0, 0, 255), 40)
 
 # With optional parameters
 cx.leds.set_animation("strip-zone", Animation.Breathe, (0, 255, 0), 30,
-                       reverse=True, one_shot=True)
+                       reversed=True, one_shot=True)
 
 # Or use the builder pattern for more control
 cx.leds.set_animation(Animation.RainbowRoll) \
