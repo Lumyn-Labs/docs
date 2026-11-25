@@ -169,6 +169,8 @@ The text builder supports many formatting options for fine-tuned control.
 | Large (18pt) | `FREE_MONO_18`, `FREE_MONO_BOLD_18`, `FREE_SANS_18`, `FREE_SANS_BOLD_18`, `FREE_SERIF_18`, `FREE_SERIF_BOLD_18` | Large displays |
 | XL (24pt) | `FREE_MONO_24`, `FREE_MONO_BOLD_24`, `FREE_SANS_24`, `FREE_SANS_BOLD_24`, `FREE_SERIF_24`, `FREE_SERIF_BOLD_24` | Very large displays |
 
+The names come from the fonts the board first used. The board now draws them with openly licensed fonts of the same style and size, so text looks slightly different than on older firmware. `FREE_MONO_*` is based on Cousine, `FREE_SANS_*` on Arimo, `FREE_SERIF_*` on Tinos, `PICOPIXEL` on Tiny5, `ORG_01` on Silkscreen (capitals only), and `TINY_3X3` on font3x3. Their licenses are in [Third-party licenses](../third-party-licenses.md).
+
 ### Text builder options
 
 | Method | Description |
