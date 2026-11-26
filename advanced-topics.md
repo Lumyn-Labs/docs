@@ -96,6 +96,8 @@ You don't need custom firmware for a module. Write it as a unit, and the standar
 
 Firmware built from the ConnectorX starter can still register a module type in `main.cpp`, as its README shows.
 
+Such a module gets its config entry's `config` settings as JSON text, such as `{"gain":2,"label":"intake"}`, in `config().customConfig`, `config().customConfigLength` bytes long. Settings longer than 1,024 bytes as JSON stop the module from starting, and the board's log says why.
+
 ### Flashing custom firmware
 
 On the left pane in VS Code, click the PlatformIO icon (the ant), then open the folder labeled `pico` and click `General > Upload` after ensuring your board is available for flashing (see [Recovery](#recovery) and follow through step 3).
