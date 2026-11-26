@@ -397,11 +397,11 @@ lumyn_RegisterModule(LUMYN_BASE_PTR(&cx), "custom-module", module_callback, NULL
 
 ## Send JSON to a module
 
-Robot code can send JSON to a module on the device. A custom module receives it in its `handleReceivedJson()` (see the [firmware starters](../advanced-topics.md)). Each send holds about 4 KB of JSON. Name the module by its ID in the device's config.
+Robot code can send JSON to a module on the device. Name the module by its ID in the device's config. A module takes at most 128 bytes of JSON in one message.
 
-A send made before the device is connected waits for the connection, as LED commands do. JSON that's empty, or too large to send while connected, is refused at once. The device reports JSON it can't parse with an error event.
+A send made before the device is connected waits for the connection, as LED commands do. JSON that's empty, or too large to send while connected, is refused at once. The device refuses a message longer than 128 bytes, and any message to a module that takes no JSON. It reports each kind of refusal with an error event, once each time the config loads.
 
-Send JSON to a custom module only; the built-in modules don't take any.
+Of Lumyn's modules, only the SSD1306 OLED screen takes JSON.
 
 ::::{tab-set}
 :::{tab-item} Java (WPILib)
@@ -444,18 +444,29 @@ lumyn_error_t err = lumyn_SendModuleJson(LUMYN_BASE_PTR(&cx), "screen", json, st
 :::
 ::::
 
-On the device, the module handles it in `handleReceivedJson()`. Return `true` when the JSON was understood:
+On the device, a module asks for room for its messages when it's set up. Then it reads them in its `receive` entry, which runs when one arrives:
 
 ```cpp
-bool handleReceivedJson(ArduinoJson::JsonVariantConst json) override {
-    const char *text = json["text"] | "";
-    int size = json["size"] | 1;
-    // ...draw `text` at `size`...
-    return true;
+explicit MyScreen(LumynLabs::ModuleSetup& setup) {
+    // Room for the messages waiting to be read.
+    if (!setup.takesJson(256)) setup.fail("there's no memory for its messages");
+}
+
+void receive(LumynLabs::ModuleBus& bus) {
+    char message[LUMYN_UNIT_MAX_JSON + 1];
+    while (bus.readJson(message, sizeof(message))) {
+        const LumynLabs::PluginJson json(message);
+        char text[LUMYN_UNIT_MAX_JSON + 1];
+        if (!json.text("text", text, sizeof(text))) continue;
+        int size = static_cast<int>(json.number("size", 1));
+        // ...draw `text` at `size`...
+    }
 }
 ```
 
-The ConnectorX Animate starter's `OledModule` is a complete example: it shows text sent from robot code on a 0.96" OLED.
+What a module does with a message it doesn't understand is up to the module.
+
+The SSD1306 OLED screen in Lumyn Studio's module catalog is a complete example. It shows text sent from robot code on a 0.96 in or 0.91 in OLED screen, and its README lists the messages it takes. Its source is on its **Source** tab.
 
 ## Manual polling
 
