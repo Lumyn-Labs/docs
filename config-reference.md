@@ -34,6 +34,7 @@ Keys and string values are case-sensitive. Use the exact spellings on this page.
 | `bitmaps` | array | No | Images and image sequences for matrix zones. See [Bitmaps](#bitmaps). |
 | `sensors` | array | No | Modules. See [Modules](#modules). |
 | `groups` | array | No | Zone groups. See [Groups](#groups). |
+| `units` | array | No | Unit files the board loads from its card, such as a custom module. See [Units](#units). |
 | `version` | string | No | Configuration format version. |
 
 Modules go under `sensors`. The board does not read a `modules` key.
@@ -221,6 +222,26 @@ Each board runs a limited number of modules, on the connections it has:
     "type": "VL53L1X",
     "pollingRateMs": 100,
     "connection": "I2C"
+  }
+]
+```
+
+## Units
+
+Each entry in `units` names one unit file on the board's card, by its type and its SHA-256. The board loads it from `u/<the first 8 hex digits of its SHA-256>.lub`. Lumyn Studio adds these entries for you when you put a unit on a device. To add one by hand, see [Custom modules](advanced-topics.md#custom-modules).
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `type` | string | Yes | The unit's type. A `sensors` entry of this type runs it. |
+| `sha256` | string | Yes | The SHA-256 of the unit's file, as 64 lowercase hex digits. |
+| `version` | string | No | The unit's version, for people and Lumyn Studio. The board doesn't read it. |
+
+```json
+"units": [
+  {
+    "type": "TMP102",
+    "version": "1.0.0",
+    "sha256": "<the SHA-256 of TMP102.lub>"
   }
 ]
 ```

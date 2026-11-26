@@ -57,7 +57,7 @@ Studio provides two detail experiences:
 - **Details**: Add a hero image plus Datasheet URL, Purchase URL, and Wiring Diagram URL.
 - **README**: Markdown editor for the module's README, which appears in the catalog.
 - **Data**: Define the module's payload data structure and configuration fields.
-- **Source**: View generated source artifacts for use in custom firmware.
+- **Source**: View the module's spec and starter code, made from the sections above.
 
 For custom modules, **Add to Device** is available from preview mode after saving changes (it is hidden while editing or when there are unsaved edits).
 
@@ -71,7 +71,7 @@ The configuration fields allow you to specify the parameters needed to set up th
 
 ### Generated source
 
-Once you've defined the module's data structure and configuration fields, the **Source** page generates boilerplate source artifacts that you can use in your custom firmware to read module data and register the module.
+Once you've defined the module's data structure and configuration fields, the **Source** page shows the module as a unit: its spec, `<Type>.json`, and starter code, `src/<Type>.cpp`. The board loads a unit from its microSD card, so the module needs no custom firmware. See [Custom modules](../advanced-topics.md#custom-modules) to write its code, build it, and put it on a board.
 
 ## Next steps
 
